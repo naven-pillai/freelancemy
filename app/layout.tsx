@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
-import { Titillium_Web, Fira_Code } from "next/font/google";
+import { Rubik, Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-// ✅ Titillium Web for modern sans-serif
-const titillium = Titillium_Web({
+// ✅ Inter for clean body text
+const inter = Inter({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  display: "swap", // 👈 avoids FOIT
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
-// ✅ Fira Code for monospace (code blocks, pre, inline code)
-const firaCode = Fira_Code({
-  variable: "--font-mono",
+// ✅ Rubik for headings
+const rubik = Rubik({
+  variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -43,14 +45,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </head>
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${titillium.variable} ${firaCode.variable} font-sans antialiased bg-white text-gray-900`}
+        className={`${inter.variable} ${rubik.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
-        {children}
+        {/* ✅ Sticky Navbar */}
+        <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+          <Navbar />
+        </header>
+
+        {/* ✅ Main Content */}
+        <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+          {children}
+        </main>
+
+        {/* ✅ Footer */}
+        <footer className="border-t border-gray-200 mt-8 bg-white">
+          <Footer />
+        </footer>
       </body>
     </html>
   );

@@ -1,41 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import type { MDXComponents } from "mdx/types";
 
-// ✅ Custom MDX Components
 export const mdxComponents: MDXComponents = {
-  // 🔗 Links
-  a: ({ href, children, ...props }) => {
-    if (!href) return <span>{children}</span>;
-
-    const isInternal = href.startsWith("/");
-    if (isInternal) {
-      return (
-        <Link
-          href={href}
-          {...props}
-          className="text-blue-900 hover:text-orange-600 no-underline font-semibold"
-        >
-          {children}
-        </Link>
-      );
-    }
-
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        {...props}
-        className="text-blue-900 hover:text-orange-600 no-underline font-semibold"
-      >
-        {children}
-      </a>
-    );
-  },
-
   // 🖼️ Images
   img: ({ src, alt, ...props }) => {
     if (!src) return null;
@@ -52,7 +20,7 @@ export const mdxComponents: MDXComponents = {
     );
   },
 
-  // 📝 Headings (clean, no anchors)
+  // 🔤 Headings
   h1: ({ children }) => (
     <h1 className="text-3xl font-bold mt-12 mb-6">{children}</h1>
   ),
@@ -66,7 +34,7 @@ export const mdxComponents: MDXComponents = {
     <h4 className="text-lg font-semibold mt-6 mb-2">{children}</h4>
   ),
 
-  // ✅ Lists
+  // 📋 Lists
   ul: ({ children }) => (
     <ul className="list-disc pl-6 my-4 space-y-1 font-medium">{children}</ul>
   ),
@@ -81,7 +49,7 @@ export const mdxComponents: MDXComponents = {
     </blockquote>
   ),
 
-  // 🔤 Code
+  // ⌨️ Code
   code: ({ children }) => (
     <code className="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded text-sm font-mono">
       {children}
@@ -110,6 +78,6 @@ export const mdxComponents: MDXComponents = {
     <td className="border border-gray-300 px-3 py-2">{children}</td>
   ),
 
-  // ➖ Horizontal Rule
+  // ➖ Divider
   hr: () => <hr className="my-8 border-t border-gray-300" />,
 };

@@ -15,15 +15,20 @@ export async function getPost(slug: string): Promise<{
   const raw = fs.readFileSync(filePath, "utf8");
   const { content, data } = matter(raw);
 
-  // Hybrid last_updated
+  // ✅ Determine last updated
   let lastUpdated: string | undefined = data.last_updated;
+
   if (!lastUpdated) {
     try {
-      const gitDate = execSync(`git log -1 --format=%cI -- ${filePath}`)
+      // Try to get last git commit date
+      const gitDate = execSync(`git log -1 --format=%cI -- "${filePath}"`)
         .toString()
         .trim();
-      if (gitDate) lastUpdated = gitDate;
+      if (gitDate) {
+        lastUpdated = gitDate;
+      }
     } catch {
+      // Fallback to file modified time
       const stats = fs.statSync(filePath);
       lastUpdated = stats.mtime.toISOString();
     }
@@ -39,6 +44,9 @@ export async function getPost(slug: string): Promise<{
   };
 }
 
-export function listSlugs() {
-  return fs.readdirSync(CONTENT_PATH).map((f) => f.replace(/\.md$/, ""));
+export function listSlugs(): string[] {
+  return fs
+    .readdirSync(CONTENT_PATH)
+    .filter((f) => f.endsWith(".md"))
+    .map((f) => f.replace(/\.md$/, ""));
 }

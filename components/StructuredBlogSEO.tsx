@@ -1,12 +1,10 @@
 "use client";
 
-import Script from "next/script";
-
 type StructuredBlogSEOProps = {
   title: string;
   description: string;
   url: string;
-  canonicalUrl?: string; // ✅ Add this
+  canonicalUrl?: string;
   datePublished: string;
   dateModified?: string;
   image?: string;
@@ -14,13 +12,23 @@ type StructuredBlogSEOProps = {
   categories?: string[];
   tags?: string[];
   wordCount?: number;
-};  
+  entities?: string[];
+};
+
+// ✅ Broader JSON-LD type to allow string[], number[], objects, etc.
+type JsonLd =
+  | string
+  | number
+  | boolean
+  | undefined
+  | { [key: string]: JsonLd }
+  | JsonLd[];
 
 export default function StructuredBlogSEO({
   title,
   description,
   url,
-  canonicalUrl, // ✅ pick it up
+  canonicalUrl,
   datePublished,
   dateModified,
   image,
@@ -28,38 +36,50 @@ export default function StructuredBlogSEO({
   categories = [],
   tags = [],
   wordCount,
+  entities = [],
 }: StructuredBlogSEOProps) {
-  const jsonLd = {
+  // ✅ Publisher / Org info
+  const org: JsonLd = {
+    "@type": "Organization",
+    name: "FreelanceMY",
+    url: "https://freelancemy.com",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://freelancemy.com/logo.png",
+    },
+  };
+
+  // ✅ BlogPosting schema
+  const jsonLd: JsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: title,
     description,
+    url,
     author: {
       "@type": "Person",
       name: author,
       url: "https://www.linkedin.com/in/navenpillai",
     },
-    publisher: {
-      "@type": "Organization",
-      name: "FreelanceMY",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://freelancemy.com/logo.png",
-      },
+    publisher: org,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl || url,
     },
-    url,
     datePublished,
     dateModified: dateModified ?? datePublished,
     image: image ? [image] : undefined,
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": canonicalUrl || url, // ✅ canonical used here
-    },
-    articleSection: categories.length > 0 ? categories : undefined,
-    keywords: tags.length > 0 ? tags.join(", ") : undefined,
+    articleSection: categories.length ? categories : undefined,
+    keywords: tags.length ? tags.join(", ") : undefined,
     inLanguage: "en-MY",
     isAccessibleForFree: true,
     wordCount: wordCount || undefined,
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "article p:first-of-type"], // now valid
+    },
+    about: entities.slice(0, 6).map((e) => ({ "@type": "Thing", name: e })),
+    mentions: entities.slice(6).map((e) => ({ "@type": "Thing", name: e })),
   };
 
   return (
@@ -67,7 +87,9 @@ export default function StructuredBlogSEO({
       <link rel="canonical" href={canonicalUrl || url} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
       />
     </>
   );
