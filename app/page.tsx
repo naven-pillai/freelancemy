@@ -6,16 +6,24 @@ export default async function HomePage() {
   const slugs = await listSlugs();
   const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
 
+  // ✅ Sort by published date (desc). Fallback to last_updated if date is missing.
+  const parseMs = (d?: string) => (d ? new Date(d).getTime() : 0);
+  const sorted = posts.sort((a, b) => {
+    const aMs = parseMs(a.frontmatter.date) || parseMs(a.frontmatter.last_updated);
+    const bMs = parseMs(b.frontmatter.date) || parseMs(b.frontmatter.last_updated);
+    return bMs - aMs; // newest first
+  });
+
   return (
     <main className="max-w-7xl mx-auto px-6 py-12 font-sans">
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-        {posts.length === 0 && (
+        {sorted.length === 0 && (
           <div className="col-span-full text-center text-gray-500">
             No posts yet.
           </div>
         )}
 
-        {posts.map(({ slug, frontmatter }) => (
+        {sorted.map(({ slug, frontmatter }) => (
           <Link key={slug} href={`/${slug}`} className="group block">
             {/* Featured Image (flush, no border/rounding) */}
             {!!frontmatter?.featured_image && (
@@ -25,7 +33,7 @@ export default async function HomePage() {
                   alt={frontmatter.title ?? "Post image"}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
             )}
@@ -38,9 +46,11 @@ export default async function HomePage() {
                     {frontmatter.categories[0]}
                   </span>
                 )}
-                {!!frontmatter?.date && (
+                {(frontmatter?.date || frontmatter?.last_updated) && (
                   <span className="text-gray-500">
-                    {new Date(frontmatter.date).toLocaleDateString("en-US", {
+                    {new Date(
+                      frontmatter.date || frontmatter.last_updated!
+                    ).toLocaleDateString("en-US", {
                       year: "numeric",
                       month: "short",
                       day: "numeric",

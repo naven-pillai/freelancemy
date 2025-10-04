@@ -4,16 +4,16 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// ✅ Inter for clean body text
-const inter = Inter({
+// ✅ Rubik for body text (base)
+const rubik = Rubik({
   variable: "--font-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
-// ✅ Rubik for headings
-const rubik = Rubik({
+// ✅ Inter for headings
+const inter = Inter({
   variable: "--font-heading",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -22,10 +22,10 @@ const rubik = Rubik({
 
 export const metadata: Metadata = {
   title: {
-    default: "FreelanceMY Blog",
-    template: "%s | FreelanceMY Blog",
+    default: "FreelanceMY | Guides & Resources for Freelancers in Malaysia",
+    template: "%s | FreelanceMY",
   },
-  description: "Guides, insights, and news for freelancers in Malaysia.",
+  description: "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
   openGraph: {
     type: "website",
     locale: "en_MY",
@@ -47,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${rubik.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
+        className={`${rubik.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
         {/* ✅ Sticky Navbar */}
         <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
@@ -60,7 +60,7 @@ export default function RootLayout({
         </main>
 
         {/* ✅ Footer */}
-        <footer className="border-t border-gray-200 mt-8 bg-white">
+        <footer className="border-none">
           <Footer />
         </footer>
       </body>

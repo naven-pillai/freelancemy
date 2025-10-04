@@ -12,6 +12,10 @@ const withMDX = createMDX({
 
 const nextConfig: NextConfig = {
   images: {
+    // ✅ Modern formats (AVIF + WebP)
+    formats: ["image/avif", "image/webp"],
+
+    // ✅ Allow remote images (Supabase + your domain)
     remotePatterns: [
       {
         protocol: "https",
@@ -25,9 +29,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
   // ✅ Add `.mdx` to pageExtensions
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+
+  // ✅ Optional: improve cache headers for images served by Next
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 export default withMDX(nextConfig);
-

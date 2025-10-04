@@ -4,6 +4,7 @@ import StructuredBlogSEO from "@/components/StructuredBlogSEO";
 import AuthorBio from "@/components/AuthorBio";
 import LatestArticlesSidebar from "@/components/LatestArticlesSidebar";
 import { mdxComponents } from "@/components/MDXComponents";
+import ShareBar from "@/components/ShareBar";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeExternalLinks from "rehype-external-links";
@@ -57,15 +58,15 @@ export default async function BlogPostPage(
             frontmatter.canonical_url || `https://freelancemy.com/${slug}`
           }
           datePublished={frontmatter.date}
-          dateModified={frontmatter.last_updated} // ✅ Git-powered
+          dateModified={frontmatter.last_updated}
           image={frontmatter.featured_image}
           author={frontmatter.author}
           categories={frontmatter.categories}
           tags={frontmatter.tags}
         />
 
-        {/* Title */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+        {/* Title (responsive sizes) */}
+        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 leading-snug">
           {frontmatter.title}
         </h1>
 
@@ -84,7 +85,7 @@ export default async function BlogPostPage(
         )}
 
         {/* Meta Info */}
-        <div className="not-prose mb-6 sm:mb-8 text-xs sm:text-sm md:text-base text-gray-600 space-y-2">
+        <div className="not-prose mb-4 sm:mb-6 text-xs sm:text-sm md:text-base text-gray-600 space-y-2">
           {frontmatter.author && (
             <div>
               <strong>Written & Reviewed by:</strong> {frontmatter.author}
@@ -122,6 +123,13 @@ export default async function BlogPostPage(
             </div>
           )}
         </div>
+
+        {/* ✅ Share bar (light pill buttons) right after metadata */}
+        <ShareBar
+          title={frontmatter.title}
+          url={`https://freelancemy.com/${slug}`}
+          className="not-prose mb-8"
+        />
 
         {/* Main Content */}
         <MDXRemote

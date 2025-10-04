@@ -2,9 +2,9 @@
 title: "How to Become a Freelance Data Analyst in Malaysia (2025)"
 description: "Thinking about freelancing in data analysis? This Malaysia guide covers skills, certifications, platforms, and how much you can realistically earn."
 date: "2025-09-24"
-featured_image: "https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/How-to-become-a-freelance-data-analyst-in-Malaysia.jpg"
+featured_image: "https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelance-data-analyst-malaysia.jpg"
 author: "Naven Pillai"
-categories: ["Freelancing", "Data Analytics"]
+categories: ["Data Analysts"]
 tags: ["freelance", "data analyst", "malaysia", "career"]
 status: "published"
 ---
@@ -24,6 +24,8 @@ According to the [**U.S Bureau of Labor Statistics**](https://www.indeed.com/car
 In Malaysia, the demand for data analysts has been growing as well. According to [**Eduspiral**](https://eduspiral.com/about-us-eduspiral-consultant-services/advise-best-course-study-top-private-universities-malaysia/top-guides-choosing-the-best-course/top-job-demand-high-salary-reports-malaysia-by-the-courses-that-you-want-to-study/top-list-best-information-technology-it-computing-computer-science-jobs-in-demand-in-malaysia/data-science-analytics-high-job-demand-malaysia/high-job-demand-salary-for-data-science-big-data-analytics-data-scientist-in-malaysia/), Malaysia Digital Economy Corporation (MDEC) unveiled a plan supported by seven public and private institutes of higher education (IHLs), to increase the number of data analysts from 80 to 2,000 by the year 2020.
 
 ## What Is Data Analysis?
+
+![what-is-data-analysis](https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/what-is-data-analysis.jpg)
 
 You can always see that data analytics is often combined with data science. But there is a significant difference between these two concepts.
 
@@ -66,24 +68,25 @@ With the rapid growth in EdTech, you don’t need to get a degree in data scienc
 
 - **[Data Analyst with R (DataCamp)](https://www.datacamp.com/tracks/data-analyst-with-r)**
 - **[Big Data Analytics with Tableau (Pluralsight)](https://www.pluralsight.com/courses/big-data-analytics-tableau)**
-- **[Data Analytics Bootcamp (Springboard)](https://www.springboard.com/courses/data-analytics-career-track/)**
+- **[Data Analytics Bootcamp x Microsoft
+](https://www.springboard.com/courses/data-analytics-career-track/)**
 - **[Data Analysis and Visualization Foundation Specialization (Coursera)](https://www.coursera.org/specializations/data-analysis-visualization-foundations)**
-- **[Data Analytics Using Python and R (360DigitTMG)](https://360digitmg.com/course/python-r-programming)**
+- **[Python Programming for Beginners (360DigitTMG)](https://360digitmg.com/malaysia/python-programming-for-students)**
 
 Other than these courses, there are certification data analytics courses offered by training institutions in Malaysia (some HRDF claimable!):
 
-- **[Fusionex Training](https://www.fusionex-international.com/training/)**
+- **[Data Analyst Course by Knowledge Hub](https://knowledgehub-asia.com/data-analyst-course/)**
 - **[Certified Data Analyst by Databyte](https://databyte.com.my/certified-sas-excel-course-and-tableau-training/)**
-- **[HRDF Claimable Big Data Training Course](https://hrdftraining.com/events/hrdf-claimable-big-data-training-course-october-2021/)**
+- **[Professional Certificate in Data Analytics ](https://www.ukm.my/studyukm/professional-certificate-in-data-analytics/)**
 
 ## How Can You Get Started with Freelance Data Analyst Career in Malaysia?
 
-![Career in Data Science](https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/career-in-data-science.jpg)
+![career-data-analyst](https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/data-analyst-career.jpg)
 
 This might sound difficult for some. But this is the best way to get started with your freelance data analysis career. First, you need to build an online portfolio. If you’re keen to build a personal website and publish your past works you can learn how to do it with these resources:
 
 - **[The Complete Guide to Setting Up Your Freelancer Website](https://thefreelancehustle.com/the-complete-guide-to-setting-up-your-freelancer-website/)**
-- **[Freelancers: How to Build A Portfolio Website](https://contenthacker.com/how-to-build-a-portfolio-website/)**
+- **[How to build a Freelance Portfolio website without Clients (for beginners)](https://www.youtube.com/watch?v=UFu7Ydow3TA)**
 
 Some might find this overwhelming.  
 
@@ -105,7 +108,7 @@ Other than LinkedIn, register with top freelance platforms:
 - **[Upwork](https://www.upwork.com/freelance-jobs/data-analysis/)**
 - **[Freelancer](https://www.freelancer.com/jobs/data-analytics/)**
 - **[Toptal](https://www.toptal.com/freelance-jobs/developers/data-analysis)**
-- **[AngelList](https://angel.co/role/data-analyst)**
+- **[Flexjobs](https://www.flexjobs.com/)**
 
 You can also find gigs on [**Facebook groups**](https://www.facebook.com/groups/search/groups_home/?q=data%20analysis%20jobs).
 
@@ -123,7 +126,7 @@ You can increase rates by learning niche languages like Spark, Scala, Hadoop.
 
 ## When You Should Start Working as A Freelance Data Analyst?
 
-Don’t quit your job immediately. Freelancing takes time to build stable income. Save enough to cover expenses first.
+Don’t quit your job immediately. [Freelancing](https://freelancemy.com/freelancing-malaysia/) takes time to build stable income. Save enough to cover expenses first.
 
 Start small on platforms like Upwork, evenings/weekends, and grow into full-time once you have steady clients. Build samples, blog about your expertise, and market yourself constantly.
 

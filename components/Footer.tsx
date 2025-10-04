@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"; // ✅ helper for merging classes
 
 export default function Footer() {
   return (
-    <footer className="border-t bg-gray-50 mt-16">
+    <footer className="border-t bg-white-50 mt-16">
       <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand Section */}
         <div>

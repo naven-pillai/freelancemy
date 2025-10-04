@@ -47,7 +47,7 @@ p {
   margin-bottom: 1.25rem;
   color: var(--foreground);
   font-size: 1.125rem;
-  line-height: 1.8;
+  line-height: 1.7;
   font-weight: 400;
   font-family: var(--font-sans); /* Rubik */
 }
@@ -106,14 +106,14 @@ ul, ol {
   margin: 1rem 0 1.5rem 1.5rem;
   padding: 0;
   list-style-position: outside;
-  font-weight: 500;
-  font-family: var(--font-sans); /* Rubik */
+  font-weight: 400;
+  font-family: var(--font-heading); /* Rubik */
 }
 ul { list-style-type: disc; }
 ol { list-style-type: decimal; }
 li {
   margin-bottom: 0.5rem;
-  line-height: 1.6;
+  line-height: 1.7;
   font-size: 1.125rem;
 }
 
@@ -131,7 +131,7 @@ table {
   border-collapse: collapse;
   margin: 2rem 0;
   font-size: 0.95rem;
-  font-family: var(--font-sans); /* Rubik */
+  font-family: var(--font-heading); /* Rubik */
 }
 th, td {
   border: 1px solid var(--border);
