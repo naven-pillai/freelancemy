@@ -8,7 +8,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogUrls = posts.map(({ slug, frontmatter }) => ({
     url: `https://freelancemy.com/${slug}`,
-    lastModified: frontmatter.last_updated || frontmatter.date,
+    lastModified: new Date(
+      frontmatter.last_updated || frontmatter.date || new Date()
+    ).toISOString(),
   }));
 
   return [
