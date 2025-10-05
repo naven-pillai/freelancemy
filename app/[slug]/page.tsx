@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeExternalLinks from "rehype-external-links";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 
 // ✅ Pre-render slugs for SSG
 export async function generateStaticParams() {
@@ -21,22 +22,31 @@ export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const { frontmatter } = await getPost(slug);
 
-  return {
-    title: frontmatter.title,
-    description: frontmatter.description,
-    openGraph: {
-      images: frontmatter.featured_image ? [frontmatter.featured_image] : [],
-    },
-    twitter: {
-      card: "summary_large_image",
-      images: frontmatter.featured_image ? [frontmatter.featured_image] : [],
-    },
-    alternates: {
-      canonical: frontmatter.canonical_url || `https://freelancemy.com/${slug}`,
-    },
-  };
+  try {
+    const { frontmatter } = await getPost(slug);
+
+    return {
+      title: frontmatter.title,
+      description: frontmatter.description,
+      openGraph: {
+        images: frontmatter.featured_image ? [frontmatter.featured_image] : [],
+      },
+      twitter: {
+        card: "summary_large_image",
+        images: frontmatter.featured_image ? [frontmatter.featured_image] : [],
+      },
+      alternates: {
+        canonical:
+          frontmatter.canonical_url || `https://freelancemy.com/${slug}`,
+      },
+    };
+  } catch {
+    return {
+      title: "Post not found",
+      description: "This blog post could not be found.",
+    };
+  }
 }
 
 // ✅ Blog Post Page
@@ -44,7 +54,15 @@ export default async function BlogPostPage(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   const { slug } = await params;
-  const { frontmatter, content } = await getPost(slug);
+
+  let post;
+  try {
+    post = await getPost(slug);
+  } catch {
+    return notFound(); // 👈 Show 404 instead of crashing
+  }
+
+  const { frontmatter, content } = post;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -65,7 +83,7 @@ export default async function BlogPostPage(
           tags={frontmatter.tags}
         />
 
-        {/* Title (responsive sizes) */}
+        {/* Title */}
         <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 leading-snug">
           {frontmatter.title}
         </h1>
@@ -124,7 +142,7 @@ export default async function BlogPostPage(
           )}
         </div>
 
-        {/* ✅ Share bar (light pill buttons) right after metadata */}
+        {/* ✅ Share Bar */}
         <ShareBar
           title={frontmatter.title}
           url={`https://freelancemy.com/${slug}`}

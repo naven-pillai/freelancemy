@@ -25,7 +25,8 @@ export const metadata: Metadata = {
     default: "FreelanceMY | Guides & Resources for Freelancers in Malaysia",
     template: "%s | FreelanceMY",
   },
-  description: "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
+  description:
+    "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
   openGraph: {
     type: "website",
     locale: "en_MY",
@@ -50,18 +51,25 @@ export default function RootLayout({
         className={`${rubik.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
         {/* ✅ Sticky Navbar */}
-        <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
-          <Navbar />
+        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Navbar />
+          </div>
         </header>
 
         {/* ✅ Main Content */}
-        <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        <main
+          id="main"
+          className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12"
+        >
           {children}
         </main>
 
         {/* ✅ Footer */}
-        <footer className="border-none">
-          <Footer />
+        <footer className="bg-white border-t border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <Footer />
+          </div>
         </footer>
       </body>
     </html>
