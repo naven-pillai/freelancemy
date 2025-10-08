@@ -1,9 +1,14 @@
-// app/privacy-policy/page.tsx
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy — FreelanceMY",
+  description:
+    "Read our Privacy Policy to understand how FreelanceMY collects, uses, and protects your personal data in accordance with Malaysia's PDPA (2010).",
+};
 
 export default function PrivacyPolicyPage() {
   return (
     <main className="max-w-4xl mx-auto px-6 py-12 font-sans">
-      {/* Title */}
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
         Privacy Policy
       </h1>
@@ -11,71 +16,44 @@ export default function PrivacyPolicyPage() {
         Last updated: <strong>September 2025</strong>
       </p>
 
-      {/* Content */}
-      <div className="space-y-8 text-gray-700 leading-relaxed text-base">
+      <div className="space-y-10 text-gray-800 leading-relaxed text-base">
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            1. Introduction
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">1. Introduction</h3>
           <p>
-            FreelanceMY (“we”, “our”, “us”) values your privacy. This Privacy
-            Policy explains how we collect, use, and safeguard your{" "}
-            <span className="text-accent font-semibold">personal data</span> in
-            line with the{" "}
-            <span className="text-accent font-semibold hover:text-orange-600 transition-colors">
-              Personal Data Protection Act 2010 (PDPA)
-            </span>{" "}
-            in Malaysia.
+            FreelanceMY (“we”, “our”, “us”) is committed to protecting your privacy. This
+            Privacy Policy outlines how we collect, use, and protect your{" "}
+            <span className="font-semibold text-orange-600">personal data</span> in accordance
+            with the <span className="font-semibold text-orange-600">Personal Data Protection Act 2010 (PDPA)</span> of Malaysia.
           </p>
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            2. Information We Collect
-          </h3>
-          <ul className="list-disc list-inside space-y-1">
-            <li>
-              <span className="font-semibold">Personal details:</span> name,
-              email, contact info
-            </li>
-            <li>
-              <span className="font-semibold">Technical data:</span> IP,
-              browser, device info
-            </li>
-            <li>
-              <span className="font-semibold">Usage data:</span> pages visited,
-              interactions
-            </li>
-            <li>
-              <span className="font-semibold">Form data:</span> details you
-              provide via forms (e.g., Contact page)
-            </li>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">2. Information We Collect</h3>
+          <ul className="list-disc list-inside space-y-2">
+            <li><strong>Personal details:</strong> name, email, contact number</li>
+            <li><strong>Technical data:</strong> IP address, browser type, device info</li>
+            <li><strong>Usage data:</strong> pages visited, time on site, interactions</li>
+            <li><strong>Form data:</strong> information submitted through our forms</li>
           </ul>
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            3. How We Use Your Data
-          </h3>
-          <ul className="list-disc list-inside space-y-1">
-            <li>To provide and improve our services</li>
-            <li>To respond to your inquiries and support requests</li>
-            <li>
-              To send <span className="font-semibold">newsletters and updates</span>
-            </li>
-            <li>To analyze site usage and improve user experience</li>
-            <li>To comply with legal obligations</li>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">3. How We Use Your Data</h3>
+          <ul className="list-disc list-inside space-y-2">
+            <li>To operate and maintain our platform</li>
+            <li>To communicate with you and provide support</li>
+            <li>To send newsletters and marketing updates (only if opted in)</li>
+            <li>To analyze usage for improvements and optimizations</li>
+            <li>To comply with legal and regulatory requirements</li>
           </ul>
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            4. Data Sharing & Disclosure
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">4. Data Sharing & Disclosure</h3>
           <p>
-            We <span className="font-semibold">do not sell</span> your personal
-            data. We may only share it with trusted service providers (hosting,
-            analytics, email) or when legally required.
+            We <span className="font-semibold">do not sell</span> your personal data. We may share it with
+            trusted third-party service providers (e.g., hosting, analytics, email services) or
+            when legally required.
           </p>
         </section>
 
@@ -85,55 +63,52 @@ export default function PrivacyPolicyPage() {
             Under PDPA, you have the right to{" "}
             <span className="font-semibold">access</span>,{" "}
             <span className="font-semibold">correct</span>, or{" "}
-            <span className="font-semibold">delete</span> your data. You can
-            also withdraw consent for marketing at any time.
+            <span className="font-semibold">delete</span> your personal data. You may also withdraw your
+            consent for marketing at any time by contacting us.
           </p>
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            6. Data Retention
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">6. Data Retention</h3>
           <p>
-            We keep data only as long as needed for services, compliance, or
-            disputes. Old data will be securely{" "}
-            <span className="font-semibold">deleted</span> or{" "}
-            <span className="font-semibold">anonymized</span>.
+            We retain your data only for as long as necessary to fulfill the purposes described in this
+            policy or to comply with legal obligations. We then securely{" "}
+            <span className="font-semibold">delete</span> or{" "}
+            <span className="font-semibold">anonymize</span> your data.
           </p>
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">7. Security</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">7. Data Security</h3>
           <p>
-            We use <span className="font-semibold">encryption</span> and access
-            controls to protect your data, but no system is 100% secure. You use
-            our site at your own risk.
+            We implement technical and organizational safeguards including{" "}
+            <span className="font-semibold">encryption</span> and access controls. However, no online
+            system is entirely secure. You use our platform at your own risk.
           </p>
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
-            8. Changes to This Policy
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">8. Changes to This Policy</h3>
           <p>
-            We may update this policy periodically. Please review it regularly
-            to stay informed.
+            We may update this Privacy Policy occasionally. When we do, the updated date will reflect at
+            the top of this page. Please check back regularly.
           </p>
         </section>
 
         <section>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">9. Contact Us</h3>
           <p>
-            For privacy-related questions, reach us at: <br />
+            For questions or concerns about this Privacy Policy:
+            <br />
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:privacy@freelancemy.com"
-              className="text-accent hover:text-orange-600 transition-colors"
+              href="mailto:info@freelancemy.com"
+              className="text-orange-600 hover:underline"
             >
-              privacy@freelancemy.com
+              info@freelancemy.com
             </a>
             <br />
-            <strong>Address:</strong> (Insert business address here)
+            <strong>Address:</strong> No.6, Lorong Batu Nilam 13G, Bandar Bukit Tinggi, 41200 Klang, Selangor, Malaysia
           </p>
         </section>
       </div>
