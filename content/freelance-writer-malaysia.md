@@ -2,7 +2,7 @@
 title: "How to Become a Freelance Writer in Malaysia (2025)"
 description: "Start freelance writing in Malaysia the right way. Learn niches to target, build a writer website and portfolio, pitch clients, set rates, and use SEO to win work.."
 date: "2025-09-30"
-featured_image: "https://freelancemalaysia.co/wp-content/uploads/2022/08/Types-of-Freelance-Writing-1024x683.jpg"
+featured_image:"https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/how-to-become-a-freelance-writer.avif"
 author: "Naven Pillai"
 categories: ["Writing"]
 tags: ["freelance writing", "malaysia", "career", "content writing"]
