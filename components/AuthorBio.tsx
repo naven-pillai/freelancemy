@@ -60,7 +60,7 @@ export default function AuthorBio() {
             <X className="w-3.5 h-3.5" /> {/* ✅ changed icon to X */}
           </a>
           <a
-            href="https://navenpillai.com"
+            href="https://navenpillai.com "
             target="_blank"
             rel="noopener noreferrer"
             className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:text-orange-600 hover:border-orange-600 transition-colors"

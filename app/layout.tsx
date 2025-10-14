@@ -50,14 +50,12 @@ export default function RootLayout({
       <body
         className={`${rubik.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
-        {/* ✅ Sticky Navbar */}
-        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Navbar />
-          </div>
+        {/* ✅ Full-width Sticky Navbar */}
+        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm w-full">
+          <Navbar />
         </header>
 
-        {/* ✅ Main Content */}
+        {/* ✅ Main Content Area */}
         <main
           id="main"
           className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12"
@@ -65,11 +63,9 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* ✅ Footer */}
-        <footer className="bg-white border-t border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <Footer />
-          </div>
+        {/* ✅ Full-width Footer */}
+        <footer className="w-full bg-white border-t border-gray-200">
+          <Footer />
         </footer>
       </body>
     </html>

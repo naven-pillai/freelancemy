@@ -108,7 +108,7 @@ Other than LinkedIn, register with top freelance platforms:
 - **[Upwork](https://www.upwork.com/freelance-jobs/data-analysis/)**
 - **[Freelancer](https://www.freelancer.com/jobs/data-analytics/)**
 - **[Toptal](https://www.toptal.com/freelance-jobs/developers/data-analysis)**
-- **[Flexjobs](https://www.flexjobs.com/)**
+- **[Flexjobs](https://www.flexjobs.com/    )**
 
 You can also find gigs on [**Facebook groups**](https://www.facebook.com/groups/search/groups_home/?q=data%20analysis%20jobs).
 

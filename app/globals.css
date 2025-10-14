@@ -178,3 +178,70 @@ th {
   color: var(--muted);
   font-family: var(--font-sans); /* Rubik */
 }
+
+/* -----------------------------------
+💡 Footer Typography & Layout Styles
+----------------------------------- */
+
+.footer {
+  font-family: var(--font-sans); /* Rubik */
+  font-size: 0.875rem; /* Tailwind text-sm = 14px */
+  line-height: 1.6;
+  color: #4b5563; /* gray-600 */
+}
+
+.footer h4,
+.footer h5 {
+  font-size: 1.25rem; /* Tailwind text-xs = 12px */
+  font-weight: 600;
+  color: #111827; /* gray-900 */
+  margin-bottom: 0.75rem;
+}
+
+.footer p {
+  font-size: 1rem;
+  color: #6b7280; /* gray-500 */
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+}
+
+.footer ul {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.footer li {
+  margin-bottom: 0.5rem;
+}
+
+.footer a {
+  color: #4b5563;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 1rem;
+}
+
+.footer a:hover {
+  color: #ea580c; /* orange-600 */
+}
+
+/* -----------------------------------
+📌 Bottom Bar (Copyright)
+----------------------------------- */
+
+.footer-bottom {
+  font-size: 1rem;
+  text-align: center;
+  color: #6b7280; /* gray-500 */
+  padding: 1.25rem 0;
+  border-top: 1px solid #e5e7eb; /* gray-200 */
+  background-color: #f9fafb;
+}
+
+@media (min-width: 768px) {
+  .footer-bottom {
+    text-align: left;
+    padding: 1rem 0;
+  }
+}
