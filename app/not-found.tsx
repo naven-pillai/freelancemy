@@ -50,7 +50,7 @@ export default async function NotFound() {
 
   {/* Primary - Blue button with inverted hover */}
   <Link
-    href="/blog"
+    href="/"
     className="px-6 py-3 rounded-lg bg-indigo-600 !text-white font-medium shadow-md hover:bg-white hover:!text-blue-600 hover:border hover:border-blue-600 transition-all"
   >
     Explore Blog

@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import { Facebook, Linkedin, X } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 export default function Footer() {
   return (
@@ -26,24 +24,16 @@ export default function Footer() {
             <h4>Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="footer-link">
-                  About
-                </Link>
+                <Link href="/about" className="footer-link">About</Link>
               </li>
               <li>
-                <Link href="/contact" className="footer-link">
-                  Contact
-                </Link>
+                <Link href="/contact" className="footer-link">Contact</Link>
               </li>
               <li>
-                <Link href="/privacy-policy" className="footer-link">
-                  Privacy Policy
-                </Link>
+                <Link href="/privacy-policy" className="footer-link">Privacy Policy</Link>
               </li>
               <li>
-                <Link href="/terms-conditions" className="footer-link">
-                  Terms & Conditions
-                </Link>
+                <Link href="/terms-conditions" className="footer-link">Terms & Conditions</Link>
               </li>
             </ul>
           </div>
@@ -53,64 +43,63 @@ export default function Footer() {
             <h4>Resources</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/blog" className="footer-link">
-                  Blog
+                <Link
+                  href="https://kerja-remote.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  Kerja Remote
                 </Link>
               </li>
               <li>
-                <Link href="/jobs" className="footer-link">
-                  Remote Jobs
-                </Link>
-              </li>
-              <li>
-                <Link href="/post-a-job" className="footer-link">
-                  Post a Job
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="footer-link">
-                  FAQ
+                <Link
+                  href="https://navenpillai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footer-link"
+                >
+                  Naven Pillai
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Social */}
+          {/* Social Accounts */}
           <div className="space-y-4">
-            <h4>Connect</h4>
-            <div className="flex gap-4 items-center">
+            <h4 className="text-sm font-semibold tracking-wide text-muted-foreground">Connect</h4>
+            <div className="flex flex-wrap gap-2">
               <Link
-                href="https://www.facebook.com/freelancemy"
+                href="https://facebook.com/freelancemy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  buttonVariants({ variant: "ghost", size: "icon" }),
-                  "rounded-full hover:text-blue-600"
-                )}
+                aria-label="FreelanceMY on Facebook"
+                className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition text-sm"
               >
-                <Facebook className="h-5 w-5" />
+                <Facebook className="h-4 w-4 text-blue-600 group-hover:text-white transition" />
+                <span className="group-hover:text-white transition">Facebook</span>
               </Link>
+
               <Link
                 href="https://x.com/freelancemy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  buttonVariants({ variant: "ghost", size: "icon" }),
-                  "rounded-full hover:text-black"
-                )}
+                aria-label="FreelanceMY on X"
+                className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black text-black hover:bg-black hover:text-white transition text-sm"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4 text-black group-hover:text-white transition" />
+                <span className="group-hover:text-white transition">X</span>
               </Link>
+
               <Link
                 href="https://linkedin.com/company/freelancemy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  buttonVariants({ variant: "ghost", size: "icon" }),
-                  "rounded-full hover:text-blue-700"
-                )}
+                aria-label="FreelanceMY on LinkedIn"
+                className="group inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white transition text-sm"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="h-4 w-4 text-blue-700 group-hover:text-white transition" />
+                <span className="group-hover:text-white transition">LinkedIn</span>
               </Link>
             </div>
           </div>
