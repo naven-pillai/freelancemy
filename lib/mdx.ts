@@ -2,51 +2,76 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { execSync } from "child_process";
-import { BlogFrontmatter } from "@/types/blog";
+import type { BlogFrontmatter } from "@/types/blog";
 
-const CONTENT_PATH = path.join(process.cwd(), "content");
+const CONTENT_DIR = path.join(process.cwd(), "content"); // adjust if you keep posts under content/blog
+
+function isValidISODate(d?: unknown): d is string {
+  return typeof d === "string" && !Number.isNaN(Date.parse(d));
+}
+
+function getGitLastUpdated(filePath: string): string | undefined {
+  try {
+    const out = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
+      stdio: ["ignore", "pipe", "ignore"],
+    })
+      .toString()
+      .trim();
+    return out || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function resolvePostPath(slug: string): string {
+  // Support .md and .mdx
+  const md = path.join(CONTENT_DIR, `${slug}.md`);
+  const mdx = path.join(CONTENT_DIR, `${slug}.mdx`);
+  if (fs.existsSync(md)) return md;
+  if (fs.existsSync(mdx)) return mdx;
+  throw new Error(`Post not found for slug: ${slug}`);
+}
 
 export async function getPost(slug: string): Promise<{
   slug: string;
   frontmatter: BlogFrontmatter;
   content: string;
 }> {
-  const filePath = path.join(CONTENT_PATH, `${slug}.md`);
+  const filePath = resolvePostPath(slug);
   const raw = fs.readFileSync(filePath, "utf8");
   const { content, data } = matter(raw);
 
-  // ✅ Determine last updated
-  let lastUpdated: string | undefined = data.last_updated;
+  // 1) explicit FM
+  let lastUpdated: string | undefined = isValidISODate(data.last_updated)
+    ? data.last_updated
+    : undefined;
 
+  // 2) git (only if not set by FM)
   if (!lastUpdated) {
-    try {
-      // Try to get last git commit date
-      const gitDate = execSync(`git log -1 --format=%cI -- "${filePath}"`)
-        .toString()
-        .trim();
-      if (gitDate) {
-        lastUpdated = gitDate;
-      }
-    } catch {
-      // Fallback to file modified time
-      const stats = fs.statSync(filePath);
-      lastUpdated = stats.mtime.toISOString();
-    }
+    const gitDate = getGitLastUpdated(filePath);
+    if (isValidISODate(gitDate)) lastUpdated = gitDate;
   }
 
-  return {
-    slug,
-    frontmatter: {
-      ...data,
-      last_updated: lastUpdated,
-    } as BlogFrontmatter,
-    content,
-  };
+  // 3) fallback to published date (but never fs.stat in CI)
+  if (!lastUpdated && isValidISODate(data.date)) {
+    lastUpdated = data.date;
+  }
+
+  // Normalize published date too
+  const publishedDate = isValidISODate(data.date) ? data.date : undefined;
+
+  const normalized: BlogFrontmatter = {
+    ...data,
+    date: publishedDate,
+    last_updated: lastUpdated,
+  } as BlogFrontmatter;
+
+  return { slug, frontmatter: normalized, content };
 }
 
 export function listSlugs(): string[] {
   return fs
-    .readdirSync(CONTENT_PATH)
-    .filter((f) => f.endsWith(".md"))
-    .map((f) => f.replace(/\.md$/, ""));
+    .readdirSync(CONTENT_DIR)
+    .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
+    .map((f) => f.replace(/\.(md|mdx)$/, ""));
 }
