@@ -3,6 +3,7 @@ import { Rubik, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import ClickyAnalytics from "@/analytics/ClickyAnalytics"; // ✅ Add this
 
 // ✅ Rubik for body text (base)
 const rubik = Rubik({
@@ -50,7 +51,10 @@ export default function RootLayout({
       <body
         className={`${rubik.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
-        {/* ✅ Full-width Sticky Navbar */}
+        {/* ✅ Clicky Analytics */}
+        <ClickyAnalytics />
+
+        {/* ✅ Sticky Navbar */}
         <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm w-full">
           <Navbar />
         </header>
@@ -63,7 +67,7 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* ✅ Full-width Footer */}
+        {/* ✅ Footer */}
         <footer className="w-full bg-white border-t border-gray-200">
           <Footer />
         </footer>
