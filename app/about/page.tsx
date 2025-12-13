@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About — FreelanceMY",
     description:
-      "FreelanceMY empowers freelancers in Malaysia with tools, insights, and opportunities to thrive in the digital economy.",
+      "FreelanceMY empowers freelancers in Malaysia with applications, insights, and opportunities to thrive in the digital economy.",
     url: "https://freelancemy.com/about",
     siteName: "FreelanceMY",
     type: "website",
