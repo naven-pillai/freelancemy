@@ -28,8 +28,8 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
     const { error } = await supabase.from("comments").insert({
       name,
       comment,
-      post_slug: postSlug,
-      approved: false,
+      slug: postSlug,          // ← use slug here
+      is_approved: false,      // ← use is_approved (note the underscore & spelling)
     });
 
     setLoading(false);

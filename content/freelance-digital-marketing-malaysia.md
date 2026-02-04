@@ -2,6 +2,7 @@
 title: "Freelance Digital Marketing in Malaysia: 2025 Guide"
 description: "Thinking of freelancing in digital marketing? Here’s your step-by-step Malaysia guide: skills to master, where to find gigs, and how much you can earn."
 date: "2025-09-23"
+Last updated date: "2026-01-02"
 featured_image: "https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/How-to-become-a-freelance-digital-marketers-in-Malaysia.jpg"
 author: "Naven Pillai"
 categories: ["Digital Marketing", "freelancing"]

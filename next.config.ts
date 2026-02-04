@@ -37,6 +37,17 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: true,
   },
+
+  // ✅ Permanent redirect
+  async redirects() {
+    return [
+      {
+        source: "/become-a-freelance-digital-marketer",
+        destination: "https://freelancemy.com/freelance-digital-marketing-malaysia",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default withMDX(nextConfig);
