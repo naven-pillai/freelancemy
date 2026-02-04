@@ -59,7 +59,7 @@ export default function Navbar() {
             className="block text-gray-700 hover:text-orange-600 font-medium"
             onClick={() => setIsOpen(false)}
           >
-            About
+            About Us
           </Link>
           <Link
             href="/contact"
