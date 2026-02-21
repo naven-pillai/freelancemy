@@ -38,12 +38,17 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
   },
 
-  // ✅ Permanent redirect
+  // ✅ Permanent redirects
   async redirects() {
     return [
       {
         source: "/become-a-freelance-digital-marketer",
         destination: "https://freelancemy.com/freelance-digital-marketing-malaysia",
+        permanent: true,
+      },
+      {
+        source: "/become-a-freelance-writer-in-malaysia",
+        destination: "https://freelancemy.com/become-a-freelance-writer-in-malaysia",
         permanent: true,
       },
     ];
