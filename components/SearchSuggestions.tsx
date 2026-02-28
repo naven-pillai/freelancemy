@@ -20,7 +20,9 @@ export default function SearchSuggestions({ posts }: SearchSuggestionsProps) {
   return (
     <div className="w-full max-w-md mx-auto">
       {/* Search Input */}
+      <label htmlFor="article-search" className="sr-only">Search articles</label>
       <input
+        id="article-search"
         type="text"
         placeholder="Search articles..."
         value={query}

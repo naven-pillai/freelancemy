@@ -12,8 +12,11 @@ import rehypeSlug from "rehype-slug";
 import rehypeExternalLinks from "rehype-external-links";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { formatDate } from "@/lib/utils";
 
-// ✅ Pre-render slugs for SSG
+export const revalidate = 3600; // Regenerate at most every hour (keeps comments fresh)
+
+// Pre-render slugs for SSG
 export async function generateStaticParams() {
   const slugs = listSlugs();
   return slugs.map((slug: string) => ({ slug }));
@@ -116,21 +119,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {frontmatter.date && (
             <div>
               <strong>Published date:</strong>{" "}
-              {new Date(frontmatter.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {formatDate(frontmatter.date, { year: "numeric", month: "long", day: "numeric" })}
             </div>
           )}
           {frontmatter.last_updated && (
             <div>
               <strong>Last update date:</strong>{" "}
-              {new Date(frontmatter.last_updated).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {formatDate(frontmatter.last_updated, { year: "numeric", month: "long", day: "numeric" })}
             </div>
           )}
         </div>

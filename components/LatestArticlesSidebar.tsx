@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { listSlugs, getPost } from "@/lib/mdx";
+import { formatDate } from "@/lib/utils";
 
 type Props = {
   /** Current article slug to exclude from the list */
@@ -9,7 +10,7 @@ type Props = {
 
 export default async function LatestArticlesSidebar({ currentSlug }: Props) {
   // Get all posts
-  const slugs = await listSlugs();
+  const slugs = listSlugs();
   const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
 
   // Sort by date desc & exclude current post
@@ -58,11 +59,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
               </span>
               {frontmatter.date && (
                 <span className="block text-xs text-gray-500 mt-1">
-                  {new Date(frontmatter.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
+                  {formatDate(frontmatter.date)}
                 </span>
               )}
             </div>

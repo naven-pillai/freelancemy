@@ -1,12 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { listSlugs, getPost } from "@/lib/mdx";
+import { formatDate } from "@/lib/utils";
+
+export const revalidate = 3600; // Regenerate at most every hour
 
 export default async function HomePage() {
-  const slugs = await listSlugs();
+  const slugs = listSlugs();
   const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
 
-  // ✅ Sort by published date (desc). Fallback to last_updated if date is missing.
+  // Sort by published date (desc). Fallback to last_updated if date is missing.
   const parseMs = (d?: string) => (d ? new Date(d).getTime() : 0);
   const sorted = posts.sort((a, b) => {
     const aMs = parseMs(a.frontmatter.date) || parseMs(a.frontmatter.last_updated);
@@ -23,7 +26,7 @@ export default async function HomePage() {
           </div>
         )}
 
-        {sorted.map(({ slug, frontmatter }) => (
+        {sorted.map(({ slug, frontmatter }, index) => (
           <Link key={slug} href={`/${slug}`} className="group block">
             {/* Featured Image (flush, no border/rounding) */}
             {!!frontmatter?.featured_image && (
@@ -32,6 +35,7 @@ export default async function HomePage() {
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}
                   fill
+                  priority={index === 0}
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
@@ -48,13 +52,7 @@ export default async function HomePage() {
                 )}
                 {(frontmatter?.date || frontmatter?.last_updated) && (
                   <span className="text-gray-500">
-                    {new Date(
-                      frontmatter.date || frontmatter.last_updated!
-                    ).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
+                    {formatDate(frontmatter.date || frontmatter.last_updated)}
                   </span>
                 )}
               </div>

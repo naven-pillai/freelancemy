@@ -55,4 +55,12 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withMDX(nextConfig);
+const config = withMDX(nextConfig);
+
+// Workaround: @next/mdx injects a 'conditions' key into turbopack that Next.js no longer recognises
+if (config.turbopack && "conditions" in config.turbopack) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  delete (config.turbopack as any).conditions;
+}
+
+export default config;
