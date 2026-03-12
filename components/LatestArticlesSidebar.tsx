@@ -41,7 +41,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
           >
             {/* Thumbnail */}
             {frontmatter.featured_image && (
-              <div className="relative w-18 h-18 flex-shrink-0 rounded-md overflow-hidden">
+              <div className="relative w-18 h-18 shrink-0 rounded-md overflow-hidden">
                 <Image
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}

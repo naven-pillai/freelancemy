@@ -2,6 +2,7 @@
 title: "How to Become a Freelance Data Analyst in Malaysia (2026)"
 description: "Thinking about freelancing in data analysis? This Malaysia guide covers skills, certifications, platforms, and how much you can realistically earn."
 date: "2025-09-24"
+last updated: "2026-03-02"
 featured_image: "https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelance-data-analyst-malaysia.jpg"
 author: "Naven Pillai"
 categories: ["Data Analysts"]

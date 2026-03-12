@@ -98,7 +98,7 @@ export default function AboutPageClient() {
           >
             <Link
   href="/"
-  className="rounded-2xl bg-(--accent) px-7 py-3.5 text-sm font-semibold !text-white shadow-lg shadow-slate-200 transition hover:-translate-y-0.5 hover:bg-(--accent-hover)"
+  className="rounded-2xl bg-(--accent) px-7 py-3.5 text-sm font-semibold text-white! shadow-lg shadow-slate-200 transition hover:-translate-y-0.5 hover:bg-(--accent-hover)"
 >
   Explore Guides
 </Link>
@@ -264,7 +264,7 @@ export default function AboutPageClient() {
           >
             <Link
               href="/"
-              className="rounded-2xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold !text-slate-50 shadow-blue-100 transition hover:-translate-y-0.5 hover:bg-blue-700"
+              className="rounded-2xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-slate-50! shadow-blue-100 transition hover:-translate-y-0.5 hover:bg-blue-700"
             >
               Read Our Guides
             </Link>

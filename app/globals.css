@@ -1,32 +1,114 @@
 @import "tailwindcss";
 
-/* ✅ Color & font variables */
+/* -----------------------------
+   Light Theme (Default)
+----------------------------- */
 :root {
+  color-scheme: light;
+
   --background: #ffffff;
-  --foreground: #171717;
-  --accent: #051129;
-  --accent-hover: #06112f;
+  --foreground: #111827;
+  --surface: #f8fafc;
+  --surface-soft: #f3f4f6;
+
+  --accent: #0f172a;
+  --accent-hover: #1d4ed8;
+  --link: #09348a;
+  --link-hover: #ea580c;
+
   --muted: #6b7280;
   --border: #e5e7eb;
 
-  /* ✅ Fonts flipped */
-  --font-sans: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Base + content */
-  --font-heading: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Headings */
+  --blockquote-border: #0f172a;
+
+  --code-bg: #f3f4f6;
+  --code-text: #be185d;
+  --pre-bg: #f9fafb;
+
+  --table-head-bg: #f9fafb;
+  --table-row-bg: #ffffff;
+
+  --footer-bg: #f9fafb;
+  --footer-foreground: #4b5563;
+  --footer-heading: #111827;
+  --footer-muted: #6b7280;
+  --footer-border: #e5e7eb;
+
+  --font-sans: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: 'Rubik', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-/* ✅ Base body */
+/* -----------------------------
+   Dark Theme
+   Works with:
+   - <html class="dark">
+   - <html data-theme="dark">
+----------------------------- */
+.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background: #0b1220;
+  --foreground: #e5e7eb;
+  --surface: #111827;
+  --surface-soft: #1f2937;
+
+  --accent: #93c5fd;
+  --accent-hover: #bfdbfe;
+  --link: #93c5fd;
+  --link-hover: #fb923c;
+
+  --muted: #9ca3af;
+  --border: #374151;
+
+  --blockquote-border: #60a5fa;
+
+  --code-bg: #111827;
+  --code-text: #f9a8d4;
+  --pre-bg: #0f172a;
+
+  --table-head-bg: #111827;
+  --table-row-bg: #0b1220;
+
+  --footer-bg: #0f172a;
+  --footer-foreground: #cbd5e1;
+  --footer-heading: #f8fafc;
+  --footer-muted: #94a3b8;
+  --footer-border: #1f2937;
+}
+
+/* -----------------------------
+   Base
+----------------------------- */
+html {
+  background: var(--background);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans); /* Rubik as default */
+  font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.75;
   font-weight: 400;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-/* ✅ Headings (Inter now) */
-h1, h2, h3, h4, h5, h6 {
+::selection {
+  background: var(--accent);
+  color: var(--background);
+}
+
+/* -----------------------------
+   Headings
+----------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 600;
   color: var(--foreground);
@@ -35,63 +117,75 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 1rem;
 }
 
-h1 { font-size: 2.5rem; }   /* 40px */
-h2 { font-size: 2rem; }     /* 32px */
-h3 { font-size: 1.5rem; }   /* 24px */
-h4 { font-size: 1.25rem; }  /* 20px */
-h5 { font-size: 1.125rem; } /* 18px */
-h6 { font-size: 1rem; }     /* 16px */
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
 
-/* ✅ Paragraphs */
+/* -----------------------------
+   Paragraphs
+----------------------------- */
 p {
   margin-bottom: 1.25rem;
   color: var(--foreground);
   font-size: 1.125rem;
   line-height: 1.7;
   font-weight: 400;
-  font-family: var(--font-sans); /* Rubik */
+  font-family: var(--font-sans);
 }
 
-/* ✅ Links */
+/* -----------------------------
+   Links
+----------------------------- */
 a {
-  color: var(--accent);
+  color: var(--link);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
+
 a:hover {
-  color: orange;
+  color: var(--link-hover);
 }
 
-/* ✅ Links inside prose */
+/* Prose links */
 .prose a {
-  color: #09348a;
+  color: var(--link);
   font-weight: 600;
 }
+
 .prose a:hover {
-  color: orange;
+  color: var(--link-hover);
 }
 
-/* ✅ Blockquotes */
+/* -----------------------------
+   Blockquotes
+----------------------------- */
 blockquote {
-  border-left: 4px solid var(--accent);
+  border-left: 4px solid var(--blockquote-border);
   padding-left: 1rem;
   color: var(--muted);
   font-style: italic;
   margin: 1.5rem 0;
 }
 
-/* ✅ Code */
+/* -----------------------------
+   Code
+----------------------------- */
 code {
-  background: #f3f4f6;
-  color: #db2777;
+  background: var(--code-bg);
+  color: var(--code-text);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.9rem;
 }
+
 pre {
-  background: #f9fafb;
+  background: var(--pre-bg);
+  color: var(--foreground);
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
@@ -101,23 +195,37 @@ pre {
   line-height: 1.6;
 }
 
-/* ✅ Lists */
-ul, ol {
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+/* -----------------------------
+   Lists
+----------------------------- */
+ul,
+ol {
   margin: 1rem 0 1.5rem 1.5rem;
   padding: 0;
   list-style-position: outside;
   font-weight: 400;
-  font-family: var(--font-heading); /* Rubik */
+  font-family: var(--font-heading);
 }
+
 ul { list-style-type: disc; }
 ol { list-style-type: decimal; }
+
 li {
   margin-bottom: 0.5rem;
   line-height: 1.7;
   font-size: 1.125rem;
+  color: var(--foreground);
 }
 
-/* ✅ Images */
+/* -----------------------------
+   Images
+----------------------------- */
 img {
   max-width: 100%;
   border-radius: 8px;
@@ -125,41 +233,57 @@ img {
   display: block;
 }
 
-/* ✅ Tables */
+/* -----------------------------
+   Tables
+----------------------------- */
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 2rem 0;
   font-size: 0.95rem;
-  font-family: var(--font-heading); /* Rubik */
+  font-family: var(--font-heading);
+  background: var(--table-row-bg);
+  color: var(--foreground);
 }
-th, td {
+
+th,
+td {
   border: 1px solid var(--border);
   padding: 0.75rem 1rem;
 }
+
 th {
-  background: #f9fafb;
+  background: var(--table-head-bg);
   text-align: left;
   font-weight: 600;
-  font-family: var(--font-heading); /* Inter */
+  color: var(--foreground);
 }
 
-/* ✅ AuthorBio tweaks */
+td {
+  background: var(--table-row-bg);
+}
+
+/* -----------------------------
+   Author Bio
+----------------------------- */
 .author-bio h4 {
   font-size: 1rem;
   font-weight: 600;
   color: var(--foreground);
-  font-family: var(--font-heading); /* Inter */
+  font-family: var(--font-heading);
 }
+
 .author-bio p {
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--muted);
   margin-bottom: 0.75rem;
-  font-family: var(--font-sans); /* Rubik */
+  font-family: var(--font-sans);
 }
 
-/* ✅ Sidebar / Card specific fixes */
+/* -----------------------------
+   Sidebar / Cards
+----------------------------- */
 .sidebar-card h1,
 .sidebar-card h2,
 .sidebar-card h3,
@@ -170,37 +294,39 @@ th {
   font-weight: 600;
   margin: 0;
   line-height: 1.4;
-  font-family: var(--font-heading); /* Inter */
+  font-family: var(--font-heading);
+  color: var(--foreground);
 }
+
 .sidebar-card p {
   font-size: 0.85rem;
   margin: 0;
   color: var(--muted);
-  font-family: var(--font-sans); /* Rubik */
+  font-family: var(--font-sans);
 }
 
-/* -----------------------------------
-💡 Footer Typography & Layout Styles
------------------------------------ */
-
+/* -----------------------------
+   Footer
+----------------------------- */
 .footer {
-  font-family: var(--font-sans); /* Rubik */
-  font-size: 0.875rem; /* Tailwind text-sm = 14px */
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   line-height: 1.6;
-  color: #4b5563; /* gray-600 */
+  color: var(--footer-foreground);
+  background: var(--footer-bg);
 }
 
 .footer h4,
 .footer h5 {
-  font-size: 1.25rem; /* Tailwind text-xs = 12px */
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #111827; /* gray-900 */
+  color: var(--footer-heading);
   margin-bottom: 0.75rem;
 }
 
 .footer p {
   font-size: 1rem;
-  color: #6b7280; /* gray-500 */
+  color: var(--footer-muted);
   margin-bottom: 0.75rem;
   line-height: 1.6;
 }
@@ -216,27 +342,26 @@ th {
 }
 
 .footer a {
-  color: #4b5563;
+  color: var(--footer-foreground);
   text-decoration: none;
   transition: color 0.2s ease;
   font-size: 1rem;
 }
 
 .footer a:hover {
-  color: #ea580c; /* orange-600 */
+  color: var(--link-hover);
 }
 
-/* -----------------------------------
-📌 Bottom Bar (Copyright)
------------------------------------ */
-
+/* -----------------------------
+   Footer Bottom
+----------------------------- */
 .footer-bottom {
   font-size: 1rem;
   text-align: center;
-  color: #6b7280; /* gray-500 */
+  color: var(--footer-muted);
   padding: 1.25rem 0;
-  border-top: 1px solid #e5e7eb; /* gray-200 */
-  background-color: #f9fafb;
+  border-top: 1px solid var(--footer-border);
+  background-color: var(--footer-bg);
 }
 
 @media (min-width: 768px) {

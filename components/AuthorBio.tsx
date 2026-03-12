@@ -12,7 +12,7 @@ export default function AuthorBio() {
       itemType="https://schema.org/Person"
     >
       {/* Avatar */}
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <Image
           src="/naven-pillai-bio-image.jpeg"
           alt="Naven Pillai"
