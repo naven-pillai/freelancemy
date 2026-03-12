@@ -2,6 +2,7 @@
 title: "How to Start Freelancing in Malaysia: Ultimate Guide"
 description: "Freelancing is booming in Malaysia. Learn what freelancing means, the most in-demand freelance jobs, benefits, challenges, and how to kickstart your career."
 date: "2025-09-26"
+last_updated: "2026-02-15"
 featured_image: "https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelancing-in-Malaysia.jpg"
 author: "Naven Pillai"
 categories: ["Freelancing"]
