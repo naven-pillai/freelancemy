@@ -35,7 +35,7 @@ export default async function HomePage() {
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}
                   fill
-                  priority={index === 0}
+                  priority={index < 2}
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />

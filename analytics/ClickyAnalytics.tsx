@@ -6,28 +6,22 @@ import Script from 'next/script';
 export default function ClickyAnalytics() {
   const pathname = usePathname();
 
-  // ✅ Type-safe check
   const isAdminRoute = pathname?.startsWith('/admin');
+  const siteId = process.env.NEXT_PUBLIC_CLICKY_SITE_ID;
 
-  if (isAdminRoute) return null;
+  if (isAdminRoute || !siteId) return null;
 
   return (
-    <Script
-      id="clicky-analytics"
-      strategy="afterInteractive"
-      dangerouslySetInnerHTML={{
-        __html: `
-          var clicky_site_ids = clicky_site_ids || [];
-          clicky_site_ids.push(101495872);
-          (function() {
-            var s = document.createElement("script");
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = "//static.getclicky.com/js";
-            document.head.appendChild(s);
-          })();
-        `,
-      }}
-    />
+    <>
+      {/* Set the site ID before the script loads */}
+      <Script id="clicky-config" strategy="lazyOnload">
+        {`var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(${Number(siteId)});`}
+      </Script>
+      <Script
+        id="clicky-analytics"
+        src="//static.getclicky.com/js"
+        strategy="lazyOnload"
+      />
+    </>
   );
 }

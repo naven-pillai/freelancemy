@@ -2,6 +2,7 @@
 
 import { useCallback } from "react";
 import { LinkIcon, Facebook, Linkedin, X } from "lucide-react";
+import { toast } from "sonner";
 
 type ShareBarProps = {
   title: string;
@@ -21,9 +22,9 @@ export default function ShareBar({ title, url, className }: ShareBarProps) {
   const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(url);
-      alert("Link copied!");
+      toast.success("Link copied!");
     } catch {
-      window.prompt("Copy this link:", url);
+      toast.error("Could not copy link.");
     }
   }, [url]);
 

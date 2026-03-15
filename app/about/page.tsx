@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import AboutPageClient from "./AboutPageClient";
+import dynamic from "next/dynamic";
+
+// framer-motion (~100 KB) is isolated to this route via dynamic import
+// so it never enters the shared JS bundle for blog posts or the home page.
+const AboutPageClient = dynamic(() => import("./AboutPageClient"));
 
 export const metadata: Metadata = {
   title: "About — FreelanceMY",

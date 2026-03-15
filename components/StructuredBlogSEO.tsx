@@ -1,5 +1,3 @@
-"use client";
-
 type StructuredBlogSEOProps = {
   title: string;
   description: string;
@@ -88,7 +86,12 @@ export default function StructuredBlogSEO({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
+          // Escape </script> sequences so the JSON-LD block cannot be broken
+          // out of by user-controlled content in frontmatter fields.
+          __html: JSON.stringify(jsonLd)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026"),
         }}
       />
     </>

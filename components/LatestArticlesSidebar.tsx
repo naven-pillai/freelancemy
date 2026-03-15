@@ -33,7 +33,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
 
       {/* Articles list */}
       <div className="space-y-4">
-        {latest.map(({ slug, frontmatter }) => (
+        {latest.map(({ slug, frontmatter }, index) => (
           <Link
             key={slug}
             href={`/${slug}`}
@@ -46,6 +46,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}
                   fill
+                  priority={index === 0}
                   className="object-cover"
                   sizes="64px"
                 />
@@ -54,7 +55,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
 
             {/* Title + Date */}
             <div className="flex-1 basis-0 min-w-0">
-              <span className="block text-sm font-semibold text-gray-900 leading-snug line-clamp-">
+              <span className="block text-sm font-semibold text-gray-900 leading-snug line-clamp-2">
                 {frontmatter.title}
               </span>
               {frontmatter.date && (

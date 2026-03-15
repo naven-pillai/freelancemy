@@ -28,16 +28,29 @@ export const metadata: Metadata = {
   },
   description:
     "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     type: "website",
     locale: "en_MY",
     url: "https://freelancemy.com",
     siteName: "FreelanceMY Blog",
+    images: [
+      {
+        url: "https://freelancemy.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "FreelanceMY — Guides & Resources for Freelancers in Malaysia",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     site: "@freelancemy",
     creator: "@freelancemy",
+    images: ["https://freelancemy.com/og-image.jpg"],
   },
 };
 

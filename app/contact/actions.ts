@@ -19,7 +19,9 @@ export async function submitContactForm(
     return { success: false, message: "All fields are required." };
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // RFC 5321 practical email validation: local@domain.tld
+  // Requires a proper TLD (2+ chars), rejects leading/trailing dots and double dots
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
   if (!emailRegex.test(email)) {
     return { success: false, message: "Please enter a valid email address." };
   }

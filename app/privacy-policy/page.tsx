@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
         Privacy Policy
       </h1>
       <p className="text-gray-600 mb-10 text-sm">
-        Last updated: <strong>September 2025</strong>
+        Last updated: <strong>March 2026</strong>
       </p>
 
       <div className="space-y-10 text-gray-800 leading-relaxed text-base">

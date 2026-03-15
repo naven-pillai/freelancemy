@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { execSync } from "child_process";
+import { spawnSync } from "child_process";
 import type { BlogFrontmatter } from "@/types/blog";
 
 const CONTENT_DIR = path.join(process.cwd(), "content"); // adjust if you keep posts under content/blog
@@ -12,18 +12,21 @@ function isValidISODate(d?: unknown): d is string {
 
 function getGitLastUpdated(filePath: string): string | undefined {
   try {
-    const out = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
+    const result = spawnSync("git", ["log", "-1", "--format=%cI", "--", filePath], {
       stdio: ["ignore", "pipe", "ignore"],
-    })
-      .toString()
-      .trim();
-    return out || undefined;
+      encoding: "utf8",
+    });
+    return result.stdout?.trim() || undefined;
   } catch {
     return undefined;
   }
 }
 
 function resolvePostPath(slug: string): string {
+  // Guard against path traversal (e.g. "../../etc/passwd")
+  if (!slug || /[/\\]|\.\.|\x00/.test(slug)) {
+    throw new Error(`Invalid slug: ${slug}`);
+  }
   // Support .md and .mdx
   const md = path.join(CONTENT_DIR, `${slug}.md`);
   const mdx = path.join(CONTENT_DIR, `${slug}.mdx`);
