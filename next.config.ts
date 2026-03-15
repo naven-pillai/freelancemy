@@ -48,6 +48,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
 
     // When Cloudinary is active the custom loader handles all images.
     // remotePatterns is only needed for the default Next.js loader.

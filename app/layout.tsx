@@ -81,9 +81,7 @@ export default function RootLayout({
         </main>
 
         {/* ✅ Footer */}
-        <footer className="w-full bg-white border-t border-gray-200">
-          <Footer />
-        </footer>
+        <Footer />
       </body>
     </html>
   );

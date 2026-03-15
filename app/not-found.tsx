@@ -7,7 +7,7 @@ export default async function NotFound() {
   const posts = await getAllPostsMeta(); // fetch blog meta
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 bg-gradient-to-b from-gray-50 to-white">
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 bg-linear-to-b from-gray-50 to-white">
       {/* Logo / Illustration */}
       <Link href="/" className="mb-2">
         <Image
@@ -43,7 +43,7 @@ export default async function NotFound() {
   {/* Secondary - White button with black hover */}
   <Link
     href="/"
-    className="px-6 py-3 rounded-lg bg-white text-black font-medium shadow-md border border-gray-300 hover:bg-black hover:!text-white transition-all"
+    className="px-6 py-3 rounded-lg bg-white text-black font-medium shadow-md border border-gray-300 hover:bg-black hover:text-white! transition-all"
   >
     Back to Home
   </Link>
@@ -51,7 +51,7 @@ export default async function NotFound() {
   {/* Primary - Blue button with inverted hover */}
   <Link
     href="/"
-    className="px-6 py-3 rounded-lg bg-indigo-600 !text-white font-medium shadow-md hover:bg-white hover:!text-blue-600 hover:border hover:border-blue-600 transition-all"
+    className="px-6 py-3 rounded-lg bg-indigo-600 text-white! font-medium shadow-md hover:bg-white hover:text-blue-600! hover:border hover:border-blue-600 transition-all"
   >
     Explore Blog
   </Link>

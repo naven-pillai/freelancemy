@@ -18,7 +18,7 @@ export default async function HomePage() {
   });
 
   return (
-    <main className="max-w-7xl mx-auto px-6 py-12 font-sans">
+    <div className="max-w-7xl mx-auto px-6 py-12 font-sans">
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {sorted.length === 0 && (
           <div className="col-span-full text-center text-gray-500">
@@ -64,6 +64,6 @@ export default async function HomePage() {
           </Link>
         ))}
       </div>
-    </main>
+    </div>
   );
 }
