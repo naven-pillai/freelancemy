@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
-import { Rubik, Inter } from "next/font/google";
+import { Plus_Jakarta_Sans, Roboto } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ClickyAnalytics from "@/analytics/ClickyAnalytics"; // ✅ Add this
+import ClickyAnalytics from "@/analytics/ClickyAnalytics";
 
-// ✅ Rubik for body text (base)
-const rubik = Rubik({
+// UI + headings font
+const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
-// ✅ Inter for headings
-const inter = Inter({
-  variable: "--font-heading",
+// Long-form reading font (article prose only)
+const roboto = Roboto({
+  variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "700"],
   display: "swap",
 });
 
@@ -62,7 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${rubik.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
+        className={`${plusJakartaSans.variable} ${roboto.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
         {/* ✅ Clicky Analytics */}
         <ClickyAnalytics />

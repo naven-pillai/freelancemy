@@ -136,7 +136,7 @@ export default function AboutPageClient() {
 
               <div className="absolute -bottom-6 left-6 right-6 rounded-2xl border border-white/70 bg-white/90 p-5 shadow-lg backdrop-blur md:left-auto md:right-6 md:w-72">
                 <p className="mb-1 text-sm font-semibold uppercase tracking-wide text-blue-700">
-                  Since 2024
+                  Since 2025
                 </p>
                 <p className="mb-0 text-sm leading-6 text-slate-600">
                   Building a more practical, trusted resource hub for the freelance community.
