@@ -1,13 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
-import { listSlugs, getPost } from "@/lib/mdx";
+import { getAllPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
 
 export const revalidate = 3600; // Regenerate at most every hour
 
 export default async function HomePage() {
-  const slugs = listSlugs();
-  const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
+  const posts = await getAllPosts();
 
   // Sort by published date (desc). Fallback to last_updated if date is missing.
   const parseMs = (d?: string) => (d ? new Date(d).getTime() : 0);

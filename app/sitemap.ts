@@ -1,10 +1,9 @@
 // app/sitemap.ts
-import { listSlugs, getPost } from "@/lib/mdx";
+import { getAllPosts } from "@/lib/posts";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const slugs = listSlugs();
-  const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
+  const posts = await getAllPosts();
 
   const blogUrls = posts.map(({ slug, frontmatter }) => ({
     url: `https://freelancemy.com/${slug}`,

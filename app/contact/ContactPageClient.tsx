@@ -43,6 +43,7 @@ export default function ContactPage() {
                 type="text"
                 placeholder="John Doe"
                 required
+                aria-required="true"
                 disabled={isPending}
                 className="w-full border-gray-300 focus:ring-2 focus:ring-blue-600"
               />
@@ -58,6 +59,7 @@ export default function ContactPage() {
                 type="email"
                 placeholder="you@example.com"
                 required
+                aria-required="true"
                 disabled={isPending}
                 className="w-full border-gray-300 focus:ring-2 focus:ring-blue-600"
               />
@@ -109,7 +111,7 @@ export default function ContactPage() {
       {/* Social Links */}
       <div className="mt-10 flex justify-center gap-6">
         <a
-          href="https://linkedin.com/company/freelancemalaysia"
+          href="https://linkedin.com/company/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
@@ -118,7 +120,7 @@ export default function ContactPage() {
           <span className="text-sm font-medium text-gray-800">LinkedIn</span>
         </a>
         <a
-          href="https://x.com/freelancemalaysia"
+          href="https://x.com/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
@@ -127,7 +129,7 @@ export default function ContactPage() {
           <span className="text-sm font-medium text-gray-800">X</span>
         </a>
         <a
-          href="https://facebook.com/freelancemalaysia"
+          href="https://facebook.com/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-100 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"

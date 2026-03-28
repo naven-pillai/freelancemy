@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { listSlugs, getPost } from "@/lib/mdx";
+import { getAllPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
 
 type Props = {
@@ -10,8 +10,7 @@ type Props = {
 
 export default async function LatestArticlesSidebar({ currentSlug }: Props) {
   // Get all posts
-  const slugs = listSlugs();
-  const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
+  const posts = await getAllPosts();
 
   // Sort by date desc & exclude current post
   const latest = posts

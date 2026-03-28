@@ -15,7 +15,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-4">
+    <div className="flex flex-col items-center justify-center min-h-100 text-center px-4">
       <h2 className="text-2xl font-bold text-gray-900 mb-3">Failed to load article</h2>
       <p className="text-gray-600 mb-6">
         Something went wrong loading this page. You can try again or return to the homepage.

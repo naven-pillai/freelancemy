@@ -1,4 +1,4 @@
-import { getPost, listSlugs } from "@/lib/mdx";
+import { getPost, listSlugs } from "@/lib/posts";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import StructuredBlogSEO from "@/components/StructuredBlogSEO";
 import AuthorBio from "@/components/AuthorBio";
@@ -18,7 +18,7 @@ export const revalidate = 3600; // Regenerate at most every hour (keeps comments
 
 // Pre-render slugs for SSG
 export async function generateStaticParams() {
-  const slugs = listSlugs();
+  const slugs = await listSlugs();
   return slugs.map((slug: string) => ({ slug }));
 }
 

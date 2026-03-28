@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Roboto } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ClickyAnalytics from "@/analytics/ClickyAnalytics";
+import LayoutShell from "@/components/LayoutShell";
+import { Toaster } from "sonner";
 
 // UI + headings font
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -64,24 +64,9 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${roboto.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
       >
-        {/* ✅ Clicky Analytics */}
         <ClickyAnalytics />
-
-        {/* ✅ Sticky Navbar */}
-        <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm w-full">
-          <Navbar />
-        </header>
-
-        {/* ✅ Main Content Area */}
-        <main
-          id="main"
-          className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12"
-        >
-          {children}
-        </main>
-
-        {/* ✅ Footer */}
-        <Footer />
+        <Toaster position="top-right" richColors />
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );

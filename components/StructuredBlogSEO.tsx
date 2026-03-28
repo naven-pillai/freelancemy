@@ -30,7 +30,7 @@ export default function StructuredBlogSEO({
   datePublished,
   dateModified,
   image,
-  author = "Naven Pillai",
+  author,
   categories = [],
   tags = [],
   wordCount,
@@ -81,19 +81,16 @@ export default function StructuredBlogSEO({
   };
 
   return (
-    <>
-      <link rel="canonical" href={canonicalUrl || url} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          // Escape </script> sequences so the JSON-LD block cannot be broken
-          // out of by user-controlled content in frontmatter fields.
-          __html: JSON.stringify(jsonLd)
-            .replace(/</g, "\\u003c")
-            .replace(/>/g, "\\u003e")
-            .replace(/&/g, "\\u0026"),
-        }}
-      />
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        // Escape </script> sequences so the JSON-LD block cannot be broken
+        // out of by user-controlled content in frontmatter fields.
+        __html: JSON.stringify(jsonLd)
+          .replace(/</g, "\\u003c")
+          .replace(/>/g, "\\u003e")
+          .replace(/&/g, "\\u0026"),
+      }}
+    />
   );
 }

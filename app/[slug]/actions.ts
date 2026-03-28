@@ -1,11 +1,16 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { headers } from "next/headers";
 
 export type CommentFormState = {
   success: boolean;
   message: string;
 } | null;
+
+// Simple in-memory rate limiter (per IP, 1 comment per 60s)
+const rateLimitMap = new Map<string, number>();
+const RATE_LIMIT_MS = 60_000;
 
 export async function submitComment(
   slug: string,
@@ -28,6 +33,14 @@ export async function submitComment(
     return { success: false, message: "Invalid post." };
   }
 
+  // Server-side rate limiting by IP
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const lastSubmit = rateLimitMap.get(ip);
+  if (lastSubmit && Date.now() - lastSubmit < RATE_LIMIT_MS) {
+    return { success: false, message: "Please wait a minute before submitting another comment." };
+  }
+
   const supabase = await createClient();
 
   const { error } = await supabase.from("comments").insert({
@@ -41,5 +54,6 @@ export async function submitComment(
     return { success: false, message: "Failed to submit comment. Please try again." };
   }
 
+  rateLimitMap.set(ip, Date.now());
   return { success: true, message: "Comment submitted! It will appear after review." };
 }

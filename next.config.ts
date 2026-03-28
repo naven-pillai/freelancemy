@@ -35,7 +35,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' static.getclicky.com",
       "style-src 'self' 'unsafe-inline'",
-      `img-src 'self' data: https://${supabaseHostname} https://freelancemalaysia.co https://${cloudinaryHostname}`,
+      `img-src 'self' data: https://${supabaseHostname} https://freelancemy.com https://${cloudinaryHostname}`,
       "font-src 'self'",
       `connect-src 'self' https://${supabaseHostname} wss://${supabaseHostname} https://in.getclicky.com http://in.getclicky.com`,
       "frame-ancestors 'none'",
@@ -56,7 +56,7 @@ const nextConfig: NextConfig = {
       remotePatterns: [
         {
           protocol: "https",
-          hostname: "freelancemalaysia.co",
+          hostname: "freelancemy.com",
           pathname: "/**",
         },
         {
@@ -92,7 +92,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/become-a-freelance-writer-in-malaysia",
-        destination: "https://freelancemy.com/become-a-freelance-writer-in-malaysia",
+        destination: "https://freelancemy.com/freelance-writer-malaysia",
         permanent: true,
       },
     ];

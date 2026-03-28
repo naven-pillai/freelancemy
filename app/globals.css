@@ -17,7 +17,23 @@
   --link-hover: #ea580c;
 
   --muted: #6b7280;
+  --muted-foreground: #6b7280;
   --border: #e5e7eb;
+
+  /* shadcn/ui variables */
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --input: #e5e7eb;
+  --ring: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --accent-foreground: #0f172a;
 
   --blockquote-border: #0f172a;
 
@@ -42,9 +58,6 @@
 
 /* -----------------------------
    Dark Theme
-   Works with:
-   - <html class="dark">
-   - <html data-theme="dark">
 ----------------------------- */
 .dark,
 [data-theme="dark"] {
@@ -90,9 +103,6 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 18px;
-  line-height: 1.8;
-  font-weight: 400;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
 
@@ -101,15 +111,24 @@ body {
   color: var(--background);
 }
 
-/* -----------------------------
-   Headings
------------------------------ */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+/* ============================================================
+   PUBLIC SITE STYLES
+   Scoped to .public-site so they do NOT bleed into admin
+   ============================================================ */
+
+.public-site {
+  font-size: 18px;
+  line-height: 1.8;
+  font-weight: 400;
+}
+
+/* Headings */
+.public-site h1,
+.public-site h2,
+.public-site h3,
+.public-site h4,
+.public-site h5,
+.public-site h6 {
   font-family: var(--font-heading);
   font-weight: 700;
   color: var(--foreground);
@@ -119,23 +138,21 @@ h6 {
   margin-bottom: 1rem;
 }
 
-h1 { font-size: 2.75rem; }
-h2 { font-size: 1.875rem; }
-h3 { font-size: 1.375rem; }
-h4 { font-size: 1.125rem; }
-h5 { font-size: 1rem; }
-h6 { font-size: 0.9rem; }
+.public-site h1 { font-size: 2.75rem; }
+.public-site h2 { font-size: 1.875rem; }
+.public-site h3 { font-size: 1.375rem; }
+.public-site h4 { font-size: 1.125rem; }
+.public-site h5 { font-size: 1rem; }
+.public-site h6 { font-size: 0.9rem; }
 
 @media (max-width: 768px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
+  .public-site h1 { font-size: 2rem; }
+  .public-site h2 { font-size: 1.5rem; }
+  .public-site h3 { font-size: 1.25rem; }
 }
 
-/* -----------------------------
-   Paragraphs
------------------------------ */
-p {
+/* Paragraphs */
+.public-site p {
   margin-bottom: 1.25rem;
   color: var(--foreground);
   font-size: 1.125rem;
@@ -144,55 +161,39 @@ p {
   font-family: var(--font-sans);
 }
 
-/* -----------------------------
-   Prose (article body) — Lora for long-form reading
------------------------------ */
-.prose p,
-.prose li,
-.prose blockquote {
+/* Prose (article body) */
+.public-site .prose p,
+.public-site .prose li,
+.public-site .prose blockquote {
   font-family: var(--font-body);
   font-size: 1.125rem;
   line-height: 1.85;
 }
 
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
+.public-site .prose h1,
+.public-site .prose h2,
+.public-site .prose h3,
+.public-site .prose h4,
+.public-site .prose h5,
+.public-site .prose h6 {
   font-family: var(--font-heading);
   letter-spacing: -0.02em;
 }
 
-/* -----------------------------
-   Links
------------------------------ */
-a {
+/* Links — only in prose/article content, not buttons/nav */
+.public-site .prose a {
   color: var(--link);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
-a:hover {
+.public-site .prose a:hover {
   color: var(--link-hover);
 }
 
-/* Prose links */
-.prose a {
-  color: var(--link);
-  font-weight: 600;
-}
-
-.prose a:hover {
-  color: var(--link-hover);
-}
-
-/* -----------------------------
-   Blockquotes
------------------------------ */
-blockquote {
+/* Blockquotes */
+.public-site blockquote {
   border-left: 4px solid var(--blockquote-border);
   padding-left: 1rem;
   color: var(--muted);
@@ -200,10 +201,8 @@ blockquote {
   margin: 1.5rem 0;
 }
 
-/* -----------------------------
-   Code
------------------------------ */
-code {
+/* Code */
+.public-site code {
   background: var(--code-bg);
   color: var(--code-text);
   padding: 0.2rem 0.4rem;
@@ -212,7 +211,7 @@ code {
   font-size: 0.9rem;
 }
 
-pre {
+.public-site pre {
   background: var(--pre-bg);
   color: var(--foreground);
   padding: 1rem;
@@ -224,17 +223,15 @@ pre {
   line-height: 1.6;
 }
 
-pre code {
+.public-site pre code {
   background: transparent;
   color: inherit;
   padding: 0;
 }
 
-/* -----------------------------
-   Lists
------------------------------ */
-ul,
-ol {
+/* Lists */
+.public-site ul,
+.public-site ol {
   margin: 1rem 0 1.5rem 1.5rem;
   padding: 0;
   list-style-position: outside;
@@ -242,30 +239,26 @@ ol {
   font-family: var(--font-heading);
 }
 
-ul { list-style-type: disc; }
-ol { list-style-type: decimal; }
+.public-site ul { list-style-type: disc; }
+.public-site ol { list-style-type: decimal; }
 
-li {
+.public-site li {
   margin-bottom: 0.5rem;
   line-height: 1.7;
   font-size: 1.125rem;
   color: var(--foreground);
 }
 
-/* -----------------------------
-   Images
------------------------------ */
-img {
+/* Images */
+.public-site img {
   max-width: 100%;
   border-radius: 8px;
   margin: 1.5rem 0;
   display: block;
 }
 
-/* -----------------------------
-   Tables
------------------------------ */
-table {
+/* Tables */
+.public-site table {
   width: 100%;
   border-collapse: collapse;
   margin: 2rem 0;
@@ -275,34 +268,32 @@ table {
   color: var(--foreground);
 }
 
-th,
-td {
+.public-site th,
+.public-site td {
   border: 1px solid var(--border);
   padding: 0.75rem 1rem;
 }
 
-th {
+.public-site th {
   background: var(--table-head-bg);
   text-align: left;
   font-weight: 600;
   color: var(--foreground);
 }
 
-td {
+.public-site td {
   background: var(--table-row-bg);
 }
 
-/* -----------------------------
-   Author Bio
------------------------------ */
-.author-bio h4 {
+/* Author Bio */
+.public-site .author-bio h4 {
   font-size: 1rem;
   font-weight: 600;
   color: var(--foreground);
   font-family: var(--font-heading);
 }
 
-.author-bio p {
+.public-site .author-bio p {
   font-size: 0.95rem;
   line-height: 1.6;
   color: var(--muted);
@@ -310,15 +301,13 @@ td {
   font-family: var(--font-sans);
 }
 
-/* -----------------------------
-   Sidebar / Cards
------------------------------ */
-.sidebar-card h1,
-.sidebar-card h2,
-.sidebar-card h3,
-.sidebar-card h4,
-.sidebar-card h5,
-.sidebar-card h6 {
+/* Sidebar / Cards */
+.public-site .sidebar-card h1,
+.public-site .sidebar-card h2,
+.public-site .sidebar-card h3,
+.public-site .sidebar-card h4,
+.public-site .sidebar-card h5,
+.public-site .sidebar-card h6 {
   font-size: 0.95rem;
   font-weight: 600;
   margin: 0;
@@ -327,16 +316,14 @@ td {
   color: var(--foreground);
 }
 
-.sidebar-card p {
+.public-site .sidebar-card p {
   font-size: 0.85rem;
   margin: 0;
   color: var(--muted);
   font-family: var(--font-sans);
 }
 
-/* -----------------------------
-   Footer
------------------------------ */
+/* Footer */
 .footer {
   font-family: var(--font-sans);
   font-size: 0.875rem;
@@ -381,9 +368,6 @@ td {
   color: var(--link-hover);
 }
 
-/* -----------------------------
-   Footer Bottom
------------------------------ */
 .footer-bottom {
   font-size: 1rem;
   text-align: center;
@@ -399,3 +383,4 @@ td {
     padding: 1rem 0;
   }
 }
+
