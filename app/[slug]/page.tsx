@@ -33,11 +33,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       title: frontmatter.title,
       description: frontmatter.description,
       openGraph: {
-        images: frontmatter.featured_image ? [frontmatter.featured_image] : [],
+        title: frontmatter.title,
+        description: frontmatter.description,
+        url: `https://freelancemy.com/${slug}`,
+        type: "article",
+        ...(frontmatter.featured_image && {
+          images: [frontmatter.featured_image],
+        }),
       },
       twitter: {
         card: "summary_large_image",
-        images: frontmatter.featured_image ? [frontmatter.featured_image] : [],
+        title: frontmatter.title,
+        description: frontmatter.description,
+        ...(frontmatter.featured_image && {
+          images: [frontmatter.featured_image],
+        }),
       },
       alternates: {
         canonical: frontmatter.canonical_url || `https://freelancemy.com/${slug}`,
@@ -66,7 +76,41 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
-      {/* ✅ Blog Content */}
+      {/* BreadcrumbList JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://freelancemy.com",
+              },
+              ...(frontmatter.categories?.[0]
+                ? [
+                    {
+                      "@type": "ListItem",
+                      position: 2,
+                      name: frontmatter.categories[0],
+                    },
+                  ]
+                : []),
+              {
+                "@type": "ListItem",
+                position: frontmatter.categories?.[0] ? 3 : 2,
+                name: frontmatter.title,
+                item: `https://freelancemy.com/${slug}`,
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* Blog Content */}
       <article className="lg:col-span-2 prose prose-base sm:prose-lg max-w-none">
         <StructuredBlogSEO
           title={frontmatter.title}

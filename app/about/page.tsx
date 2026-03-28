@@ -22,6 +22,39 @@ export const metadata: Metadata = {
   },
 };
 
+function OrganizationSchema() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "FreelanceMY",
+          url: "https://freelancemy.com",
+          description:
+            "A platform built to empower Malaysian freelancers through education, tools, and community support.",
+          founder: {
+            "@type": "Person",
+            name: "Naven Pillai",
+            url: "https://navenpillai.com",
+          },
+          sameAs: [
+            "https://facebook.com/freelancemy",
+            "https://x.com/freelancemy",
+            "https://linkedin.com/company/freelancemy",
+          ],
+        }),
+      }}
+    />
+  );
+}
+
 export default function AboutPage() {
-  return <AboutPageClient />;
+  return (
+    <>
+      <OrganizationSchema />
+      <AboutPageClient />
+    </>
+  );
 }

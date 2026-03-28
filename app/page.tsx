@@ -18,6 +18,33 @@ export default async function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 font-sans">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+        Latest Freelancing Guides
+      </h1>
+      <p className="text-gray-500 mb-8">
+        Expert guides, tips, and resources for freelancers in Malaysia.
+      </p>
+
+      {/* WebSite JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "FreelanceMY",
+            url: "https://freelancemy.com",
+            description:
+              "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
+            publisher: {
+              "@type": "Organization",
+              name: "FreelanceMY",
+              url: "https://freelancemy.com",
+            },
+          }),
+        }}
+      />
+
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {sorted.length === 0 && (
           <div className="col-span-full text-center text-gray-500">

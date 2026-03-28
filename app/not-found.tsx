@@ -1,7 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getAllPostsMeta } from "@/lib/posts";
 import SearchSuggestions from "@/components/SearchSuggestions";
+
+export const metadata: Metadata = {
+  title: "404 - Page Not Found",
+  description:
+    "The page you're looking for doesn't exist. Return to our blog or explore our freelancing guides.",
+  robots: { index: false, follow: false },
+};
 
 export default async function NotFound() {
   const posts = await getAllPostsMeta(); // fetch blog meta

@@ -4,6 +4,9 @@ export const metadata: Metadata = {
   title: "Privacy Policy — FreelanceMY",
   description:
     "Read our Privacy Policy to understand how FreelanceMY collects, uses, and protects your personal data in accordance with Malaysia's PDPA (2010).",
+  alternates: {
+    canonical: "https://freelancemy.com/privacy-policy",
+  },
 };
 
 export default function PrivacyPolicyPage() {
@@ -102,10 +105,10 @@ export default function PrivacyPolicyPage() {
             <br />
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:info@freelancemy.com"
+              href="mailto:hello@freelancemy.com"
               className="text-orange-600 hover:underline"
             >
-              info@freelancemy.com
+              hello@freelancemy.com
             </a>
             <br />
             <strong>Address:</strong> No.6, Lorong Batu Nilam 13G, Bandar Bukit Tinggi, 41200 Klang, Selangor, Malaysia

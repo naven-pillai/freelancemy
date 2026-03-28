@@ -1,8 +1,9 @@
-// app/robots.txt/route.ts
 export async function GET() {
   return new Response(
     `User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
 
 Sitemap: https://freelancemy.com/sitemap.xml
 `,
