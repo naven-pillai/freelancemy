@@ -2,9 +2,17 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Save, Eye, ArrowLeft, FileText, ImageOff } from "lucide-react";
 import Link from "next/link";
+
+const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-96 bg-gray-50 animate-pulse rounded-lg" />
+  ),
+});
 
 type BlogData = {
   id?: string;
@@ -266,14 +274,15 @@ export default function BlogPostForm({
                 {wordCount.toLocaleString()} words
               </span>
             </div>
-            <textarea
-              id="content"
-              value={form.content}
-              onChange={(e) => updateField("content", e.target.value)}
-              placeholder="Write your post in Markdown..."
-              rows={25}
-              className="w-full px-6 py-4 text-sm placeholder:text-gray-400 focus:outline-none font-mono leading-relaxed resize-y min-h-64"
-            />
+            <div data-color-mode="light">
+              <MDEditor
+                value={form.content}
+                onChange={(val) => updateField("content", val ?? "")}
+                height={600}
+                preview="live"
+                visibleDragbar={false}
+              />
+            </div>
           </div>
         </div>
 
