@@ -14,9 +14,13 @@ import {
   CheckCircle,
   Loader2,
   ImagePlus,
+  Monitor,
+  Smartphone,
+  Search,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
+import { SITE_URL } from "@/lib/constants";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -38,6 +42,7 @@ type BlogData = {
   status: string;
   date: string;
   canonical_url: string;
+  seo_title: string;
 };
 
 const DEFAULT_BLOG: BlogData = {
@@ -52,9 +57,14 @@ const DEFAULT_BLOG: BlogData = {
   status: "draft",
   date: new Date().toISOString().split("T")[0],
   canonical_url: "",
+  seo_title: "",
 };
 
-const AUTOSAVE_DELAY = 3000; // 3 seconds after last change
+const AUTOSAVE_DELAY = 3000;
+const SEO_TITLE_MAX = 60;
+const META_DESC_MAX = 160;
+const SEO_TITLE_MOBILE_MAX = 55;
+const META_DESC_MOBILE_MAX = 120;
 
 function slugify(text: string) {
   return text
@@ -83,6 +93,68 @@ async function uploadImage(file: File): Promise<string> {
   return url;
 }
 
+/** Parse a raw comma-separated string into trimmed array (only on blur/save) */
+function parseCommaSeparated(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+// --- SERP Preview Component ---
+function SerpPreview({
+  seoTitle,
+  metaDescription,
+  slug,
+  device,
+}: {
+  seoTitle: string;
+  metaDescription: string;
+  slug: string;
+  device: "desktop" | "mobile";
+}) {
+  const titleMax = device === "desktop" ? SEO_TITLE_MAX : SEO_TITLE_MOBILE_MAX;
+  const descMax =
+    device === "desktop" ? META_DESC_MAX : META_DESC_MOBILE_MAX;
+
+  const displayTitle = seoTitle || "Page title will appear here";
+  const displayDesc = metaDescription || "Meta description will appear here...";
+  const truncatedTitle =
+    displayTitle.length > titleMax
+      ? displayTitle.slice(0, titleMax) + "..."
+      : displayTitle;
+  const truncatedDesc =
+    displayDesc.length > descMax
+      ? displayDesc.slice(0, descMax) + "..."
+      : displayDesc;
+  const displayUrl = slug
+    ? `${SITE_URL}/${slug}`
+    : `${SITE_URL}/your-post-slug`;
+
+  return (
+    <div className="space-y-1">
+      <p
+        className="text-[13px] text-green-800 truncate"
+        style={{ fontFamily: "Arial, sans-serif" }}
+      >
+        {displayUrl}
+      </p>
+      <p
+        className="text-lg text-blue-800 leading-snug"
+        style={{ fontFamily: "Arial, sans-serif" }}
+      >
+        {truncatedTitle}
+      </p>
+      <p
+        className="text-[13px] text-gray-600 leading-relaxed"
+        style={{ fontFamily: "Arial, sans-serif" }}
+      >
+        {truncatedDesc}
+      </p>
+    </div>
+  );
+}
+
 export default function BlogPostForm({
   initialData,
   isEdit = false,
@@ -99,7 +171,17 @@ export default function BlogPostForm({
     date: initialData?.date
       ? new Date(initialData.date).toISOString().split("T")[0]
       : DEFAULT_BLOG.date,
+    seo_title: initialData?.seo_title ?? "",
   });
+
+  // Raw strings for categories/tags input to allow spaces while typing
+  const [rawCategories, setRawCategories] = useState(
+    (initialData?.categories ?? []).join(", ")
+  );
+  const [rawTags, setRawTags] = useState(
+    (initialData?.tags ?? []).join(", ")
+  );
+
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [imgError, setImgError] = useState(false);
@@ -108,6 +190,7 @@ export default function BlogPostForm({
   const [autosaveStatus, setAutosaveStatus] = useState<
     "idle" | "saving" | "saved"
   >("idle");
+  const [serpDevice, setSerpDevice] = useState<"desktop" | "mobile">("desktop");
 
   const isDirty = useRef(false);
   const postIdRef = useRef(initialData?.id);
@@ -136,8 +219,6 @@ export default function BlogPostForm({
     if (!isDirty.current) return;
 
     const currentForm = formRef.current;
-
-    // Need at least a title to autosave
     if (!currentForm.title.trim()) return;
 
     setAutosaveStatus("saving");
@@ -145,13 +226,15 @@ export default function BlogPostForm({
     try {
       const payload = {
         ...currentForm,
+        // Parse raw strings into arrays for save
+        categories: parseCommaSeparated(rawCategories),
+        tags: parseCommaSeparated(rawTags),
         date: currentForm.date
           ? new Date(currentForm.date).toISOString()
           : null,
       };
 
       if (postIdRef.current) {
-        // Update existing
         const res = await fetch(`/api/blogs/${postIdRef.current}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -159,7 +242,6 @@ export default function BlogPostForm({
         });
         if (!res.ok) throw new Error("Autosave failed");
       } else {
-        // Create new draft
         const res = await fetch("/api/blogs", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -168,7 +250,6 @@ export default function BlogPostForm({
         if (!res.ok) throw new Error("Autosave failed");
         const data = await res.json();
         postIdRef.current = data.id;
-        // Update URL to edit mode without full navigation
         window.history.replaceState(null, "", `/admin/blog/${data.id}/edit`);
       }
 
@@ -178,7 +259,7 @@ export default function BlogPostForm({
     } catch {
       setAutosaveStatus("idle");
     }
-  }, []);
+  }, [rawCategories, rawTags]);
 
   const scheduleAutosave = useCallback(() => {
     if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
@@ -210,6 +291,8 @@ export default function BlogPostForm({
     try {
       const payload = {
         ...form,
+        categories: parseCommaSeparated(rawCategories),
+        tags: parseCommaSeparated(rawTags),
         date: form.date ? new Date(form.date).toISOString() : null,
       };
 
@@ -286,7 +369,6 @@ export default function BlogPostForm({
     e.target.value = "";
   }
 
-  // --- Clipboard paste for images in editor area ---
   function handleEditorPaste(e: React.ClipboardEvent) {
     const items = e.clipboardData.items;
     for (const item of items) {
@@ -301,6 +383,10 @@ export default function BlogPostForm({
 
   const wordCount = form.content.split(/\s+/).filter(Boolean).length;
   const readingTime = Math.max(1, Math.round(wordCount / 200));
+
+  // SEO display values (fallback to title/description)
+  const seoTitleDisplay = form.seo_title || form.title;
+  const metaDescDisplay = form.description;
 
   const inputClass =
     "w-full h-10 px-3.5 rounded-lg border border-gray-200 bg-gray-50/80 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all";
@@ -393,7 +479,7 @@ export default function BlogPostForm({
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main editor */}
         <div className="lg:col-span-2 space-y-5">
-          {/* Title & slug & description */}
+          {/* Title & slug */}
           <div className="rounded-2xl border border-gray-100 bg-white p-6 space-y-4">
             <div className="space-y-1.5">
               <label htmlFor="title" className={labelClass}>
@@ -425,22 +511,109 @@ export default function BlogPostForm({
                 />
               </div>
             </div>
+          </div>
+
+          {/* SEO Section */}
+          <div className="rounded-2xl border border-gray-100 bg-white p-6 space-y-4">
+            <div className="flex items-center gap-2">
+              <Search className="h-4 w-4 text-gray-400" />
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
+                SEO
+              </h3>
+            </div>
+            <hr className="border-gray-100" />
+
+            <div className="space-y-1.5">
+              <label htmlFor="seo_title" className={labelClass}>
+                SEO Title
+              </label>
+              <input
+                id="seo_title"
+                value={form.seo_title}
+                onChange={(e) => updateField("seo_title", e.target.value)}
+                placeholder={form.title || "Keyword-optimized title for search results"}
+                maxLength={SEO_TITLE_MAX}
+                className={inputClass}
+              />
+              <p
+                className={`text-[11px] ${
+                  seoTitleDisplay.length > SEO_TITLE_MAX
+                    ? "text-red-500 font-medium"
+                    : "text-gray-400"
+                }`}
+              >
+                {seoTitleDisplay.length}/{SEO_TITLE_MAX} characters
+                {!form.seo_title && (
+                  <span className="text-gray-300"> — falls back to title</span>
+                )}
+              </p>
+            </div>
 
             <div className="space-y-1.5">
               <label htmlFor="description" className={labelClass}>
-                Description
+                Meta Description
               </label>
               <textarea
                 id="description"
                 value={form.description}
                 onChange={(e) => updateField("description", e.target.value)}
-                placeholder="Brief description for SEO and social sharing..."
+                placeholder="Compelling description for search results (max 160 chars)..."
                 rows={3}
+                maxLength={META_DESC_MAX}
                 className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/80 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all resize-none"
               />
-              <p className="text-[11px] text-gray-400">
-                {form.description.length}/500 characters
+              <p
+                className={`text-[11px] ${
+                  form.description.length > META_DESC_MAX
+                    ? "text-red-500 font-medium"
+                    : "text-gray-400"
+                }`}
+              >
+                {form.description.length}/{META_DESC_MAX} characters
               </p>
+            </div>
+
+            {/* SERP Preview */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Search Preview
+                </span>
+                <div className="flex rounded-lg border border-gray-200 overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setSerpDevice("desktop")}
+                    className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium transition-colors ${
+                      serpDevice === "desktop"
+                        ? "bg-gray-900 text-white"
+                        : "bg-white text-gray-500 hover:bg-gray-50"
+                    }`}
+                  >
+                    <Monitor className="h-3 w-3" />
+                    Desktop
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSerpDevice("mobile")}
+                    className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium transition-colors ${
+                      serpDevice === "mobile"
+                        ? "bg-gray-900 text-white"
+                        : "bg-white text-gray-500 hover:bg-gray-50"
+                    }`}
+                  >
+                    <Smartphone className="h-3 w-3" />
+                    Mobile
+                  </button>
+                </div>
+              </div>
+              <div className="rounded-xl border border-gray-200 bg-white p-4">
+                <SerpPreview
+                  seoTitle={seoTitleDisplay}
+                  metaDescription={metaDescDisplay}
+                  slug={form.slug}
+                  device={serpDevice}
+                />
+              </div>
             </div>
           </div>
 
@@ -457,7 +630,6 @@ export default function BlogPostForm({
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                {/* Inline image upload */}
                 <button
                   type="button"
                   onClick={() => inlineInputRef.current?.click()}
@@ -544,7 +716,6 @@ export default function BlogPostForm({
             </h3>
             <hr className="border-gray-100" />
 
-            {/* Upload zone */}
             <div
               onDragOver={(e) => e.preventDefault()}
               onDrop={onFeaturedDrop}
@@ -576,7 +747,6 @@ export default function BlogPostForm({
               />
             </div>
 
-            {/* Manual URL input */}
             <div className="space-y-1.5">
               <label htmlFor="featured_image" className="text-sm text-gray-600">
                 Or paste URL
@@ -590,7 +760,6 @@ export default function BlogPostForm({
               />
             </div>
 
-            {/* Preview */}
             {form.featured_image &&
               (imgError ? (
                 <div className="w-full h-36 rounded-xl border border-red-100 bg-red-50 flex flex-col items-center justify-center gap-1">
@@ -632,17 +801,18 @@ export default function BlogPostForm({
               </label>
               <input
                 id="categories"
-                value={form.categories.join(", ")}
-                onChange={(e) =>
-                  updateField(
-                    "categories",
-                    e.target.value
-                      .split(",")
-                      .map((s) => s.trim())
-                      .filter(Boolean)
-                  )
-                }
-                placeholder="Freelancing, Writing"
+                value={rawCategories}
+                onChange={(e) => {
+                  isDirty.current = true;
+                  setRawCategories(e.target.value);
+                  scheduleAutosave();
+                }}
+                onBlur={() => {
+                  const parsed = parseCommaSeparated(rawCategories);
+                  setForm((prev) => ({ ...prev, categories: parsed }));
+                  setRawCategories(parsed.join(", "));
+                }}
+                placeholder="Digital Marketing, Content Writing"
                 className={inputClass}
               />
               <p className="text-[11px] text-gray-400">Comma-separated</p>
@@ -654,16 +824,17 @@ export default function BlogPostForm({
               </label>
               <input
                 id="tags"
-                value={form.tags.join(", ")}
-                onChange={(e) =>
-                  updateField(
-                    "tags",
-                    e.target.value
-                      .split(",")
-                      .map((s) => s.trim())
-                      .filter(Boolean)
-                  )
-                }
+                value={rawTags}
+                onChange={(e) => {
+                  isDirty.current = true;
+                  setRawTags(e.target.value);
+                  scheduleAutosave();
+                }}
+                onBlur={() => {
+                  const parsed = parseCommaSeparated(rawTags);
+                  setForm((prev) => ({ ...prev, tags: parsed }));
+                  setRawTags(parsed.join(", "));
+                }}
                 placeholder="freelance, malaysia"
                 className={inputClass}
               />

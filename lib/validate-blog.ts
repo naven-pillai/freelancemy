@@ -1,6 +1,7 @@
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_TITLE = 200;
-const MAX_DESCRIPTION = 500;
+const MAX_SEO_TITLE = 60;
+const MAX_DESCRIPTION = 160;
 const MAX_CONTENT = 200000;
 const MAX_URL = 2000;
 const MAX_TAG = 50;
@@ -24,6 +25,7 @@ const ALLOWED_FIELDS = [
   "date",
   "last_updated",
   "canonical_url",
+  "seo_title",
 ] as const;
 
 function pick(body: Record<string, unknown>) {
@@ -122,6 +124,9 @@ export function validateBlogUpdate(
 
   if (data.status && !VALID_STATUSES.includes(data.status as string))
     return { valid: false, error: "Status must be draft or published" };
+
+  if (data.seo_title && typeof data.seo_title === "string" && (data.seo_title as string).length > MAX_SEO_TITLE)
+    return { valid: false, error: `SEO title must be under ${MAX_SEO_TITLE} characters` };
 
   if (data.categories && !Array.isArray(data.categories))
     return { valid: false, error: "Categories must be an array" };

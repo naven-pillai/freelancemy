@@ -28,6 +28,7 @@ export async function getPost(slug: string): Promise<{
     tags: data.tags ?? undefined,
     status: data.status as "draft" | "published",
     canonical_url: data.canonical_url ?? undefined,
+    seo_title: data.seo_title ?? undefined,
   };
 
   return { slug: data.slug, frontmatter, content: data.content };

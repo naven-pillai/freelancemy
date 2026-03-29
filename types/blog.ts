@@ -8,6 +8,7 @@ export type BlogFrontmatter = {
     categories?: string[];
     tags?: string[];
     status?: "draft" | "published";
-    canonical_url?: string; // ✅ added
+    canonical_url?: string;
+    seo_title?: string;
   };
   

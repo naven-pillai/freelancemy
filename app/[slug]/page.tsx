@@ -30,11 +30,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   try {
     const { frontmatter } = await getPost(slug);
 
+    const seoTitle = frontmatter.seo_title || frontmatter.title;
+
     return {
-      title: frontmatter.title,
+      title: seoTitle,
       description: frontmatter.description,
       openGraph: {
-        title: frontmatter.title,
+        title: seoTitle,
         description: frontmatter.description,
         url: `${SITE_URL}/${slug}`,
         type: "article",
@@ -44,7 +46,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       },
       twitter: {
         card: "summary_large_image",
-        title: frontmatter.title,
+        title: seoTitle,
         description: frontmatter.description,
         ...(frontmatter.featured_image && {
           images: [frontmatter.featured_image],
