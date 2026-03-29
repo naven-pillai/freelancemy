@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import { SITE_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Privacy Policy — FreelanceMY",
   description:
     "Read our Privacy Policy to understand how FreelanceMY collects, uses, and protects your personal data in accordance with Malaysia's PDPA (2010).",
   alternates: {
-    canonical: "https://freelancemy.com/privacy-policy",
+    canonical: `${SITE_URL}/privacy-policy`,
   },
 };
 

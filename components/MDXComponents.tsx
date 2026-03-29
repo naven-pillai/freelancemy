@@ -11,8 +11,9 @@ export const mdxComponents: MDXComponents = {
       <div className="relative w-full h-80 my-6">
         <Image
           src={src}
-          alt={alt || ""}
+          alt={alt || "Blog post image"}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
           className="object-contain rounded-lg shadow-md"
           {...props}
         />

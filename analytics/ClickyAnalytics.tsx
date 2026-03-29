@@ -1,19 +1,41 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 
+declare global {
+  interface Window {
+    clicky?: { log: (href: string, title: string, type?: string) => void };
+  }
+}
+
 export default function ClickyAnalytics() {
   const pathname = usePathname();
+  const [mounted, setMounted] = useState(false);
+  const prevPathname = useRef(pathname);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Track SPA route changes
+  useEffect(() => {
+    if (prevPathname.current === pathname) return;
+    prevPathname.current = pathname;
+
+    if (window.clicky) {
+      window.clicky.log(pathname, document.title);
+    }
+  }, [pathname]);
 
   const isAdminRoute = pathname?.startsWith('/admin');
   const siteId = process.env.NEXT_PUBLIC_CLICKY_SITE_ID;
 
-  if (isAdminRoute || !siteId) return null;
+  if (!mounted || isAdminRoute || !siteId) return null;
 
   return (
     <>
-      {/* Set the site ID before the script loads */}
       <Script id="clicky-config" strategy="lazyOnload">
         {`var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(${Number(siteId)});`}
       </Script>
@@ -22,6 +44,14 @@ export default function ClickyAnalytics() {
         src="//static.getclicky.com/js"
         strategy="lazyOnload"
       />
+      <noscript>
+        <img
+          alt="Clicky"
+          width={1}
+          height={1}
+          src={`//in.getclicky.com/${Number(siteId)}ns.gif`}
+        />
+      </noscript>
     </>
   );
 }

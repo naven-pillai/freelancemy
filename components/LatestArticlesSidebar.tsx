@@ -45,7 +45,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}
                   fill
-                  priority={index === 0}
+                  loading="lazy"
                   className="object-cover"
                   sizes="64px"
                 />

@@ -38,7 +38,7 @@ export async function submitContactForm(
 
   const supabase = await createClient();
 
-  // contact_messages table — run supabase/migrations/20260228000000_contact_messages.sql first
+  // contact_messages table exists in DB but not in auto-generated types
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (supabase as any)
     .from("contact_messages")

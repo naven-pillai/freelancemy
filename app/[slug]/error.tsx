@@ -11,7 +11,8 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error(error);
+    // TODO: send to error tracking service (e.g. Sentry)
+    void error;
   }, [error]);
 
   return (

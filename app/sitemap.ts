@@ -1,11 +1,18 @@
 import { getAllPosts } from "@/lib/posts";
+import { SITE_URL } from "@/lib/constants";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await getAllPosts();
 
+  // Use the most recent post date as a proxy for when the homepage last changed
+  const latestPostDate = posts.reduce((latest, { frontmatter }) => {
+    const d = new Date(frontmatter.last_updated || frontmatter.date || 0);
+    return d > latest ? d : latest;
+  }, new Date(0));
+
   const blogUrls = posts.map(({ slug, frontmatter }) => ({
-    url: `https://freelancemy.com/${slug}`,
+    url: `${SITE_URL}/${slug}`,
     lastModified: new Date(
       frontmatter.last_updated || frontmatter.date || new Date()
     ).toISOString(),
@@ -15,32 +22,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: "https://freelancemy.com",
-      lastModified: new Date().toISOString(),
+      url: SITE_URL,
+      lastModified: latestPostDate.toISOString(),
       priority: 1.0,
       changeFrequency: "weekly",
     },
     {
-      url: "https://freelancemy.com/about",
-      lastModified: "2026-03-15",
+      url: `${SITE_URL}/about`,
+      lastModified: latestPostDate.toISOString(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
-      url: "https://freelancemy.com/contact",
-      lastModified: "2026-03-15",
+      url: `${SITE_URL}/contact`,
+      lastModified: latestPostDate.toISOString(),
       priority: 0.8,
       changeFrequency: "monthly",
     },
     {
-      url: "https://freelancemy.com/privacy-policy",
-      lastModified: "2026-03-15",
+      url: `${SITE_URL}/privacy-policy`,
+      lastModified: latestPostDate.toISOString(),
       priority: 0.3,
       changeFrequency: "yearly",
     },
     {
-      url: "https://freelancemy.com/terms-conditions",
-      lastModified: "2026-03-15",
+      url: `${SITE_URL}/terms-conditions`,
+      lastModified: latestPostDate.toISOString(),
       priority: 0.3,
       changeFrequency: "yearly",
     },

@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
 export const revalidate = 3600; // Regenerate at most every hour
 
@@ -32,14 +33,14 @@ export default async function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            name: "FreelanceMY",
-            url: "https://freelancemy.com",
+            name: SITE_NAME,
+            url: SITE_URL,
             description:
               "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
             publisher: {
               "@type": "Organization",
-              name: "FreelanceMY",
-              url: "https://freelancemy.com",
+              name: SITE_NAME,
+              url: SITE_URL,
             },
           }),
         }}

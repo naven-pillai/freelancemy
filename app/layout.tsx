@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Roboto } from "next/font/google";
 import "./globals.css";
 import ClickyAnalytics from "@/analytics/ClickyAnalytics";
 import LayoutShell from "@/components/LayoutShell";
 import { Toaster } from "sonner";
+import { SITE_URL } from "@/lib/constants";
 
 // UI + headings font
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -21,6 +22,10 @@ const roboto = Roboto({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#2563eb",
+};
+
 export const metadata: Metadata = {
   title: {
     default: "FreelanceMY | Guides & Resources for Freelancers in Malaysia",
@@ -35,11 +40,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_MY",
-    url: "https://freelancemy.com",
+    url: SITE_URL,
     siteName: "FreelanceMY Blog",
     images: [
       {
-        url: "https://freelancemy.com/og-image.jpg",
+        url: `${SITE_URL}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: "FreelanceMY — Guides & Resources for Freelancers in Malaysia",
@@ -50,7 +55,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@freelancemy",
     creator: "@freelancemy",
-    images: ["https://freelancemy.com/og-image.jpg"],
+    images: [`${SITE_URL}/og-image.jpg`],
   },
 };
 

@@ -1,3 +1,5 @@
+import { SITE_URL } from "@/lib/constants";
+
 export async function GET() {
   return new Response(
     `User-agent: *
@@ -5,7 +7,7 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://freelancemy.com/sitemap.xml
+Sitemap: ${SITE_URL}/sitemap.xml
 `,
     {
       headers: {

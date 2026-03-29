@@ -8,9 +8,20 @@ export type CommentFormState = {
   message: string;
 } | null;
 
-// Simple in-memory rate limiter (per IP, 1 comment per 60s)
+// In-memory rate limiter (per IP, 1 comment per 60s).
+// Note: resets on deployment. For high-traffic production use, consider a
+// persistent store (Redis, Supabase RPC, etc.).
 const rateLimitMap = new Map<string, number>();
 const RATE_LIMIT_MS = 60_000;
+
+// Periodically clean expired entries to prevent unbounded memory growth
+function pruneRateLimitMap() {
+  const now = Date.now();
+  for (const [ip, ts] of rateLimitMap) {
+    if (now - ts > RATE_LIMIT_MS) rateLimitMap.delete(ip);
+  }
+}
+setInterval(pruneRateLimitMap, 5 * 60_000).unref();
 
 export async function submitComment(
   slug: string,

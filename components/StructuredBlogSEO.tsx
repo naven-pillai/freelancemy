@@ -1,3 +1,5 @@
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
+
 type StructuredBlogSEOProps = {
   title: string;
   description: string;
@@ -11,6 +13,7 @@ type StructuredBlogSEOProps = {
   tags?: string[];
   wordCount?: number;
   entities?: string[];
+  articleBody?: string;
 };
 
 type JsonLd =
@@ -34,14 +37,15 @@ export default function StructuredBlogSEO({
   tags = [],
   wordCount,
   entities = [],
+  articleBody,
 }: StructuredBlogSEOProps) {
   const org: JsonLd = {
     "@type": "Organization",
-    name: "FreelanceMY",
-    url: "https://freelancemy.com",
+    name: SITE_NAME,
+    url: SITE_URL,
     logo: {
       "@type": "ImageObject",
-      url: "https://freelancemy.com/logo.png",
+      url: `${SITE_URL}/logo.png`,
     },
   };
 
@@ -71,6 +75,7 @@ export default function StructuredBlogSEO({
     inLanguage: "en-MY",
     isAccessibleForFree: true,
     ...(wordCount && { wordCount }),
+    ...(articleBody && { articleBody: articleBody.slice(0, 5000) }),
     speakable: {
       "@type": "SpeakableSpecification",
       cssSelector: ["h1", "article p:first-of-type"],

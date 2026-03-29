@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
+import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
 // framer-motion (~100 KB) is isolated to this route via dynamic import
 // so it never enters the shared JS bundle for blog posts or the home page.
@@ -13,12 +14,12 @@ export const metadata: Metadata = {
     title: "About — FreelanceMY",
     description:
       "FreelanceMY empowers freelancers in Malaysia with applications, insights, and opportunities to thrive in the digital economy.",
-    url: "https://freelancemy.com/about",
-    siteName: "FreelanceMY",
+    url: `${SITE_URL}/about`,
+    siteName: SITE_NAME,
     type: "website",
   },
   alternates: {
-    canonical: "https://freelancemy.com/about",
+    canonical: `${SITE_URL}/about`,
   },
 };
 
@@ -30,8 +31,8 @@ function OrganizationSchema() {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "FreelanceMY",
-          url: "https://freelancemy.com",
+          name: SITE_NAME,
+          url: SITE_URL,
           description:
             "A platform built to empower Malaysian freelancers through education, tools, and community support.",
           founder: {

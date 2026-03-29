@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
@@ -15,15 +15,45 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
+    toggleRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false);
+      if (e.key === "Escape") {
+        closeMenu();
+        return;
+      }
+      // Trap focus within mobile menu
+      if (e.key === "Tab" && menuRef.current) {
+        const focusable = menuRef.current.querySelectorAll<HTMLElement>(
+          'a, button, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
+    // Focus first menu item when opened
+    const firstLink = menuRef.current?.querySelector<HTMLElement>("a");
+    firstLink?.focus();
+
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, closeMenu]);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -84,10 +114,12 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button
+            ref={toggleRef}
             className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
             aria-expanded={isOpen}
+            aria-controls="mobile-menu"
           >
             {isOpen ? (
               <X className="h-5 w-5" />
@@ -100,7 +132,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1 shadow-lg">
+        <div ref={menuRef} id="mobile-menu" role="menu" className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1 shadow-lg">
           {navLinks.map((link) => (
             <Link
               key={link.href}

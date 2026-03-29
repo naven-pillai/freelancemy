@@ -13,6 +13,7 @@ import rehypeExternalLinks from "rehype-external-links";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { formatDate } from "@/lib/utils";
+import { SITE_URL } from "@/lib/constants";
 
 export const revalidate = 3600; // Regenerate at most every hour (keeps comments fresh)
 
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       openGraph: {
         title: frontmatter.title,
         description: frontmatter.description,
-        url: `https://freelancemy.com/${slug}`,
+        url: `${SITE_URL}/${slug}`,
         type: "article",
         ...(frontmatter.featured_image && {
           images: [frontmatter.featured_image],
@@ -50,7 +51,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         }),
       },
       alternates: {
-        canonical: frontmatter.canonical_url || `https://freelancemy.com/${slug}`,
+        canonical: frontmatter.canonical_url || `${SITE_URL}/${slug}`,
       },
     };
   } catch {
@@ -88,7 +89,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 "@type": "ListItem",
                 position: 1,
                 name: "Home",
-                item: "https://freelancemy.com",
+                item: SITE_URL,
               },
               ...(frontmatter.categories?.[0]
                 ? [
@@ -103,7 +104,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 "@type": "ListItem",
                 position: frontmatter.categories?.[0] ? 3 : 2,
                 name: frontmatter.title,
-                item: `https://freelancemy.com/${slug}`,
+                item: `${SITE_URL}/${slug}`,
               },
             ],
           }),
@@ -115,14 +116,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <StructuredBlogSEO
           title={frontmatter.title}
           description={frontmatter.description}
-          url={`https://freelancemy.com/${slug}`}
-          canonicalUrl={frontmatter.canonical_url || `https://freelancemy.com/${slug}`}
+          url={`${SITE_URL}/${slug}`}
+          canonicalUrl={frontmatter.canonical_url || `${SITE_URL}/${slug}`}
           datePublished={frontmatter.date}
           dateModified={frontmatter.last_updated}
           image={frontmatter.featured_image}
           author={frontmatter.author}
           categories={frontmatter.categories}
           tags={frontmatter.tags}
+          articleBody={content}
         />
 
         {/* ✅ Title */}
@@ -177,7 +179,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* ✅ Share Bar */}
         <ShareBar
           title={frontmatter.title}
-          url={`https://freelancemy.com/${slug}`}
+          url={`${SITE_URL}/${slug}`}
           className="not-prose mb-8"
         />
 
