@@ -4,8 +4,19 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { Save, Eye, ArrowLeft, FileText, ImageOff } from "lucide-react";
+import {
+  Save,
+  Eye,
+  ArrowLeft,
+  FileText,
+  ImageOff,
+  Upload,
+  CheckCircle,
+  Loader2,
+  ImagePlus,
+} from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -43,6 +54,8 @@ const DEFAULT_BLOG: BlogData = {
   canonical_url: "",
 };
 
+const AUTOSAVE_DELAY = 3000; // 3 seconds after last change
+
 function slugify(text: string) {
   return text
     .toLowerCase()
@@ -50,6 +63,24 @@ function slugify(text: string) {
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
     .trim();
+}
+
+async function uploadImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.error || "Upload failed");
+  }
+
+  const { url } = await res.json();
+  return url;
 }
 
 export default function BlogPostForm({
@@ -72,7 +103,19 @@ export default function BlogPostForm({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [imgError, setImgError] = useState(false);
+  const [uploadingFeatured, setUploadingFeatured] = useState(false);
+  const [uploadingInline, setUploadingInline] = useState(false);
+  const [autosaveStatus, setAutosaveStatus] = useState<
+    "idle" | "saving" | "saved"
+  >("idle");
+
   const isDirty = useRef(false);
+  const postIdRef = useRef(initialData?.id);
+  const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const featuredInputRef = useRef<HTMLInputElement>(null);
+  const inlineInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef(form);
+  formRef.current = form;
 
   // Track dirty state for unsaved changes warning
   useEffect(() => {
@@ -82,8 +125,65 @@ export default function BlogPostForm({
       }
     };
     window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    };
   }, []);
+
+  // --- Autosave logic ---
+  const autosave = useCallback(async () => {
+    if (!isDirty.current) return;
+
+    const currentForm = formRef.current;
+
+    // Need at least a title to autosave
+    if (!currentForm.title.trim()) return;
+
+    setAutosaveStatus("saving");
+
+    try {
+      const payload = {
+        ...currentForm,
+        date: currentForm.date
+          ? new Date(currentForm.date).toISOString()
+          : null,
+      };
+
+      if (postIdRef.current) {
+        // Update existing
+        const res = await fetch(`/api/blogs/${postIdRef.current}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error("Autosave failed");
+      } else {
+        // Create new draft
+        const res = await fetch("/api/blogs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        if (!res.ok) throw new Error("Autosave failed");
+        const data = await res.json();
+        postIdRef.current = data.id;
+        // Update URL to edit mode without full navigation
+        window.history.replaceState(null, "", `/admin/blog/${data.id}/edit`);
+      }
+
+      isDirty.current = false;
+      setAutosaveStatus("saved");
+      setTimeout(() => setAutosaveStatus("idle"), 2000);
+    } catch {
+      setAutosaveStatus("idle");
+    }
+  }, []);
+
+  const scheduleAutosave = useCallback(() => {
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
+    autosaveTimer.current = setTimeout(autosave, AUTOSAVE_DELAY);
+  }, [autosave]);
 
   const updateField = useCallback(
     <K extends keyof BlogData>(key: K, value: BlogData[K]) => {
@@ -91,16 +191,19 @@ export default function BlogPostForm({
       if (key === "featured_image") setImgError(false);
       setForm((prev) => {
         const next = { ...prev, [key]: value };
-        if (key === "title" && !isEdit) {
+        if (key === "title" && !isEdit && !postIdRef.current) {
           next.slug = slugify(value as string);
         }
         return next;
       });
+      scheduleAutosave();
     },
-    [isEdit]
+    [isEdit, scheduleAutosave]
   );
 
+  // --- Manual save ---
   async function handleSave() {
+    if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
     setError("");
     setSaving(true);
 
@@ -110,8 +213,9 @@ export default function BlogPostForm({
         date: form.date ? new Date(form.date).toISOString() : null,
       };
 
-      const url = isEdit ? `/api/blogs/${initialData?.id}` : "/api/blogs";
-      const method = isEdit ? "PUT" : "POST";
+      const id = postIdRef.current;
+      const url = id ? `/api/blogs/${id}` : "/api/blogs";
+      const method = id ? "PUT" : "POST";
 
       const res = await fetch(url, {
         method,
@@ -135,12 +239,73 @@ export default function BlogPostForm({
     }
   }
 
+  // --- Featured image upload ---
+  async function handleFeaturedUpload(file: File) {
+    setUploadingFeatured(true);
+    try {
+      const url = await uploadImage(file);
+      updateField("featured_image", url);
+      toast.success("Featured image uploaded");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingFeatured(false);
+    }
+  }
+
+  function onFeaturedFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) handleFeaturedUpload(file);
+    e.target.value = "";
+  }
+
+  function onFeaturedDrop(e: React.DragEvent) {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file?.type.startsWith("image/")) handleFeaturedUpload(file);
+  }
+
+  // --- Inline MDX image upload ---
+  async function handleInlineUpload(file: File) {
+    setUploadingInline(true);
+    try {
+      const url = await uploadImage(file);
+      const markdown = `\n![${file.name}](${url})\n`;
+      updateField("content", form.content + markdown);
+      toast.success("Image inserted into content");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingInline(false);
+    }
+  }
+
+  function onInlineFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) handleInlineUpload(file);
+    e.target.value = "";
+  }
+
+  // --- Clipboard paste for images in editor area ---
+  function handleEditorPaste(e: React.ClipboardEvent) {
+    const items = e.clipboardData.items;
+    for (const item of items) {
+      if (item.type.startsWith("image/")) {
+        e.preventDefault();
+        const file = item.getAsFile();
+        if (file) handleInlineUpload(file);
+        return;
+      }
+    }
+  }
+
   const wordCount = form.content.split(/\s+/).filter(Boolean).length;
   const readingTime = Math.max(1, Math.round(wordCount / 200));
 
   const inputClass =
     "w-full h-10 px-3.5 rounded-lg border border-gray-200 bg-gray-50/80 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all";
-  const labelClass = "text-xs font-medium text-gray-500 uppercase tracking-wider";
+  const labelClass =
+    "text-xs font-medium text-gray-500 uppercase tracking-wider";
 
   return (
     <div className="space-y-6">
@@ -154,7 +319,7 @@ export default function BlogPostForm({
           </Link>
           <div>
             <h1 className="text-xl font-bold text-gray-900">
-              {isEdit ? "Edit Post" : "New Post"}
+              {isEdit || postIdRef.current ? "Edit Post" : "New Post"}
             </h1>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-xs text-gray-400">
@@ -174,6 +339,24 @@ export default function BlogPostForm({
               >
                 {form.status === "published" ? "Published" : "Draft"}
               </span>
+              {autosaveStatus === "saving" && (
+                <>
+                  <span className="text-gray-300">&middot;</span>
+                  <span className="inline-flex items-center gap-1 text-xs text-gray-400">
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                    Saving...
+                  </span>
+                </>
+              )}
+              {autosaveStatus === "saved" && (
+                <>
+                  <span className="text-gray-300">&middot;</span>
+                  <span className="inline-flex items-center gap-1 text-xs text-emerald-500">
+                    <CheckCircle className="h-3 w-3" />
+                    Autosaved
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -190,13 +373,13 @@ export default function BlogPostForm({
               </Button>
             </a>
           )}
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-            size="sm"
-          >
+          <Button onClick={handleSave} disabled={saving} size="sm">
             <Save className="h-3.5 w-3.5 mr-1.5" />
-            {saving ? "Saving..." : isEdit ? "Update" : "Create"}
+            {saving
+              ? "Saving..."
+              : isEdit || postIdRef.current
+                ? "Update"
+                : "Create"}
           </Button>
         </div>
       </div>
@@ -262,7 +445,10 @@ export default function BlogPostForm({
           </div>
 
           {/* Content editor */}
-          <div className="rounded-2xl border border-gray-100 bg-white overflow-hidden">
+          <div
+            className="rounded-2xl border border-gray-100 bg-white overflow-hidden"
+            onPaste={handleEditorPaste}
+          >
             <div className="flex items-center justify-between px-6 py-3 border-b border-gray-100 bg-gray-50/50">
               <div className="flex items-center gap-2">
                 <FileText className="h-3.5 w-3.5 text-gray-400" />
@@ -270,9 +456,32 @@ export default function BlogPostForm({
                   Markdown Editor
                 </span>
               </div>
-              <span className="text-[11px] text-gray-400">
-                {wordCount.toLocaleString()} words
-              </span>
+              <div className="flex items-center gap-3">
+                {/* Inline image upload */}
+                <button
+                  type="button"
+                  onClick={() => inlineInputRef.current?.click()}
+                  disabled={uploadingInline}
+                  className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-emerald-600 transition-colors disabled:opacity-50"
+                >
+                  {uploadingInline ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <ImagePlus className="h-3.5 w-3.5" />
+                  )}
+                  {uploadingInline ? "Uploading..." : "Insert Image"}
+                </button>
+                <input
+                  ref={inlineInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={onInlineFileChange}
+                  className="hidden"
+                />
+                <span className="text-[11px] text-gray-400">
+                  {wordCount.toLocaleString()} words
+                </span>
+              </div>
             </div>
             <div data-color-mode="light">
               <MDEditor
@@ -283,6 +492,10 @@ export default function BlogPostForm({
                 visibleDragbar={false}
               />
             </div>
+            <p className="px-6 py-2 text-[11px] text-gray-400 border-t border-gray-100 bg-gray-50/30">
+              Paste an image from clipboard to upload, or use the Insert Image
+              button above
+            </p>
           </div>
         </div>
 
@@ -330,9 +543,43 @@ export default function BlogPostForm({
               Featured Image
             </h3>
             <hr className="border-gray-100" />
+
+            {/* Upload zone */}
+            <div
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={onFeaturedDrop}
+              className="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-emerald-300 transition-colors cursor-pointer"
+              onClick={() => featuredInputRef.current?.click()}
+            >
+              {uploadingFeatured ? (
+                <div className="flex flex-col items-center gap-2 py-2">
+                  <Loader2 className="h-6 w-6 text-emerald-500 animate-spin" />
+                  <p className="text-xs text-gray-500">Uploading...</p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-2 py-2">
+                  <Upload className="h-6 w-6 text-gray-400" />
+                  <p className="text-xs text-gray-500">
+                    Click or drag an image here
+                  </p>
+                  <p className="text-[10px] text-gray-400">
+                    JPEG, PNG, WebP, AVIF, GIF, SVG (max 5 MB)
+                  </p>
+                </div>
+              )}
+              <input
+                ref={featuredInputRef}
+                type="file"
+                accept="image/*"
+                onChange={onFeaturedFileChange}
+                className="hidden"
+              />
+            </div>
+
+            {/* Manual URL input */}
             <div className="space-y-1.5">
               <label htmlFor="featured_image" className="text-sm text-gray-600">
-                Image URL
+                Or paste URL
               </label>
               <input
                 id="featured_image"
@@ -341,22 +588,23 @@ export default function BlogPostForm({
                 placeholder="https://..."
                 className={inputClass}
               />
-              {form.featured_image && (
-                imgError ? (
-                  <div className="w-full h-36 rounded-xl mt-3 border border-red-100 bg-red-50 flex flex-col items-center justify-center gap-1">
-                    <ImageOff className="h-5 w-5 text-red-400" />
-                    <p className="text-xs text-red-500">Failed to load image</p>
-                  </div>
-                ) : (
-                  <img
-                    src={form.featured_image}
-                    alt="Preview"
-                    className="w-full h-36 object-cover rounded-xl mt-3 border border-gray-100"
-                    onError={() => setImgError(true)}
-                  />
-                )
-              )}
             </div>
+
+            {/* Preview */}
+            {form.featured_image &&
+              (imgError ? (
+                <div className="w-full h-36 rounded-xl border border-red-100 bg-red-50 flex flex-col items-center justify-center gap-1">
+                  <ImageOff className="h-5 w-5 text-red-400" />
+                  <p className="text-xs text-red-500">Failed to load image</p>
+                </div>
+              ) : (
+                <img
+                  src={form.featured_image}
+                  alt="Preview"
+                  className="w-full h-36 object-cover rounded-xl border border-gray-100"
+                  onError={() => setImgError(true)}
+                />
+              ))}
           </div>
 
           {/* Metadata */}
