@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/require-admin-user";
 import { supabaseAdmin } from "@/lib/supabase/service";
 import { validateBlogUpdate } from "@/lib/validate-blog";
@@ -56,6 +57,9 @@ export async function PUT(
     return NextResponse.json({ error: dbError.message }, { status: 500 });
   }
 
+  revalidatePath("/");
+  if (data.slug) revalidatePath(`/${data.slug}`);
+
   return NextResponse.json(data);
 }
 
@@ -69,6 +73,13 @@ export async function DELETE(
 
   const { id } = await params;
 
+  // Fetch slug before deleting so we can revalidate the post page
+  const { data: post } = await supabaseAdmin
+    .from("blogs")
+    .select("slug")
+    .eq("id", id)
+    .single();
+
   const { error: dbError } = await supabaseAdmin
     .from("blogs")
     .delete()
@@ -77,6 +88,9 @@ export async function DELETE(
   if (dbError) {
     return NextResponse.json({ error: dbError.message }, { status: 500 });
   }
+
+  revalidatePath("/");
+  if (post?.slug) revalidatePath(`/${post.slug}`);
 
   return NextResponse.json({ success: true });
 }

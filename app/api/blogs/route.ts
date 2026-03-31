@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/require-admin-user";
 import { supabaseAdmin } from "@/lib/supabase/service";
 import { validateBlogCreate } from "@/lib/validate-blog";
@@ -41,6 +42,9 @@ export async function POST(req: NextRequest) {
   if (dbError) {
     return NextResponse.json({ error: dbError.message }, { status: 500 });
   }
+
+  revalidatePath("/");
+  if (data.slug) revalidatePath(`/${data.slug}`);
 
   return NextResponse.json(data, { status: 201 });
 }
