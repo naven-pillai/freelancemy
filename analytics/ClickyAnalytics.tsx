@@ -31,14 +31,10 @@ export default function ClickyAnalytics() {
 
   return (
     <>
-      <Script id="clicky-config" strategy="beforeInteractive">
-        {`var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(${Number(siteId)});`}
+      <Script id="clicky-analytics" strategy="afterInteractive">
+        {`var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(${Number(siteId)});
+(function(){ var s = document.createElement('script'); s.src = 'https://static.getclicky.com/js'; s.async = true; document.head.appendChild(s); })();`}
       </Script>
-      <Script
-        id="clicky-analytics"
-        src="https://static.getclicky.com/js"
-        strategy="afterInteractive"
-      />
       <noscript>
         <img
           alt="Clicky"

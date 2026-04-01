@@ -35,7 +35,7 @@ const securityHeaders = [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline' static.getclicky.com",
       "style-src 'self' 'unsafe-inline'",
-      `img-src 'self' data: https://${supabaseHostname} https://freelancemy.com https://${cloudinaryHostname}`,
+      `img-src 'self' data: https://${supabaseHostname} https://freelancemy.com https://${cloudinaryHostname} https://in.getclicky.com`,
       "font-src 'self'",
       `connect-src 'self' https://${supabaseHostname} wss://${supabaseHostname} https://in.getclicky.com http://in.getclicky.com`,
       "frame-ancestors 'none'",
