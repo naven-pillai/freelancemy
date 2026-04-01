@@ -33,5 +33,5 @@ export default function cloudinaryLoader({ src, width, quality }: ImageLoaderPro
     : src;
 
   // Cloudinary fetch: proxies any public URL and applies transformations
-  return `https://res.cloudinary.com/${cloudName}/image/fetch/${transformations}/${encodeURIComponent(absoluteSrc)}`;
+  return `https://res.cloudinary.com/${cloudName}/image/fetch/${transformations}/${absoluteSrc}`;
 }

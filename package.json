@@ -40,11 +40,10 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "browserslist": [
-    "chrome >= 80",
-    "edge >= 80",
-    "firefox >= 75",
-    "safari >= 14",
-    "not ie 11",
+    "chrome >= 96",
+    "edge >= 96",
+    "firefox >= 95",
+    "safari >= 15.4",
     "not op_mini all"
   ],
   "devDependencies": {
