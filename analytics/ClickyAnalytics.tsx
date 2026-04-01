@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 
@@ -12,12 +12,7 @@ declare global {
 
 export default function ClickyAnalytics() {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
   const prevPathname = useRef(pathname);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Track SPA route changes
   useEffect(() => {
@@ -32,24 +27,24 @@ export default function ClickyAnalytics() {
   const isAdminRoute = pathname?.startsWith('/admin');
   const siteId = process.env.NEXT_PUBLIC_CLICKY_SITE_ID;
 
-  if (!mounted || isAdminRoute || !siteId) return null;
+  if (isAdminRoute || !siteId) return null;
 
   return (
     <>
-      <Script id="clicky-config" strategy="lazyOnload">
+      <Script id="clicky-config" strategy="beforeInteractive">
         {`var clicky_site_ids = clicky_site_ids || []; clicky_site_ids.push(${Number(siteId)});`}
       </Script>
       <Script
         id="clicky-analytics"
-        src="//static.getclicky.com/js"
-        strategy="lazyOnload"
+        src="https://static.getclicky.com/js"
+        strategy="afterInteractive"
       />
       <noscript>
         <img
           alt="Clicky"
           width={1}
           height={1}
-          src={`//in.getclicky.com/${Number(siteId)}ns.gif`}
+          src={`https://in.getclicky.com/${Number(siteId)}ns.gif`}
         />
       </noscript>
     </>
