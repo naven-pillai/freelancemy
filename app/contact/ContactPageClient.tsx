@@ -4,8 +4,7 @@ import { useActionState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { FaLinkedinIn, FaFacebookF } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import { FaLinkedin, FaFacebook, FaXTwitter } from "react-icons/fa6";
 import { submitContactForm, type ContactFormState } from "./actions";
 
 export default function ContactPage() {
@@ -125,7 +124,7 @@ export default function ContactPage() {
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
         >
-          <FaLinkedinIn className="w-5 h-5 text-blue-700" />
+          <FaLinkedin className="w-5 h-5 text-blue-700" />
           <span className="text-sm font-medium text-gray-800">LinkedIn</span>
         </a>
         <a
@@ -143,7 +142,7 @@ export default function ContactPage() {
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-100 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
         >
-          <FaFacebookF className="w-5 h-5 text-blue-600" />
+          <FaFacebook className="w-5 h-5 text-blue-600" />
           <span className="text-sm font-medium text-gray-800">Facebook</span>
         </a>
       </div>

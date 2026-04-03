@@ -1,21 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { getAllPosts } from "@/lib/posts";
+import { getAllPostCards } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
 export const revalidate = 3600; // Regenerate at most every hour
 
 export default async function HomePage() {
-  const posts = await getAllPosts();
-
-  // Sort by published date (desc). Fallback to last_updated if date is missing.
-  const parseMs = (d?: string) => (d ? new Date(d).getTime() : 0);
-  const sorted = posts.sort((a, b) => {
-    const aMs = parseMs(a.frontmatter.date) || parseMs(a.frontmatter.last_updated);
-    const bMs = parseMs(b.frontmatter.date) || parseMs(b.frontmatter.last_updated);
-    return bMs - aMs; // newest first
-  });
+  const sorted = await getAllPostCards();
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-12 font-sans">
@@ -62,7 +54,7 @@ export default async function HomePage() {
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}
                   fill
-                  priority={index < 2}
+                  priority={index === 0}
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />

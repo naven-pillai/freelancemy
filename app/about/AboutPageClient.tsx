@@ -1,40 +1,5 @@
-"use client";
-
-import { motion, Variants } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
-
-const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.7, ease: "easeOut" },
-  },
-};
-
-const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.7, ease: "easeOut" },
-  },
-};
-
-const stagger: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-};
 
 const values = [
   {
@@ -62,66 +27,44 @@ export default function AboutPageClient() {
         <div className="pointer-events-none absolute -left-32 top-0 h-72 w-72 rounded-full bg-blue-100/70 blur-3xl" />
         <div className="pointer-events-none absolute right-0 top-20 h-72 w-72 rounded-full bg-slate-100 blur-3xl" />
 
-        <motion.div
-          className="relative mx-auto max-w-5xl text-center"
-          initial="hidden"
-          animate="visible"
-          variants={stagger}
-        >
-          <motion.span
-            variants={fadeInUp}
-            className="mb-6 inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 backdrop-blur"
-          >
+        <div className="relative mx-auto max-w-5xl text-center animate-fade-in-up">
+          <span className="mb-6 inline-flex rounded-full border border-blue-200 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 backdrop-blur">
             About FreelanceMY
-          </motion.span>
+          </span>
 
-          <motion.h1
-            variants={fadeInUp}
-            className="mx-auto max-w-4xl text-4xl font-semibold leading-tight text-slate-950 md:text-6xl"
-          >
+          <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-tight text-slate-950 md:text-6xl">
             Built for Malaysian freelancers who want to work smarter, earn better,
             and grow with confidence.
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            variants={fadeInUp}
-            className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl"
-          >
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl">
             FreelanceMY exists to help freelancers in Malaysia navigate the real
             side of independent work — from tools and systems to insights,
             opportunities, and practical guidance that actually matters.
-          </motion.p>
+          </p>
 
-          <motion.div
-            variants={fadeInUp}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4"
-          >
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
-  href="/"
-  className="rounded-2xl bg-blue-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
->
-  Explore Guides
-</Link>
+              href="/"
+              className="rounded-2xl bg-blue-600 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-blue-200 transition hover:-translate-y-0.5 hover:bg-blue-700"
+            >
+              Explore Guides
+            </Link>
             <Link
               href="/contact"
               className="rounded-2xl border border-slate-200 bg-white px-7 py-3.5 text-sm font-semibold text-slate-700 transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50"
             >
               Contact Us
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* Mission */}
       <section className="px-6 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
-          <motion.div
-            className="grid items-center gap-12 md:grid-cols-2 md:gap-16"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-          >
-            <motion.div variants={fadeInLeft} className="relative">
+          <div className="grid items-center gap-12 md:grid-cols-2 md:gap-16">
+            <div className="relative animate-fade-in-up">
               <div className="relative h-80 w-full overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-xl shadow-slate-200/60 md:h-120">
                 <Image
                   src="https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelancemy-mission.jpg"
@@ -142,9 +85,9 @@ export default function AboutPageClient() {
                   Building a more practical, trusted resource hub for the freelance community.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div variants={fadeInRight}>
+            <div className="animate-fade-in-up animation-delay-200">
               <span className="mb-4 inline-flex rounded-full bg-blue-50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700">
                 Our Mission
               </span>
@@ -161,24 +104,18 @@ export default function AboutPageClient() {
               </p>
 
               <blockquote className="mt-8 rounded-2xl border-l-0 border border-slate-200 bg-slate-50 px-6 py-5 text-base italic text-slate-600">
-                “Every freelancer deserves access to clear guidance that helps
-                them win better work and build a stronger business.”
+                "Every freelancer deserves access to clear guidance that helps
+                them win better work and build a stronger business."
               </blockquote>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Values */}
       <section className="bg-slate-50 px-6 py-20 md:py-24">
         <div className="mx-auto max-w-6xl">
-          <motion.div
-            className="mx-auto mb-14 max-w-3xl text-center"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
-            variants={fadeInUp}
-          >
+          <div className="mx-auto mb-14 max-w-3xl text-center animate-fade-in-up">
             <span className="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm">
               What We Stand For
             </span>
@@ -191,22 +128,14 @@ export default function AboutPageClient() {
               We are not here to publish fluff. We are here to create a more
               useful, trustworthy, and practical platform for freelancers.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="grid gap-6 md:grid-cols-3"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={stagger}
-          >
-            {values.map((value) => (
-              <motion.div
+          <div className="grid gap-6 md:grid-cols-3">
+            {values.map((value, i) => (
+              <div
                 key={value.title}
-                variants={fadeInUp}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 260, damping: 22 }}
-                className="rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:shadow-xl hover:shadow-slate-200/70"
+                className="animate-fade-in-up rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition hover:-translate-y-1.5 hover:shadow-xl hover:shadow-slate-200/70"
+                style={{ animationDelay: `${i * 150}ms` }}
               >
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-2xl">
                   {value.icon}
@@ -219,49 +148,31 @@ export default function AboutPageClient() {
                 <p className="mt-3 mb-0 text-base leading-7 text-slate-600">
                   {value.text}
                 </p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
       <section className="px-6 py-20 md:py-24">
-        <motion.div
-          className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-linear-to-br from-white via-slate-50 to-blue-50 px-8 py-14 text-center shadow-xl shadow-slate-200/50 md:px-14"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={stagger}
-        >
-          <motion.span
-            variants={fadeInUp}
-            className="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm"
-          >
+        <div className="mx-auto max-w-5xl rounded-3xl border border-slate-200 bg-linear-to-br from-white via-slate-50 to-blue-50 px-8 py-14 text-center shadow-xl shadow-slate-200/50 md:px-14 animate-fade-in-up">
+          <span className="mb-4 inline-flex rounded-full bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 shadow-sm">
             Looking Ahead
-          </motion.span>
+          </span>
 
-          <motion.h2
-            variants={fadeInUp}
-            className="mt-0 text-3xl font-semibold leading-tight text-slate-950 md:text-5xl"
-          >
+          <h2 className="mt-0 text-3xl font-semibold leading-tight text-slate-950 md:text-5xl">
             More than a content platform.
             <br className="hidden md:block" />
             A stronger future for freelancers.
-          </motion.h2>
+          </h2>
 
-          <motion.p
-            variants={fadeInUp}
-            className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600"
-          >
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
             FreelanceMY is here to help freelancers make better decisions, find
             better tools, and grow with more confidence in a changing digital economy.
-          </motion.p>
+          </p>
 
-          <motion.div
-            variants={fadeInUp}
-            className="mt-10 flex flex-wrap justify-center gap-4"
-          >
+          <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
               href="/"
               className="rounded-2xl bg-indigo-600 px-7 py-3.5 text-sm font-semibold text-white shadow-blue-100 transition hover:-translate-y-0.5 hover:bg-blue-700"
@@ -275,8 +186,8 @@ export default function AboutPageClient() {
             >
               Get in Touch
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </section>
     </main>
   );

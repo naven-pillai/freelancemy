@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Roboto } from "next/font/google";
 import "./globals.css";
 import ClickyAnalytics from "@/analytics/ClickyAnalytics";
 import LayoutShell from "@/components/LayoutShell";
+import Footer from "@/components/Footer";
 import { Toaster } from "sonner";
 import { SITE_URL } from "@/lib/constants";
 
@@ -68,10 +69,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${plusJakartaSans.variable} ${roboto.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
+        suppressHydrationWarning
       >
         <ClickyAnalytics />
         <Toaster position="top-right" richColors />
-        <LayoutShell>{children}</LayoutShell>
+        <LayoutShell footer={<Footer />}>{children}</LayoutShell>
       </body>
     </html>
   );

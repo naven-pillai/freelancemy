@@ -1,0 +1,46 @@
+export default function Loading() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12 animate-pulse">
+      <div className="lg:col-span-2 space-y-6">
+        {/* Title */}
+        <div className="h-8 bg-gray-200 rounded w-3/4" />
+
+        {/* Featured image */}
+        <div className="w-full h-48 sm:h-64 md:h-96 bg-gray-200 rounded-lg" />
+
+        {/* Meta info */}
+        <div className="space-y-2">
+          <div className="h-4 bg-gray-200 rounded w-1/3" />
+          <div className="h-4 bg-gray-200 rounded w-1/4" />
+        </div>
+
+        {/* Content lines */}
+        <div className="space-y-3 pt-4">
+          <div className="h-4 bg-gray-200 rounded w-full" />
+          <div className="h-4 bg-gray-200 rounded w-full" />
+          <div className="h-4 bg-gray-200 rounded w-5/6" />
+          <div className="h-4 bg-gray-200 rounded w-full" />
+          <div className="h-4 bg-gray-200 rounded w-4/5" />
+          <div className="h-4 bg-gray-200 rounded w-full" />
+          <div className="h-4 bg-gray-200 rounded w-3/4" />
+        </div>
+      </div>
+
+      {/* Sidebar */}
+      <div className="lg:col-span-1 space-y-4">
+        <div className="h-6 bg-gray-200 rounded w-1/2" />
+        <div className="space-y-3">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex gap-3">
+              <div className="w-16 h-16 bg-gray-200 rounded-md shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-full" />
+                <div className="h-3 bg-gray-200 rounded w-2/3" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}

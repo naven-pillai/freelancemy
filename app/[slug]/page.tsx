@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getPost, listSlugs } from "@/lib/posts";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import StructuredBlogSEO from "@/components/StructuredBlogSEO";
@@ -215,15 +216,30 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <section id="comments" className="mt-12 border-t pt-10">
           <h3 className="text-xl">Comments</h3>
           <CommentForm postSlug={slug} />
-          <div className="mt-8">
+          <Suspense fallback={<div className="mt-8 text-sm text-gray-400">Loading comments...</div>}>
             <CommentList postSlug={slug} />
-          </div>
+          </Suspense>
         </section>
       </article>
 
       {/* ✅ Sidebar */}
       <aside className="lg:col-span-1">
-        <LatestArticlesSidebar currentSlug={slug} />
+        <Suspense fallback={
+          <div className="animate-pulse space-y-4">
+            <div className="h-6 bg-gray-200 rounded w-1/2" />
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="w-16 h-16 bg-gray-200 rounded-md shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-gray-200 rounded w-full" />
+                  <div className="h-3 bg-gray-200 rounded w-2/3" />
+                </div>
+              </div>
+            ))}
+          </div>
+        }>
+          <LatestArticlesSidebar currentSlug={slug} />
+        </Suspense>
       </aside>
     </div>
   );

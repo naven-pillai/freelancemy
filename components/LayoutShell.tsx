@@ -2,12 +2,13 @@
 
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 export default function LayoutShell({
   children,
+  footer,
 }: {
   children: React.ReactNode;
+  footer: React.ReactNode;
 }) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
@@ -29,7 +30,7 @@ export default function LayoutShell({
         {children}
       </main>
 
-      <Footer />
+      {footer}
     </div>
   );
 }
