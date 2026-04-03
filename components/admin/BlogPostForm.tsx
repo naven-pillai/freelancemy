@@ -197,6 +197,7 @@ export default function BlogPostForm({
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const featuredInputRef = useRef<HTMLInputElement>(null);
   const inlineInputRef = useRef<HTMLInputElement>(null);
+  const cursorPosRef = useRef<number>(0);
   const formRef = useRef(form);
   formRef.current = form;
 
@@ -349,13 +350,21 @@ export default function BlogPostForm({
   }
 
   // --- Inline MDX image upload ---
+  function captureCursorPosition() {
+    const textarea = document.querySelector(".w-md-editor-text-input") as HTMLTextAreaElement;
+    if (textarea) cursorPosRef.current = textarea.selectionStart;
+  }
+
   async function handleInlineUpload(file: File) {
     setUploadingInline(true);
     try {
       const url = await uploadImage(file);
       const markdown = `\n![${file.name}](${url})\n`;
-      updateField("content", form.content + markdown);
-      toast.success("Image inserted into content");
+      const pos = cursorPosRef.current;
+      const before = form.content.slice(0, pos);
+      const after = form.content.slice(pos);
+      updateField("content", before + markdown + after);
+      toast.success("Image inserted at cursor position");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Upload failed");
     } finally {
@@ -374,6 +383,7 @@ export default function BlogPostForm({
     for (const item of items) {
       if (item.type.startsWith("image/")) {
         e.preventDefault();
+        captureCursorPosition();
         const file = item.getAsFile();
         if (file) handleInlineUpload(file);
         return;
@@ -632,7 +642,7 @@ export default function BlogPostForm({
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => inlineInputRef.current?.click()}
+                  onClick={() => { captureCursorPosition(); inlineInputRef.current?.click(); }}
                   disabled={uploadingInline}
                   className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-emerald-600 transition-colors disabled:opacity-50"
                 >
