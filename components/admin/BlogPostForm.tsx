@@ -642,7 +642,8 @@ export default function BlogPostForm({
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => { captureCursorPosition(); inlineInputRef.current?.click(); }}
+                  onMouseDown={captureCursorPosition}
+                  onClick={() => inlineInputRef.current?.click()}
                   disabled={uploadingInline}
                   className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-emerald-600 transition-colors disabled:opacity-50"
                 >
