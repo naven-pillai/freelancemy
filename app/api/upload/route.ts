@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
   }
 
   const sanitized = sanitizeFilename(file.name) || "image";
-  const path = sanitized;
+  const path = `${Date.now()}-${sanitized}`;
 
   const { error: uploadError } = await supabaseAdmin.storage
     .from(BUCKET)

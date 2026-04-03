@@ -14,6 +14,12 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "About — FreelanceMY",
+    description:
+      "FreelanceMY empowers freelancers in Malaysia with applications, insights, and opportunities to thrive in the digital economy.",
+  },
   alternates: {
     canonical: `${SITE_URL}/about`,
   },

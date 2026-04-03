@@ -1,8 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getAllPostCards } from "@/lib/posts";
 import { formatDate } from "@/lib/utils";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Freelance Malaysia | Guides & Resources for Freelancers in Malaysia",
+  description:
+    "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
+  alternates: {
+    canonical: SITE_URL,
+  },
+};
 
 export const revalidate = 3600; // Regenerate at most every hour
 

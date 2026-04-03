@@ -32,13 +32,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const { frontmatter } = await getPost(slug);
 
     const seoTitle = frontmatter.seo_title || frontmatter.title;
+    const description = frontmatter.description || `${frontmatter.title} — expert guide for freelancers in Malaysia by FreelanceMY.`;
 
     return {
       title: seoTitle,
-      description: frontmatter.description,
+      description,
       openGraph: {
         title: seoTitle,
-        description: frontmatter.description,
+        description,
         url: `${SITE_URL}/${slug}`,
         type: "article",
         ...(frontmatter.featured_image && {
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       twitter: {
         card: "summary_large_image",
         title: seoTitle,
-        description: frontmatter.description,
+        description,
         ...(frontmatter.featured_image && {
           images: [frontmatter.featured_image],
         }),

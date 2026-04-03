@@ -1,30 +1,22 @@
-"use client";
-
 import Image from "next/image";
 import type { MDXComponents } from "mdx/types";
 
 export const mdxComponents: MDXComponents = {
-  // 🖼️ Images
-  img: ({ src, alt, ...props }) => {
+  img: ({ src, alt }) => {
     if (!src) return null;
     return (
-      <div className="relative w-full h-80 my-6">
+      <span className="block relative w-full h-80 my-6">
         <Image
           src={src}
           alt={alt || "Blog post image"}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
           className="object-contain rounded-lg shadow-md"
-          {...props}
         />
-      </div>
+      </span>
     );
   },
 
-  // 🔤 Headings
-  h1: ({ children }) => (
-    <h1 className="text-3xl font-bold mt-12 mb-6">{children}</h1>
-  ),
   h2: ({ children }) => (
     <h2 className="text-2xl font-bold mt-10 mb-4">{children}</h2>
   ),
@@ -35,7 +27,6 @@ export const mdxComponents: MDXComponents = {
     <h4 className="text-lg font-semibold mt-6 mb-2">{children}</h4>
   ),
 
-  // 📋 Lists
   ul: ({ children }) => (
     <ul className="list-disc pl-6 my-4 space-y-1 font-medium">{children}</ul>
   ),
@@ -43,14 +34,12 @@ export const mdxComponents: MDXComponents = {
     <ol className="list-decimal pl-6 my-4 space-y-1 font-medium">{children}</ol>
   ),
 
-  // 💬 Blockquotes
   blockquote: ({ children }) => (
     <blockquote className="border-l-4 border-orange-500 pl-4 italic text-gray-600 my-6">
       {children}
     </blockquote>
   ),
 
-  // ⌨️ Code
   code: ({ children }) => (
     <code className="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded text-sm font-mono">
       {children}
@@ -62,7 +51,6 @@ export const mdxComponents: MDXComponents = {
     </pre>
   ),
 
-  // 📊 Tables
   table: ({ children }) => (
     <div className="overflow-x-auto my-6">
       <table className="w-full border-collapse border border-gray-300 text-sm">
@@ -79,6 +67,5 @@ export const mdxComponents: MDXComponents = {
     <td className="border border-gray-300 px-3 py-2">{children}</td>
   ),
 
-  // ➖ Divider
   hr: () => <hr className="my-8 border-t border-gray-300" />,
 };

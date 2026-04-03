@@ -5,6 +5,19 @@ export const metadata: Metadata = {
   title: "Privacy Policy — FreelanceMY",
   description:
     "Read our Privacy Policy to understand how FreelanceMY collects, uses, and protects your personal data in accordance with Malaysia's PDPA (2010).",
+  openGraph: {
+    title: "Privacy Policy — FreelanceMY",
+    description:
+      "How FreelanceMY collects, uses, and protects your personal data under Malaysia's PDPA (2010).",
+    url: `${SITE_URL}/privacy-policy`,
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Privacy Policy — FreelanceMY",
+    description:
+      "How FreelanceMY collects, uses, and protects your personal data under Malaysia's PDPA (2010).",
+  },
   alternates: {
     canonical: `${SITE_URL}/privacy-policy`,
   },
@@ -22,7 +35,7 @@ export default function PrivacyPolicyPage() {
 
       <div className="space-y-10 text-gray-800 leading-relaxed text-base">
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">1. Introduction</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">1. Introduction</h2>
           <p>
             FreelanceMY (“we”, “our”, “us”) is committed to protecting your privacy. This
             Privacy Policy outlines how we collect, use, and protect your{" "}
@@ -32,7 +45,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">2. Information We Collect</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">2. Information We Collect</h2>
           <ul className="list-disc list-inside space-y-2">
             <li><strong>Personal details:</strong> name, email, contact number</li>
             <li><strong>Technical data:</strong> IP address, browser type, device info</li>
@@ -42,7 +55,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">3. How We Use Your Data</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">3. How We Use Your Data</h2>
           <ul className="list-disc list-inside space-y-2">
             <li>To operate and maintain our platform</li>
             <li>To communicate with you and provide support</li>
@@ -53,7 +66,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">4. Data Sharing & Disclosure</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">4. Data Sharing & Disclosure</h2>
           <p>
             We <span className="font-semibold">do not sell</span> your personal data. We may share it with
             trusted third-party service providers (e.g., hosting, analytics, email services) or
@@ -62,7 +75,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">5. Your Rights</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">5. Your Rights</h2>
           <p>
             Under PDPA, you have the right to{" "}
             <span className="font-semibold">access</span>,{" "}
@@ -73,7 +86,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">6. Data Retention</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">6. Data Retention</h2>
           <p>
             We retain your data only for as long as necessary to fulfill the purposes described in this
             policy or to comply with legal obligations. We then securely{" "}
@@ -83,7 +96,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">7. Data Security</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">7. Data Security</h2>
           <p>
             We implement technical and organizational safeguards including{" "}
             <span className="font-semibold">encryption</span> and access controls. However, no online
@@ -92,7 +105,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">8. Changes to This Policy</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">8. Changes to This Policy</h2>
           <p>
             We may update this Privacy Policy occasionally. When we do, the updated date will reflect at
             the top of this page. Please check back regularly.
@@ -100,7 +113,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         <section>
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">9. Contact Us</h3>
+          <h2 className="text-lg font-semibold text-gray-900 mb-2">9. Contact Us</h2>
           <p>
             For questions or concerns about this Privacy Policy:
             <br />
