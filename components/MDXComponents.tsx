@@ -2,18 +2,46 @@ import Image from "next/image";
 import type { MDXComponents } from "mdx/types";
 
 export const mdxComponents: MDXComponents = {
-  img: ({ src, alt }) => {
+  img: ({ src, alt, title }) => {
     if (!src) return null;
+
+    // Parse title for caption: "Caption text|https://source-url"
+    let captionText: string | undefined;
+    let captionUrl: string | undefined;
+    if (title) {
+      const parts = title.split("|");
+      captionText = parts[0]?.trim();
+      captionUrl = parts[1]?.trim();
+    }
+
     return (
-      <span className="block relative w-full h-80 my-6">
-        <Image
-          src={src}
-          alt={alt || "Blog post image"}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
-          className="object-contain rounded-lg shadow-md"
-        />
-      </span>
+      <figure className="my-6">
+        <span className="block relative w-full h-80">
+          <Image
+            src={src}
+            alt={alt || "Blog post image"}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+            className="object-contain rounded-lg shadow-md"
+          />
+        </span>
+        {captionText && (
+          <figcaption className="mt-2 text-center text-xs text-gray-500">
+            {captionUrl ? (
+              <a
+                href={captionUrl}
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="hover:text-gray-700 underline"
+              >
+                {captionText}
+              </a>
+            ) : (
+              captionText
+            )}
+          </figcaption>
+        )}
+      </figure>
     );
   },
 
