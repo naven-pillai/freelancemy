@@ -350,9 +350,8 @@ export default function BlogPostForm({
   }
 
   // --- Inline MDX image upload ---
-  function captureCursorPosition() {
-    const textarea = document.querySelector(".w-md-editor-text-input") as HTMLTextAreaElement;
-    if (textarea) cursorPosRef.current = textarea.selectionStart;
+  function onEditorCursorChange(e: React.SyntheticEvent<HTMLTextAreaElement>) {
+    cursorPosRef.current = e.currentTarget.selectionStart;
   }
 
   async function handleInlineUpload(file: File) {
@@ -383,7 +382,6 @@ export default function BlogPostForm({
     for (const item of items) {
       if (item.type.startsWith("image/")) {
         e.preventDefault();
-        captureCursorPosition();
         const file = item.getAsFile();
         if (file) handleInlineUpload(file);
         return;
@@ -642,7 +640,6 @@ export default function BlogPostForm({
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  onMouseDown={captureCursorPosition}
                   onClick={() => inlineInputRef.current?.click()}
                   disabled={uploadingInline}
                   className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-emerald-600 transition-colors disabled:opacity-50"
@@ -673,6 +670,11 @@ export default function BlogPostForm({
                 height={600}
                 preview="live"
                 visibleDragbar={false}
+                textareaProps={{
+                  onSelect: onEditorCursorChange,
+                  onKeyUp: onEditorCursorChange,
+                  onClick: onEditorCursorChange,
+                }}
               />
             </div>
             <p className="px-6 py-2 text-[11px] text-gray-400 border-t border-gray-100 bg-gray-50/30">
