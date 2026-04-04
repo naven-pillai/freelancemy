@@ -16,15 +16,14 @@ export const mdxComponents: MDXComponents = {
 
     return (
       <figure className="my-6">
-        <span className="block relative w-full h-80">
-          <Image
-            src={src}
-            alt={alt || "Blog post image"}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
-            className="object-contain rounded-lg shadow-md"
-          />
-        </span>
+        <Image
+          src={src}
+          alt={alt || "Blog post image"}
+          width={800}
+          height={450}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+          className="w-full h-auto rounded-lg shadow-md mx-auto"
+        />
         {captionText && (
           <figcaption className="mt-2 text-center text-xs text-gray-500">
             {captionUrl ? (
