@@ -59,13 +59,14 @@ export default async function HomePage() {
           <Link key={slug} href={`/${slug}`} className="group block">
             {/* Featured Image (flush, no border/rounding) */}
             {!!frontmatter?.featured_image && (
-              <div className="relative w-full h-48 md:h-52 lg:h-56 overflow-hidden rounded-t-xl">
+              <div className="overflow-hidden rounded-t-xl">
                 <Image
                   src={frontmatter.featured_image}
                   alt={frontmatter.title ?? "Post image"}
-                  fill
+                  width={800}
+                  height={450}
                   priority={index === 0}
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-auto group-hover:scale-105 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 />
               </div>
