@@ -31,6 +31,7 @@ jobs:
           # Settings → Secrets and variables → Actions → New repository secret
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           NEXT_PUBLIC_CLICKY_SITE_ID: ${{ secrets.NEXT_PUBLIC_CLICKY_SITE_ID }}
           # Optional — only needed if Cloudinary is configured
           NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ secrets.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
