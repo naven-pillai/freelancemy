@@ -46,9 +46,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
           {/* Brand — spans 2 columns on lg */}
           <div className="lg:col-span-2 space-y-4">
-            <h5 className="text-lg font-bold text-gray-900 tracking-tight">
+            <p className="text-lg font-bold text-gray-900 tracking-tight">
               FreelanceMY
-            </h5>
+            </p>
             <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
               Your trusted resource for freelancing in Malaysia — insights,
               guides, and opportunities for the modern independent professional.
@@ -76,9 +76,9 @@ export default function Footer() {
 
           {/* Explore */}
           <div>
-            <h6 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
               Explore
-            </h6>
+            </p>
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.href}>
@@ -95,9 +95,9 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <h6 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
               Resources
-            </h6>
+            </p>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
@@ -116,9 +116,9 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h6 className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
               Legal
-            </h6>
+            </p>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
@@ -138,10 +138,10 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="footer-bottom border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             &copy; {new Date().getFullYear()} FreelanceMY. All rights reserved.
           </p>
-          <p className="text-gray-400">
+          <p className="text-gray-500">
             Built for freelancers in Malaysia.
           </p>
         </div>
