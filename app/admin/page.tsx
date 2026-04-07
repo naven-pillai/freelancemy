@@ -1,5 +1,5 @@
 import { protectRoute } from "@/lib/protectRoute";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import {
   FileText,
   MessageSquare,
@@ -45,28 +45,28 @@ export default async function AdminDashboard() {
     commentsThisMonth,
     blogDrafts,
   ] = await Promise.all([
-    supabaseAdmin.from("blogs").select("id", { count: "exact", head: true }),
-    supabaseAdmin.from("comments").select("id", { count: "exact", head: true }),
-    supabaseAdmin
+    getSupabaseAdmin().from("blogs").select("id", { count: "exact", head: true }),
+    getSupabaseAdmin().from("comments").select("id", { count: "exact", head: true }),
+    getSupabaseAdmin()
       .from("contact_messages" as string)
       .select("id", { count: "exact", head: true }),
-    supabaseAdmin
+    getSupabaseAdmin()
       .from("blogs")
       .select("id", { count: "exact", head: true })
       .eq("status", "published"),
-    supabaseAdmin
+    getSupabaseAdmin()
       .from("comments")
       .select("id", { count: "exact", head: true })
       .eq("is_approved", false),
-    supabaseAdmin
+    getSupabaseAdmin()
       .from("blogs")
       .select("id", { count: "exact", head: true })
       .gte("created_at", isoSOM),
-    supabaseAdmin
+    getSupabaseAdmin()
       .from("comments")
       .select("id", { count: "exact", head: true })
       .gte("created_at", isoSOM),
-    supabaseAdmin
+    getSupabaseAdmin()
       .from("blogs")
       .select("id", { count: "exact", head: true })
       .eq("status", "draft"),
@@ -112,13 +112,13 @@ export default async function AdminDashboard() {
     },
   ];
 
-  const { data: recentBlogs } = await supabaseAdmin
+  const { data: recentBlogs } = await getSupabaseAdmin()
     .from("blogs")
     .select("id, title, slug, status, categories, created_at")
     .order("created_at", { ascending: false })
     .limit(5);
 
-  const { data: pendingComments } = await supabaseAdmin
+  const { data: pendingComments } = await getSupabaseAdmin()
     .from("comments")
     .select("id, name, comment, slug, created_at")
     .eq("is_approved", false)

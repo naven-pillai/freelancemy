@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/require-admin-user";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { validateBlogCreate } from "@/lib/validate-blog";
 
 // GET /api/blogs — list all blogs (admin)
@@ -9,7 +9,7 @@ export async function GET() {
   const { error } = await requireAdminUser();
   if (error) return error;
 
-  const { data, error: dbError } = await supabaseAdmin
+  const { data, error: dbError } = await getSupabaseAdmin()
     .from("blogs")
     .select("id, title, slug, status, date, categories, author, created_at")
     .order("created_at", { ascending: false });
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
-  const { data, error: dbError } = await supabaseAdmin
+  const { data, error: dbError } = await getSupabaseAdmin()
     .from("blogs")
     .insert(result.data)
     .select()

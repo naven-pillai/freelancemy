@@ -1,5 +1,5 @@
 import { protectRoute } from "@/lib/protectRoute";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { notFound } from "next/navigation";
 import BlogPostForm from "@/components/admin/BlogPostForm";
 
@@ -11,7 +11,7 @@ export default async function EditBlogPage({
   await protectRoute();
   const { id } = await params;
 
-  const { data: blog } = await supabaseAdmin
+  const { data: blog } = await getSupabaseAdmin()
     .from("blogs")
     .select("*")
     .eq("id", id)

@@ -1,11 +1,11 @@
 import { protectRoute } from "@/lib/protectRoute";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import CommentsClient from "./CommentsClient";
 
 export default async function CommentsPage() {
   await protectRoute();
 
-  const { data: comments } = await supabaseAdmin
+  const { data: comments } = await getSupabaseAdmin()
     .from("comments")
     .select("*")
     .order("created_at", { ascending: false });

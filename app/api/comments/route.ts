@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminUser } from "@/lib/require-admin-user";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 
 // PUT /api/comments — approve/reject a comment
 export async function PUT(req: NextRequest) {
@@ -13,7 +13,7 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ error: "id is required" }, { status: 400 });
   }
 
-  const { error: dbError } = await supabaseAdmin
+  const { error: dbError } = await getSupabaseAdmin()
     .from("comments")
     .update({ is_approved })
     .eq("id", id);
@@ -36,7 +36,7 @@ export async function DELETE(req: NextRequest) {
     return NextResponse.json({ error: "id is required" }, { status: 400 });
   }
 
-  const { error: dbError } = await supabaseAdmin
+  const { error: dbError } = await getSupabaseAdmin()
     .from("comments")
     .delete()
     .eq("id", id);

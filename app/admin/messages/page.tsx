@@ -1,5 +1,5 @@
 import { protectRoute } from "@/lib/protectRoute";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import MessagesClient from "./MessagesClient";
 
 type Message = {
@@ -13,7 +13,7 @@ type Message = {
 export default async function MessagesPage() {
   await protectRoute();
 
-  const { data: messages } = await supabaseAdmin
+  const { data: messages } = await getSupabaseAdmin()
     .from("contact_messages" as string)
     .select("*")
     .order("created_at", { ascending: false });

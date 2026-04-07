@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/require-admin-user";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { validateBlogUpdate } from "@/lib/validate-blog";
 
 // GET /api/blogs/[id]
@@ -14,7 +14,7 @@ export async function GET(
 
   const { id } = await params;
 
-  const { data, error: dbError } = await supabaseAdmin
+  const { data, error: dbError } = await getSupabaseAdmin()
     .from("blogs")
     .select("*")
     .eq("id", id)
@@ -46,7 +46,7 @@ export async function PUT(
   // Auto-set last_updated
   result.data.last_updated = new Date().toISOString();
 
-  const { data, error: dbError } = await supabaseAdmin
+  const { data, error: dbError } = await getSupabaseAdmin()
     .from("blogs")
     .update(result.data)
     .eq("id", id)
@@ -74,13 +74,13 @@ export async function DELETE(
   const { id } = await params;
 
   // Fetch slug before deleting so we can revalidate the post page
-  const { data: post } = await supabaseAdmin
+  const { data: post } = await getSupabaseAdmin()
     .from("blogs")
     .select("slug")
     .eq("id", id)
     .single();
 
-  const { error: dbError } = await supabaseAdmin
+  const { error: dbError } = await getSupabaseAdmin()
     .from("blogs")
     .delete()
     .eq("id", id);

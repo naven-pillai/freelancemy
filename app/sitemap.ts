@@ -1,9 +1,9 @@
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { SITE_URL } from "@/lib/constants";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { data: posts } = await supabaseAdmin
+  const { data: posts } = await getSupabaseAdmin()
     .from("blogs")
     .select("slug, date, last_updated")
     .eq("status", "published")

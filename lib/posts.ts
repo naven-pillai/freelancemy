@@ -1,5 +1,5 @@
 import { cache } from "react";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import type { BlogFrontmatter } from "@/types/blog";
 
 export const getPost = cache(async function getPost(slug: string): Promise<{
@@ -7,7 +7,7 @@ export const getPost = cache(async function getPost(slug: string): Promise<{
   frontmatter: BlogFrontmatter;
   content: string;
 }> {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from("blogs")
     .select("*")
     .eq("slug", slug)
@@ -36,7 +36,7 @@ export const getPost = cache(async function getPost(slug: string): Promise<{
 });
 
 export async function listSlugs(): Promise<string[]> {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from("blogs")
     .select("slug")
     .eq("status", "published")
@@ -63,7 +63,7 @@ export async function getAllPostsMeta() {
 
 /** Single batch query for homepage cards — no content fetched */
 export async function getAllPostCards() {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from("blogs")
     .select("slug, title, description, featured_image, date, last_updated, categories")
     .eq("status", "published")
@@ -86,7 +86,7 @@ export async function getAllPostCards() {
 
 /** Lightweight query for sidebar — single query, no content */
 export async function getLatestPostsMeta(excludeSlug?: string, limit = 5) {
-  const { data, error } = await supabaseAdmin
+  const { data, error } = await getSupabaseAdmin()
     .from("blogs")
     .select("slug, title, featured_image, date")
     .eq("status", "published")

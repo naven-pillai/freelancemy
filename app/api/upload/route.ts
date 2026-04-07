@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAdminUser } from "@/lib/require-admin-user";
-import { supabaseAdmin } from "@/lib/supabase/service";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 
 const BUCKET = "blog-images";
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
   const sanitized = sanitizeFilename(file.name) || "image";
   const path = `${Date.now()}-${sanitized}`;
 
-  const { error: uploadError } = await supabaseAdmin.storage
+  const { error: uploadError } = await getSupabaseAdmin().storage
     .from(BUCKET)
     .upload(path, file, {
       contentType: file.type,
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { data: urlData } = supabaseAdmin.storage
+  const { data: urlData } = getSupabaseAdmin().storage
     .from(BUCKET)
     .getPublicUrl(path);
 
