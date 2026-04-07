@@ -32,7 +32,7 @@ export default function AboutPageClient() {
             About FreelanceMY
           </span>
 
-          <h1 className="mx-auto max-w-4xl text-4xl font-semibold leading-tight text-slate-950 md:text-6xl">
+          <h1 className="mx-auto max-w-4xl text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-semibold leading-tight text-slate-950">
             Built for Malaysian freelancers who want to work smarter, earn better,
             and grow with confidence.
           </h1>
@@ -92,7 +92,7 @@ export default function AboutPageClient() {
                 Our Mission
               </span>
 
-              <h2 className="mt-0 text-3xl font-semibold leading-tight text-slate-950 md:text-5xl">
+              <h2 className="mt-0 text-xl sm:text-2xl md:text-3xl lg:text-5xl font-semibold leading-tight text-slate-950">
                 Bridging talent, clarity, and opportunity for freelancers in Malaysia.
               </h2>
 
@@ -120,7 +120,7 @@ export default function AboutPageClient() {
               What We Stand For
             </span>
 
-            <h2 className="mt-0 text-3xl font-semibold text-slate-950 md:text-5xl">
+            <h2 className="mt-0 text-xl sm:text-2xl md:text-3xl lg:text-5xl font-semibold text-slate-950">
               Built on principles that actually matter
             </h2>
 
@@ -161,7 +161,7 @@ export default function AboutPageClient() {
             Looking Ahead
           </span>
 
-          <h2 className="mt-0 text-3xl font-semibold leading-tight text-slate-950 md:text-5xl">
+          <h2 className="mt-0 text-xl sm:text-2xl md:text-3xl lg:text-5xl font-semibold leading-tight text-slate-950">
             More than a content platform.
             <br className="hidden md:block" />
             A stronger future for freelancers.

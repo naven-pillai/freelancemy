@@ -149,6 +149,24 @@ body {
   .public-site h1 { font-size: 2rem; }
   .public-site h2 { font-size: 1.5rem; }
   .public-site h3 { font-size: 1.25rem; }
+
+  .public-site p,
+  .public-site .prose p,
+  .public-site .prose li,
+  .public-site .prose blockquote,
+  .public-site li {
+    font-size: 1rem;
+  }
+
+  .public-site ul,
+  .public-site ol {
+    margin-left: 1rem;
+  }
+
+  .public-site th,
+  .public-site td {
+    padding: 0.5rem 0.75rem;
+  }
 }
 
 /* Paragraphs */
@@ -334,14 +352,14 @@ body {
 
 .footer h4,
 .footer h5 {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--footer-heading);
   margin-bottom: 0.75rem;
 }
 
 .footer p {
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: var(--footer-muted);
   margin-bottom: 0.75rem;
   line-height: 1.6;
@@ -361,7 +379,7 @@ body {
   color: var(--footer-foreground);
   text-decoration: none;
   transition: color 0.2s ease;
-  font-size: 1rem;
+  font-size: 0.875rem;
 }
 
 .footer a:hover {
@@ -369,12 +387,17 @@ body {
 }
 
 .footer-bottom {
-  font-size: 1rem;
+  font-size: 0.75rem;
   text-align: center;
   color: var(--footer-muted);
   padding: 1.25rem 0;
   border-top: 1px solid var(--footer-border);
   background-color: var(--footer-bg);
+}
+
+.public-site .footer-bottom p {
+  font-size: 0.75rem;
+  margin-bottom: 0;
 }
 
 @media (min-width: 768px) {

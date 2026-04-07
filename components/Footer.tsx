@@ -42,7 +42,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-gray-50 border-t border-gray-200 mt-16">
       {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-6 pt-14 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-8 sm:pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
           {/* Brand — spans 2 columns on lg */}
           <div className="lg:col-span-2 space-y-4">
@@ -136,12 +136,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-gray-400">
+      <div className="footer-bottom border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
+          <p className="text-gray-400">
             &copy; {new Date().getFullYear()} FreelanceMY. All rights reserved.
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-gray-400">
             Built for freelancers in Malaysia.
           </p>
         </div>

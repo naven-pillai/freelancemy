@@ -17,14 +17,14 @@ export default function ContactPage() {
     <main className="max-w-3xl mx-auto px-6 py-16">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">Get in Touch</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">Get in Touch</h1>
         <p className="text-lg text-gray-600">
           Have a question, feedback, or just want to connect? Fill out the form below — we&apos;d love to hear from you.
         </p>
       </div>
 
       {/* Contact Form */}
-      <div className="bg-white shadow-md rounded-xl p-8 border border-gray-200">
+      <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 md:p-8 border border-gray-200">
         {state?.success ? (
           <div className="text-center py-8 space-y-2">
             <p className="text-green-600 font-semibold text-lg">{state.message}</p>
@@ -117,7 +117,7 @@ export default function ContactPage() {
       </div>
 
       {/* Social Links */}
-      <div className="mt-10 flex justify-center gap-6">
+      <div className="mt-10 flex justify-center flex-wrap gap-3 sm:gap-6">
         <a
           href="https://linkedin.com/company/freelancemy"
           target="_blank"

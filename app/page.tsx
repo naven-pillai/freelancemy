@@ -20,7 +20,7 @@ export default async function HomePage() {
   const sorted = await getAllPostCards();
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12 font-sans">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 font-sans">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
         Latest Freelancing Guides
       </h1>

@@ -12,7 +12,7 @@ export default async function LatestArticlesSidebar({ currentSlug }: Props) {
   const latest = await getLatestPostsMeta(currentSlug, 5);
 
   return (
-    <aside className="not-prose w-full flex flex-col gap-6 sticky top-24 self-start">
+    <aside className="not-prose w-full flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
       {/* Heading */}
       <div>
         <h4 className="text-xl font-bold mb-2">Latest Articles</h4>

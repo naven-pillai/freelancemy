@@ -8,7 +8,7 @@ export default function TermsConditionsClient() {
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-12 font-sans text-gray-700 leading-relaxed">
-      <h1 className="text-3xl font-bold mb-6">Terms & Conditions</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Terms & Conditions</h1>
 
       <button
         className="mb-4 text-sm text-blue-600 underline"

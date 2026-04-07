@@ -132,7 +132,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div ref={menuRef} id="mobile-menu" role="menu" className="md:hidden border-t border-gray-100 bg-white px-4 py-4 space-y-1 shadow-lg">
+        <div ref={menuRef} id="mobile-menu" role="menu" className="md:hidden border-t border-gray-100 bg-white dark:bg-gray-900 px-4 py-4 space-y-1 shadow-lg">
           {navLinks.map((link) => (
             <Link
               key={link.href}

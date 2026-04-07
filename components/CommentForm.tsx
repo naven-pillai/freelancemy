@@ -57,7 +57,7 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
     <form
       action={formAction}
       onSubmit={handleSubmit}
-      className="bg-muted/50 p-6 rounded-xl space-y-6 border border-gray-200 mt-12"
+      className="bg-muted/50 p-4 sm:p-6 rounded-xl space-y-6 border border-gray-200 mt-12"
     >
       <h4 className="text-xl font-semibold text-gray-800">
         <span aria-hidden="true">💬 </span>Leave a Comment

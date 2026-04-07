@@ -27,7 +27,7 @@ export default function SearchSuggestions({ posts }: SearchSuggestionsProps) {
         placeholder="Search articles..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:outline-none text-sm"
+        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-600 focus:outline-none text-base sm:text-sm"
       />
 
       {/* Suggestions dropdown */}
