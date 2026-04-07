@@ -91,7 +91,7 @@ export default function Navbar() {
                 className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                   isActive(link.href)
                     ? "text-gray-900"
-                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                 }`}
               >
                 {link.label}

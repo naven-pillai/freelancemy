@@ -29,7 +29,8 @@
         "render-blocking-insight": "off",
         "network-dependency-tree-insight": "off",
         "lcp-discovery-insight": "off",
-        "image-delivery-insight": "warn"
+        "image-delivery-insight": "warn",
+        "forced-reflow-insight": "off"
       }
     },
     "upload": {

@@ -24,7 +24,7 @@ export default async function HomePage() {
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
         Latest Freelancing Guides
       </h1>
-      <p className="text-gray-500 mb-8">
+      <p className="text-gray-600 mb-8">
         Expert guides, tips, and resources for freelancers in Malaysia.
       </p>
 
@@ -49,7 +49,7 @@ export default async function HomePage() {
       />
 
       {sorted.length === 0 && (
-        <div className="text-center text-gray-500">No posts yet.</div>
+        <div className="text-center text-gray-600">No posts yet.</div>
       )}
 
       {/* Hero card — latest post */}
@@ -83,12 +83,12 @@ export default async function HomePage() {
               <div className={`flex flex-col justify-center p-6 md:p-10 ${frontmatter?.featured_image ? "md:w-2/5" : "w-full"}`}>
                 <div className="flex items-center gap-2 text-xs mb-4">
                   {!!frontmatter?.categories?.[0] && (
-                    <span className="px-2.5 py-1 rounded-md bg-blue-600/90 text-white font-medium">
+                    <span className="px-2.5 py-1 rounded-md bg-blue-700 text-white font-medium">
                       {frontmatter.categories[0]}
                     </span>
                   )}
                   {(frontmatter?.date || frontmatter?.last_updated) && (
-                    <span className="text-gray-500">
+                    <span className="text-gray-600">
                       {formatDate(frontmatter.date || frontmatter.last_updated)}
                     </span>
                   )}
@@ -136,12 +136,12 @@ export default async function HomePage() {
               <div className="p-5">
                 <div className="flex items-center gap-2 text-xs mb-3">
                   {!!frontmatter?.categories?.[0] && (
-                    <span className="px-2 py-0.5 rounded-md bg-blue-600/90 text-white font-medium">
+                    <span className="px-2 py-0.5 rounded-md bg-blue-700 text-white font-medium">
                       {frontmatter.categories[0]}
                     </span>
                   )}
                   {(frontmatter?.date || frontmatter?.last_updated) && (
-                    <span className="text-gray-500">
+                    <span className="text-gray-600">
                       {formatDate(frontmatter.date || frontmatter.last_updated)}
                     </span>
                   )}
