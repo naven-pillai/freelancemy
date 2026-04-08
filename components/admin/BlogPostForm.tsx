@@ -21,6 +21,7 @@ import {
 import Link from "next/link";
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/constants";
+import InternalLinkSuggestions from "@/components/admin/InternalLinkSuggestions";
 
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
   ssr: false,
@@ -867,6 +868,9 @@ export default function BlogPostForm({
               />
             </div>
           </div>
+
+          {/* Internal link suggestions */}
+          <InternalLinkSuggestions currentSlug={form.slug} />
         </div>
       </div>
     </div>
