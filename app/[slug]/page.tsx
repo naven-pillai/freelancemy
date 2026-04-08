@@ -95,18 +95,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 name: "Home",
                 item: SITE_URL,
               },
-              ...(frontmatter.categories?.[0]
-                ? [
-                    {
-                      "@type": "ListItem",
-                      position: 2,
-                      name: frontmatter.categories[0],
-                    },
-                  ]
-                : []),
               {
                 "@type": "ListItem",
-                position: frontmatter.categories?.[0] ? 3 : 2,
+                position: 2,
                 name: frontmatter.title,
                 item: `${SITE_URL}/${slug}`,
               },
