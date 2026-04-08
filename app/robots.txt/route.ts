@@ -6,6 +6,7 @@ export async function GET() {
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+Disallow: /_next/static/
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `,
