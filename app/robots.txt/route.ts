@@ -6,7 +6,6 @@ export async function GET() {
 Allow: /
 Disallow: /admin/
 Disallow: /api/
-Disallow: /_next/static/
 
 # Allow AI crawlers
 User-agent: GPTBot
