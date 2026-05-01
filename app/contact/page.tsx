@@ -11,10 +11,11 @@ export const metadata: Metadata = {
     description:
       "Have questions or feedback? Contact the FreelanceMY team. We're here to help you succeed as a freelancer in Malaysia.",
     url: `${SITE_URL}/contact`,
+    siteName: "FreelanceMY",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Contact — FreelanceMY",
     description:
       "Have questions or feedback? Contact the FreelanceMY team. We're here to help you succeed as a freelancer in Malaysia.",

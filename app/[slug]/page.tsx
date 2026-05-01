@@ -41,9 +41,23 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         title: seoTitle,
         description,
         url: `${SITE_URL}/${slug}`,
+        siteName: "FreelanceMY",
         type: "article",
+        locale: "en_MY",
+        ...(frontmatter.date && { publishedTime: frontmatter.date }),
+        ...(frontmatter.last_updated && { modifiedTime: frontmatter.last_updated }),
+        ...(frontmatter.author && { authors: [frontmatter.author] }),
+        ...(frontmatter.categories?.[0] && { section: frontmatter.categories[0] }),
+        ...(frontmatter.tags?.length && { tags: frontmatter.tags }),
         ...(frontmatter.featured_image && {
-          images: [frontmatter.featured_image],
+          images: [
+            {
+              url: frontmatter.featured_image,
+              width: 1200,
+              height: 675,
+              alt: frontmatter.title,
+            },
+          ],
         }),
       },
       twitter: {

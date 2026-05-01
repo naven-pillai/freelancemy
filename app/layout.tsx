@@ -28,6 +28,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "FreelanceMY | Guides & Resources for Freelancers in Malaysia",
     template: "%s | FreelanceMY",
@@ -37,12 +38,24 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+    ],
   },
   openGraph: {
     type: "website",
     locale: "en_MY",
     url: SITE_URL,
-    siteName: "FreelanceMY Blog",
+    siteName: "FreelanceMY",
   },
   twitter: {
     card: "summary_large_image",
@@ -62,6 +75,25 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} ${roboto.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "FreelanceMY",
+              url: SITE_URL,
+              logo: "https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelance-my-logo.png",
+              description:
+                "The #1 resource hub for freelancers in Malaysia. Expert guides, tips, and tools to elevate your freelance career.",
+              sameAs: [
+                "https://facebook.com/freelancemy",
+                "https://x.com/freelancemy",
+                "https://linkedin.com/company/freelancemy",
+              ],
+            }),
+          }}
+        />
         <ClickyAnalytics />
         <Toaster position="top-right" richColors />
         <LayoutShell footer={<Footer />}>{children}</LayoutShell>

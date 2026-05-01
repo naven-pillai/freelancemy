@@ -10,10 +10,11 @@ export const metadata: Metadata = {
     description:
       "How FreelanceMY collects, uses, and protects your personal data under Malaysia's PDPA (2010).",
     url: `${SITE_URL}/privacy-policy`,
+    siteName: "FreelanceMY",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Privacy Policy — FreelanceMY",
     description:
       "How FreelanceMY collects, uses, and protects your personal data under Malaysia's PDPA (2010).",

@@ -12,10 +12,11 @@ export const metadata: Metadata = {
     description:
       "Review the terms and conditions for using FreelanceMY, including website usage, content policies, and liability information.",
     url: `${SITE_URL}/terms-conditions`,
+    siteName: "FreelanceMY",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Terms & Conditions — FreelanceMY",
     description:
       "Review the terms and conditions for using FreelanceMY, including website usage, content policies, and liability information.",
