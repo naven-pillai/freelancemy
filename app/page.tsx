@@ -52,9 +52,10 @@ export default async function HomePage() {
         <div className="text-center text-gray-600">No posts yet.</div>
       )}
 
-      {/* Hero card — latest post */}
+      {/* Hero card — featured post (or latest if none featured) */}
       {sorted.length > 0 && (() => {
         const { slug, frontmatter } = sorted[0];
+        const isFeatured = frontmatter?.is_featured;
         return (
           <Link
             key={slug}
@@ -81,7 +82,12 @@ export default async function HomePage() {
                 </div>
               )}
               <div className={`flex flex-col justify-center p-6 md:p-10 ${frontmatter?.featured_image ? "md:w-2/5" : "w-full"}`}>
-                <div className="flex items-center gap-2 text-xs mb-4">
+                <div className="flex items-center flex-wrap gap-2 text-xs mb-4">
+                  {isFeatured && (
+                    <span className="px-2.5 py-1 rounded-md bg-orange-500 text-white font-semibold uppercase tracking-wide">
+                      Featured
+                    </span>
+                  )}
                   {!!frontmatter?.categories?.[0] && (
                     <span className="px-2.5 py-1 rounded-md bg-blue-700 text-white font-medium">
                       {frontmatter.categories[0]}

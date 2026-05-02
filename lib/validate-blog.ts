@@ -26,6 +26,7 @@ const ALLOWED_FIELDS = [
   "last_updated",
   "canonical_url",
   "seo_title",
+  "is_featured",
 ] as const;
 
 function pick(body: Record<string, unknown>) {
@@ -74,6 +75,9 @@ export function validateBlogCreate(
 
   if (data.status && !VALID_STATUSES.includes(data.status as string))
     return { valid: false, error: "Status must be draft or published" };
+
+  if (data.is_featured !== undefined && typeof data.is_featured !== "boolean")
+    return { valid: false, error: "is_featured must be a boolean" };
 
   if (data.categories && !Array.isArray(data.categories))
     return { valid: false, error: "Categories must be an array" };
@@ -124,6 +128,9 @@ export function validateBlogUpdate(
 
   if (data.status && !VALID_STATUSES.includes(data.status as string))
     return { valid: false, error: "Status must be draft or published" };
+
+  if (data.is_featured !== undefined && typeof data.is_featured !== "boolean")
+    return { valid: false, error: "is_featured must be a boolean" };
 
   if (data.seo_title && typeof data.seo_title === "string" && (data.seo_title as string).length > MAX_SEO_TITLE)
     return { valid: false, error: `SEO title must be under ${MAX_SEO_TITLE} characters` };

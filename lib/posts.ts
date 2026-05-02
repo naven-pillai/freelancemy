@@ -65,8 +65,9 @@ export async function getAllPostsMeta() {
 export async function getAllPostCards() {
   const { data, error } = await getSupabaseAdmin()
     .from("blogs")
-    .select("slug, title, description, featured_image, date, last_updated, categories")
+    .select("slug, title, description, featured_image, date, last_updated, categories, is_featured")
     .eq("status", "published")
+    .order("is_featured", { ascending: false })
     .order("date", { ascending: false });
 
   if (error || !data) return [];
@@ -80,6 +81,7 @@ export async function getAllPostCards() {
       date: p.date,
       last_updated: p.last_updated ?? undefined,
       categories: p.categories ?? undefined,
+      is_featured: p.is_featured ?? false,
     },
   }));
 }

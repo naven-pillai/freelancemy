@@ -44,6 +44,7 @@ type BlogData = {
   date: string;
   canonical_url: string;
   seo_title: string;
+  is_featured: boolean;
 };
 
 const DEFAULT_BLOG: BlogData = {
@@ -59,6 +60,7 @@ const DEFAULT_BLOG: BlogData = {
   date: new Date().toISOString().split("T")[0],
   canonical_url: "",
   seo_title: "",
+  is_featured: false,
 };
 
 const AUTOSAVE_DELAY = 3000;
@@ -173,6 +175,7 @@ export default function BlogPostForm({
       ? new Date(initialData.date).toISOString().split("T")[0]
       : DEFAULT_BLOG.date,
     seo_title: initialData?.seo_title ?? "",
+    is_featured: initialData?.is_featured ?? false,
   });
 
   // Raw strings for categories/tags input to allow spaces while typing
@@ -707,6 +710,33 @@ export default function BlogPostForm({
                 <option value="draft">Draft</option>
                 <option value="published">Published</option>
               </select>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="flex flex-col">
+                <label htmlFor="is_featured" className="text-sm text-gray-600">
+                  Featured
+                </label>
+                <span className="text-[11px] text-gray-400">
+                  Pin to homepage top
+                </span>
+              </div>
+              <button
+                id="is_featured"
+                type="button"
+                role="switch"
+                aria-checked={form.is_featured}
+                onClick={() => updateField("is_featured", !form.is_featured)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500/20 ${
+                  form.is_featured ? "bg-emerald-500" : "bg-gray-200"
+                }`}
+              >
+                <span
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                    form.is_featured ? "translate-x-6" : "translate-x-1"
+                  }`}
+                />
+              </button>
             </div>
 
             <div className="space-y-1.5">
