@@ -12,6 +12,7 @@ export async function GET() {
   const { data, error: dbError } = await getSupabaseAdmin()
     .from("blogs")
     .select("id, title, slug, status, date, categories, author, created_at")
+    .order("date", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
 
   if (dbError) {

@@ -8,6 +8,7 @@ export default async function BlogListPage() {
   const { data: blogs } = await getSupabaseAdmin()
     .from("blogs")
     .select("id, title, slug, status, date, categories, author, created_at")
+    .order("date", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false });
 
   return <BlogListClient blogs={blogs ?? []} />;
