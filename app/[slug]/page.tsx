@@ -9,6 +9,7 @@ import ShareBar from "@/components/ShareBar";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
 import remarkGfm from "remark-gfm";
+import remarkUnwrapImages from "remark-unwrap-images";
 import rehypeSlug from "rehype-slug";
 import rehypeExternalLinks from "rehype-external-links";
 import Image from "next/image";
@@ -199,7 +200,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           components={mdxComponents}
           options={{
             mdxOptions: {
-              remarkPlugins: [remarkGfm],
+              remarkPlugins: [remarkGfm, remarkUnwrapImages],
               rehypePlugins: [
                 rehypeSlug,
                 [
