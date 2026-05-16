@@ -138,7 +138,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         />
 
         {/* ✅ Title */}
-        <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-4 leading-snug">
+        <h1 className="text-[1.75rem] sm:text-4xl md:text-[2.75rem] lg:text-5xl font-extrabold mb-5 sm:mb-6 leading-[1.2] sm:leading-[1.15] tracking-tight text-gray-900">
           {frontmatter.title}
         </h1>
 
@@ -169,7 +169,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {Array.isArray(frontmatter.categories) && frontmatter.categories.length > 0 && (
   <div className="flex items-center gap-2">
     <strong>Category:</strong>
-    <span className="inline-block px-2 py-0.5 rounded-full bg-blue-600 text-white font-medium text-[11px] sm:text-xs">
+    <span className="inline-block px-2 py-0.5 rounded-full bg-blue-700 text-white font-medium text-[11px] sm:text-xs">
       {frontmatter.categories[0]}
     </span>
   </div>

@@ -138,12 +138,12 @@ body {
   margin-bottom: 1rem;
 }
 
-.public-site h1 { font-size: 2.75rem; }
-.public-site h2 { font-size: 1.875rem; }
-.public-site h3 { font-size: 1.375rem; }
-.public-site h4 { font-size: 1.125rem; }
-.public-site h5 { font-size: 1rem; }
-.public-site h6 { font-size: 0.9rem; }
+.public-site h1 { font-size: 3rem; letter-spacing: -0.025em; }
+.public-site h2 { font-size: 2rem; letter-spacing: -0.02em; }
+.public-site h3 { font-size: 1.5rem; letter-spacing: -0.015em; }
+.public-site h4 { font-size: 1.25rem; letter-spacing: -0.01em; }
+.public-site h5 { font-size: 1.0625rem; }
+.public-site h6 { font-size: 0.9375rem; }
 
 @media (max-width: 768px) {
   .public-site h1 { font-size: 2rem; }
@@ -156,36 +156,73 @@ body {
   .public-site .prose blockquote,
   .public-site li {
     font-size: 1rem;
+    line-height: 1.7;
   }
 
   .public-site ul,
   .public-site ol {
-    margin-left: 1rem;
+    margin-left: 0;
+  }
+
+  .public-site .prose li {
+    padding-left: 0.125rem;
   }
 
   .public-site th,
   .public-site td {
     padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .public-site .prose blockquote {
+    margin: 1.25rem 0;
+  }
+
+  .public-site .prose pre {
+    font-size: 0.8125rem;
+    padding: 0.875rem;
   }
 }
 
 /* Paragraphs */
 .public-site p {
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
   color: var(--foreground);
-  font-size: 1.125rem;
-  line-height: 1.8;
+  font-size: 1.0625rem;
+  line-height: 1.75;
   font-weight: 400;
   font-family: var(--font-sans);
 }
 
 /* Prose (article body) */
 .public-site .prose p,
-.public-site .prose li,
 .public-site .prose blockquote {
   font-family: var(--font-body);
   font-size: 1.125rem;
-  line-height: 1.85;
+  line-height: 1.8;
+  color: #1f2937;
+  letter-spacing: -0.003em;
+}
+
+.public-site .prose li {
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  color: #1f2937;
+  letter-spacing: -0.003em;
+}
+
+.public-site .prose p {
+  margin-bottom: 1.5rem;
+}
+
+.public-site .prose > * {
+  max-width: 72ch;
+}
+
+.public-site .prose > .overflow-x-auto,
+.public-site .prose > figure,
+.public-site .prose > pre {
+  max-width: 100%;
 }
 
 .public-site .prose h1,
@@ -262,9 +299,32 @@ body {
 
 .public-site li {
   margin-bottom: 0.5rem;
-  line-height: 1.7;
-  font-size: 1.125rem;
+  line-height: 1.65;
+  font-size: 1.0625rem;
   color: var(--foreground);
+}
+
+.public-site .prose li {
+  margin-bottom: 0.5rem;
+  line-height: 1.65;
+  padding-left: 0.25rem;
+}
+
+.public-site .prose li > p {
+  margin-bottom: 0.5rem;
+}
+
+.public-site .prose li:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists — tighter spacing */
+.public-site .prose ul ul,
+.public-site .prose ul ol,
+.public-site .prose ol ul,
+.public-site .prose ol ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Images — scoped to prose/article content only */

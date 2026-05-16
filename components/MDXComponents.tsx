@@ -45,54 +45,60 @@ export const mdxComponents: MDXComponents = {
   },
 
   h2: ({ children }) => (
-    <h2 className="text-2xl font-bold mt-10 mb-4">{children}</h2>
+    <h2 className="text-2xl sm:text-3xl font-bold mt-10 sm:mt-14 mb-4 sm:mb-5 leading-tight tracking-tight text-gray-900 scroll-mt-24">
+      {children}
+    </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="text-xl font-semibold mt-8 mb-3">{children}</h3>
+    <h3 className="text-xl sm:text-2xl font-semibold mt-8 sm:mt-10 mb-3 sm:mb-4 leading-snug tracking-tight text-gray-900 scroll-mt-24">
+      {children}
+    </h3>
   ),
   h4: ({ children }) => (
-    <h4 className="text-lg font-semibold mt-6 mb-2">{children}</h4>
+    <h4 className="text-base sm:text-lg md:text-xl font-semibold mt-6 sm:mt-8 mb-2 sm:mb-3 leading-snug text-gray-900 scroll-mt-24">
+      {children}
+    </h4>
   ),
 
   ul: ({ children }) => (
-    <ul className="list-disc pl-6 my-4 space-y-1 font-medium">{children}</ul>
+    <ul className="list-disc pl-5 sm:pl-6 my-4 sm:my-5 marker:text-orange-500">{children}</ul>
   ),
   ol: ({ children }) => (
-    <ol className="list-decimal pl-6 my-4 space-y-1 font-medium">{children}</ol>
+    <ol className="list-decimal pl-5 sm:pl-6 my-4 sm:my-5 marker:text-orange-500 marker:font-semibold">
+      {children}
+    </ol>
   ),
 
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 border-orange-500 pl-4 italic text-gray-600 my-6">
+    <blockquote className="border-l-4 border-orange-500 pl-4 sm:pl-6 py-1 my-6 sm:my-8 italic text-gray-700 text-base sm:text-lg leading-relaxed">
       {children}
     </blockquote>
   ),
 
   code: ({ children }) => (
-    <code className="bg-gray-100 text-pink-600 px-1.5 py-0.5 rounded text-sm font-mono">
+    <code className="bg-gray-100 text-pink-700 px-1.5 py-0.5 rounded text-[0.9em] font-mono font-medium">
       {children}
     </code>
   ),
   pre: ({ children }) => (
-    <pre className="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono">
+    <pre className="bg-gray-50 border border-gray-200 rounded-lg p-4 overflow-x-auto text-sm font-mono my-6 leading-relaxed">
       {children}
     </pre>
   ),
 
   table: ({ children }) => (
-    <div className="overflow-x-auto my-6">
-      <table className="w-full border-collapse border border-gray-300 text-sm">
-        {children}
-      </table>
+    <div className="overflow-x-auto my-8 rounded-lg border border-gray-200">
+      <table className="w-full border-collapse text-sm">{children}</table>
     </div>
   ),
   th: ({ children }) => (
-    <th className="border border-gray-300 bg-gray-100 px-3 py-2 text-left font-semibold">
+    <th className="border-b border-gray-200 bg-gray-50 px-4 py-3 text-left font-semibold text-gray-900">
       {children}
     </th>
   ),
   td: ({ children }) => (
-    <td className="border border-gray-300 px-3 py-2">{children}</td>
+    <td className="border-b border-gray-100 px-4 py-3 text-gray-700">{children}</td>
   ),
 
-  hr: () => <hr className="my-8 border-t border-gray-300" />,
+  hr: () => <hr className="my-10 border-t border-gray-200" />,
 };
