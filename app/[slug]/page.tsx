@@ -28,68 +28,66 @@ export async function generateStaticParams() {
 // ✅ SEO Metadata Generator
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const post = await getPost(slug);
 
-  try {
-    const { frontmatter } = await getPost(slug);
-
-    const seoTitle = frontmatter.seo_title || frontmatter.title;
-    const description = frontmatter.description || `${frontmatter.title} — expert guide for freelancers in Malaysia by FreelanceMY.`;
-
+  if (!post) {
     return {
-      title: { absolute: seoTitle },
-      description,
-      openGraph: {
-        title: seoTitle,
-        description,
-        url: `${SITE_URL}/${slug}`,
-        siteName: "FreelanceMY",
-        type: "article",
-        locale: "en_MY",
-        ...(frontmatter.date && { publishedTime: frontmatter.date }),
-        ...(frontmatter.last_updated && { modifiedTime: frontmatter.last_updated }),
-        ...(frontmatter.author && { authors: [frontmatter.author] }),
-        ...(frontmatter.categories?.[0] && { section: frontmatter.categories[0] }),
-        ...(frontmatter.tags?.length && { tags: frontmatter.tags }),
-        ...(frontmatter.featured_image && {
-          images: [
-            {
-              url: frontmatter.featured_image,
-              width: 1200,
-              height: 675,
-              alt: frontmatter.title,
-            },
-          ],
-        }),
-      },
-      twitter: {
-        card: "summary_large_image",
-        title: seoTitle,
-        description,
-        ...(frontmatter.featured_image && {
-          images: [frontmatter.featured_image],
-        }),
-      },
-      alternates: {
-        canonical: frontmatter.canonical_url || `${SITE_URL}/${slug}`,
-      },
-    };
-  } catch {
-    return {
-      title: "Post not found",
-      description: "This blog post could not be found.",
+      title: "Page Not Found",
+      robots: { index: false, follow: false },
     };
   }
+
+  const { frontmatter } = post;
+  const seoTitle = frontmatter.seo_title || frontmatter.title;
+  const description = frontmatter.description || `${frontmatter.title} — expert guide for freelancers in Malaysia by FreelanceMY.`;
+
+  return {
+    title: { absolute: seoTitle },
+    description,
+    openGraph: {
+      title: seoTitle,
+      description,
+      url: `${SITE_URL}/${slug}`,
+      siteName: "FreelanceMY",
+      type: "article",
+      locale: "en_MY",
+      ...(frontmatter.date && { publishedTime: frontmatter.date }),
+      ...(frontmatter.last_updated && { modifiedTime: frontmatter.last_updated }),
+      ...(frontmatter.author && { authors: [frontmatter.author] }),
+      ...(frontmatter.categories?.[0] && { section: frontmatter.categories[0] }),
+      ...(frontmatter.tags?.length && { tags: frontmatter.tags }),
+      ...(frontmatter.featured_image && {
+        images: [
+          {
+            url: frontmatter.featured_image,
+            width: 1200,
+            height: 675,
+            alt: frontmatter.title,
+          },
+        ],
+      }),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seoTitle,
+      description,
+      ...(frontmatter.featured_image && {
+        images: [frontmatter.featured_image],
+      }),
+    },
+    alternates: {
+      canonical: frontmatter.canonical_url || `${SITE_URL}/${slug}`,
+    },
+  };
 }
 
 // ✅ Blog Post Page
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const post = await getPost(slug);
 
-  let post;
-  try {
-    post = await getPost(slug);
-  } catch {
-    return notFound(); // Show 404 if not found
+  if (!post) {
+    notFound();
   }
 
   const { frontmatter, content } = post;

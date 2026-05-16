@@ -6,7 +6,7 @@ export const getPost = cache(async function getPost(slug: string): Promise<{
   slug: string;
   frontmatter: BlogFrontmatter;
   content: string;
-}> {
+} | null> {
   const { data, error } = await getSupabaseAdmin()
     .from("blogs")
     .select("*")
@@ -15,7 +15,7 @@ export const getPost = cache(async function getPost(slug: string): Promise<{
     .single();
 
   if (error || !data) {
-    throw new Error(`Post not found for slug: ${slug}`);
+    return null;
   }
 
   const frontmatter: BlogFrontmatter = {
@@ -50,7 +50,7 @@ export async function listSlugs(): Promise<string[]> {
 export async function getAllPosts() {
   const slugs = await listSlugs();
   const posts = await Promise.all(slugs.map((slug) => getPost(slug)));
-  return posts;
+  return posts.filter((p): p is NonNullable<typeof p> => p !== null);
 }
 
 export async function getAllPostsMeta() {
