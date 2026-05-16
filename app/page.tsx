@@ -86,6 +86,8 @@ export default async function HomePage() {
                           width={1200}
                           height={675}
                           priority
+                          fetchPriority="high"
+                          loading="eager"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           sizes="(max-width: 768px) 100vw, 60vw"
                         />
@@ -140,6 +142,8 @@ export default async function HomePage() {
                         width={800}
                         height={450}
                         priority={index < 2}
+                        fetchPriority={index < 2 ? "high" : "auto"}
+                        loading={index < 2 ? "eager" : "lazy"}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />

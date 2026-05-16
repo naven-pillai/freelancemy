@@ -151,6 +151,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               width={1200}
               height={675}
               priority
+              fetchPriority="high"
+              loading="eager"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
               className="w-full h-auto rounded-lg"
             />
