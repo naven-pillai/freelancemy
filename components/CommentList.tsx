@@ -1,13 +1,11 @@
-import { createClient } from "@/lib/supabase/server";
+import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { formatDate } from "@/lib/utils";
 import type { Database } from "@/types/supabase";
 
 type Comment = Database["public"]["Tables"]["comments"]["Row"];
 
 export default async function CommentList({ postSlug }: { postSlug: string }) {
-  const supabase = await createClient();
-
-  const { data: comments, error } = await supabase
+  const { data: comments, error } = await getSupabaseAdmin()
     .from("comments")
     .select("*")
     .eq("slug", postSlug)
