@@ -39,7 +39,6 @@ export default async function AdminDashboard() {
     blogsRes,
     commentsRes,
     messagesRes,
-    publishedRes,
     pendingRes,
     blogsThisMonth,
     commentsThisMonth,
@@ -50,10 +49,6 @@ export default async function AdminDashboard() {
     getSupabaseAdmin()
       .from("contact_messages" as string)
       .select("id", { count: "exact", head: true }),
-    getSupabaseAdmin()
-      .from("blogs")
-      .select("id", { count: "exact", head: true })
-      .eq("status", "published"),
     getSupabaseAdmin()
       .from("comments")
       .select("id", { count: "exact", head: true })

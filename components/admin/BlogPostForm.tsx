@@ -196,6 +196,7 @@ export default function BlogPostForm({
   >("idle");
   const [serpDevice, setSerpDevice] = useState<"desktop" | "mobile">("desktop");
 
+  const [postId, setPostId] = useState(initialData?.id);
   const isDirty = useRef(false);
   const postIdRef = useRef(initialData?.id);
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -203,7 +204,11 @@ export default function BlogPostForm({
   const inlineInputRef = useRef<HTMLInputElement>(null);
   const cursorPosRef = useRef<number>(0);
   const formRef = useRef(form);
-  formRef.current = form;
+
+  // Mirror latest form into ref for use in autosave callback without re-binding
+  useEffect(() => {
+    formRef.current = form;
+  });
 
   // Track dirty state for unsaved changes warning
   useEffect(() => {
@@ -255,6 +260,7 @@ export default function BlogPostForm({
         if (!res.ok) throw new Error("Autosave failed");
         const data = await res.json();
         postIdRef.current = data.id;
+        setPostId(data.id);
         window.history.replaceState(null, "", `/admin/blog/${data.id}/edit`);
       }
 
@@ -417,7 +423,7 @@ export default function BlogPostForm({
           </Link>
           <div>
             <h1 className="text-xl font-bold text-gray-900">
-              {isEdit || postIdRef.current ? "Edit Post" : "New Post"}
+              {isEdit || postId ? "Edit Post" : "New Post"}
             </h1>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-xs text-gray-400">
@@ -475,7 +481,7 @@ export default function BlogPostForm({
             <Save className="h-3.5 w-3.5 mr-1.5" />
             {saving
               ? "Saving..."
-              : isEdit || postIdRef.current
+              : isEdit || postId
                 ? "Update"
                 : "Create"}
           </Button>
@@ -811,6 +817,7 @@ export default function BlogPostForm({
                   <p className="text-xs text-red-500">Failed to load image</p>
                 </div>
               ) : (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={form.featured_image}
                   alt="Preview"

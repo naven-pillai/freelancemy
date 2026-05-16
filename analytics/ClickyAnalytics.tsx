@@ -36,6 +36,7 @@ export default function ClickyAnalytics() {
 (function(){ var s = document.createElement('script'); s.src = 'https://static.getclicky.com/js'; s.async = true; document.head.appendChild(s); })();`}
       </Script>
       <noscript>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           alt="Clicky"
           width={1}

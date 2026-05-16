@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   // 👇 Force Light Mode (no dark mode support)
@@ -98,7 +99,7 @@ const config: Config = {
     },
   },
 
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [typography],
 };
 
 export default config;

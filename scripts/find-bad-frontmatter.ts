@@ -22,9 +22,10 @@ for (const file of files) {
   try {
     const raw = fs.readFileSync(file, "utf8");
     matter(raw); // will throw on malformed YAML
-  } catch (e: any) {
+  } catch (e: unknown) {
     bad++;
-    console.error(`❌ Bad front-matter in: ${file}\n   ${e.message || e}`);
+    const message = e instanceof Error ? e.message : String(e);
+    console.error(`❌ Bad front-matter in: ${file}\n   ${message}`);
   }
 }
 

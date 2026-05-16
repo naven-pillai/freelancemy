@@ -104,8 +104,8 @@ export default function AboutPageClient() {
               </p>
 
               <blockquote className="mt-8 rounded-2xl border-l-0 border border-slate-200 bg-slate-50 px-6 py-5 text-base italic text-slate-600">
-                "Every freelancer deserves access to clear guidance that helps
-                them win better work and build a stronger business."
+                &ldquo;Every freelancer deserves access to clear guidance that helps
+                them win better work and build a stronger business.&rdquo;
               </blockquote>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { getSupabaseAdmin } from "@/lib/supabase/service";
 
 // PUT /api/comments — approve/reject a comment
 export async function PUT(req: NextRequest) {
-  const { user, error } = await requireAdminUser();
+  const { error } = await requireAdminUser();
   if (error) return error;
 
   const { id, is_approved } = await req.json();
@@ -27,7 +27,7 @@ export async function PUT(req: NextRequest) {
 
 // DELETE /api/comments — delete a comment
 export async function DELETE(req: NextRequest) {
-  const { user, error } = await requireAdminUser();
+  const { error } = await requireAdminUser();
   if (error) return error;
 
   const { id } = await req.json();
