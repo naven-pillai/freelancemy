@@ -96,6 +96,11 @@ const nextConfig: NextConfig = {
         destination: "https://freelancemy.com/freelance-writer-malaysia",
         permanent: true,
       },
+      {
+        source: "/reports/employment-vs-freelance-malaysia-2026",
+        destination: "https://freelancemy.com/freelancing-vs-employment-in-malaysia",
+        permanent: true,
+      },
     ];
   },
 };
