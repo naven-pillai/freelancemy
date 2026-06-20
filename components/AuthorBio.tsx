@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { Card } from "@/components/ui/card";
-import { Linkedin, X, Globe } from "lucide-react"; // ✅ swapped Twitter → X
+import { X, Globe } from "lucide-react"; // ✅ swapped Twitter → X
+import { FaLinkedin } from "react-icons/fa6";
 
 export default function AuthorBio() {
   return (
@@ -48,7 +49,7 @@ export default function AuthorBio() {
             className="w-7 h-7 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:text-orange-600 hover:border-orange-600 transition-colors"
             aria-label="Naven on LinkedIn"
           >
-            <Linkedin className="w-3.5 h-3.5" />
+            <FaLinkedin className="w-3.5 h-3.5" />
           </a>
           <a
             href="https://x.com/navenpillai"

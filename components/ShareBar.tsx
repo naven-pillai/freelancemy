@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback } from "react";
-import { LinkIcon, Facebook, Linkedin, X } from "lucide-react";
+import { LinkIcon, X } from "lucide-react";
+import { FaFacebook, FaLinkedin } from "react-icons/fa6";
 import { toast } from "sonner";
 
 type ShareBarProps = {
@@ -57,7 +58,7 @@ export default function ShareBar({ title, url, className }: ShareBarProps) {
         aria-label="Share on LinkedIn"
         className={`${pill} bg-blue-50 text-[#0A66C2] hover:bg-blue-100`}
       >
-        <Linkedin className="h-4 w-4" />
+        <FaLinkedin className="h-4 w-4" />
         LinkedIn
       </a>
 
@@ -69,7 +70,7 @@ export default function ShareBar({ title, url, className }: ShareBarProps) {
         aria-label="Share on Facebook"
         className={`${pill} bg-blue-50 text-[#1877F2] hover:bg-blue-100`}
       >
-        <Facebook className="h-4 w-4" />
+        <FaFacebook className="h-4 w-4" />
         Facebook
       </a>
 
