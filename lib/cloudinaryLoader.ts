@@ -24,7 +24,10 @@ export default function cloudinaryLoader({ src, width, quality }: ImageLoaderPro
   // at runtime since next.config.ts only activates this loader when the var is set)
   if (!cloudName) return src;
 
-  const q = quality ?? 75;
+  // q_auto lets Cloudinary choose the smallest byte size at good perceptual
+  // quality (usually smaller than a fixed quality, which speeds up LCP).
+  // An explicit non-default quality from a caller is still honored.
+  const q = quality && quality !== 75 ? String(quality) : "auto";
   const transformations = `f_auto,q_${q},w_${width}`;
 
   // Local/relative paths need an absolute URL for Cloudinary fetch
