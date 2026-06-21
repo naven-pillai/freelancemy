@@ -19,6 +19,7 @@ import {
   ChevronLeft,
   ChevronRight,
   MessageSquare,
+  ExternalLink,
 } from "lucide-react";
 import { relativeTime } from "@/lib/utils";
 
@@ -33,7 +34,13 @@ type Comment = {
 
 const ITEMS_PER_PAGE = 10;
 
-export default function CommentsClient({ comments }: { comments: Comment[] }) {
+export default function CommentsClient({
+  comments,
+  titleBySlug = {},
+}: {
+  comments: Comment[];
+  titleBySlug?: Record<string, string>;
+}) {
   const router = useRouter();
   const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
   const [error, setError] = useState("");
@@ -165,7 +172,7 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
               <TableHead className="">
                 Comment
               </TableHead>
-              <TableHead className=" hidden sm:table-cell">
+              <TableHead className="">
                 Post
               </TableHead>
               <TableHead className=" hidden md:table-cell">
@@ -197,10 +204,17 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
                 <TableCell className=" max-w-xs text-sm text-gray-600">
                   <span className="line-clamp-2">{c.comment}</span>
                 </TableCell>
-                <TableCell className=" hidden sm:table-cell">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
-                    /{c.slug}
-                  </span>
+                <TableCell className="">
+                  <a
+                    href={`/${c.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`/${c.slug}`}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors max-w-[16rem]"
+                  >
+                    <span className="truncate">{titleBySlug[c.slug] ?? `/${c.slug}`}</span>
+                    <ExternalLink className="h-3 w-3 shrink-0 opacity-60" />
+                  </a>
                 </TableCell>
                 <TableCell className=" hidden md:table-cell text-xs text-gray-400 whitespace-nowrap">
                   {relativeTime(c.created_at)}

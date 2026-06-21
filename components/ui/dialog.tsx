@@ -11,13 +11,19 @@ interface DialogProps {
 }
 
 function Dialog({ open, onOpenChange, children }: DialogProps) {
-  // Lock body scroll when open
+  // Lock body scroll and close on Escape while open
   React.useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden"
-      return () => { document.body.style.overflow = "" }
+    if (!open) return
+    document.body.style.overflow = "hidden"
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onOpenChange(false)
     }
-  }, [open])
+    document.addEventListener("keydown", handleKeyDown)
+    return () => {
+      document.body.style.overflow = ""
+      document.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [open, onOpenChange])
 
   if (!open) return null
 
@@ -27,10 +33,14 @@ function Dialog({ open, onOpenChange, children }: DialogProps) {
       <div
         className="fixed inset-0"
         style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-        onClick={() => onOpenChange(false)}
       />
-      {/* Centering wrapper */}
-      <div className="fixed inset-0 flex items-center justify-center p-4">
+      {/* Centering wrapper — clicking the backdrop (outside the content) closes */}
+      <div
+        className="fixed inset-0 flex items-center justify-center p-4"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onOpenChange(false)
+        }}
+      >
         {children}
       </div>
     </div>
