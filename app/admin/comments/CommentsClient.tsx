@@ -12,6 +12,15 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import {
   Check,
   X,
@@ -20,6 +29,7 @@ import {
   ChevronRight,
   MessageSquare,
   ExternalLink,
+  Reply,
 } from "lucide-react";
 import { relativeTime } from "@/lib/utils";
 
@@ -30,6 +40,8 @@ type Comment = {
   slug: string;
   is_approved: boolean | null;
   created_at: string | null;
+  admin_reply: string | null;
+  admin_reply_at: string | null;
 };
 
 const ITEMS_PER_PAGE = 10;
@@ -46,6 +58,9 @@ export default function CommentsClient({
   const [error, setError] = useState("");
   const [pendingPage, setPendingPage] = useState(1);
   const [approvedPage, setApprovedPage] = useState(1);
+  const [replyTarget, setReplyTarget] = useState<Comment | null>(null);
+  const [replyText, setReplyText] = useState("");
+  const [replySaving, setReplySaving] = useState(false);
 
   const pending = useMemo(() => comments.filter((c) => !c.is_approved), [comments]);
   const approved = useMemo(() => comments.filter((c) => c.is_approved), [comments]);
@@ -88,6 +103,39 @@ export default function CommentsClient({
       setError("Network error — please try again");
     } finally {
       removeLoading(id);
+    }
+  }
+
+  function openReply(comment: Comment) {
+    setReplyTarget(comment);
+    setReplyText(comment.admin_reply ?? "");
+  }
+
+  async function handleReplySave(value: string = replyText) {
+    if (!replyTarget) return;
+    setReplySaving(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/comments", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: replyTarget.id, admin_reply: value }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to save reply");
+        return;
+      }
+
+      setReplyTarget(null);
+      setReplyText("");
+      router.refresh();
+    } catch {
+      setError("Network error — please try again");
+    } finally {
+      setReplySaving(false);
     }
   }
 
@@ -246,6 +294,20 @@ export default function CommentsClient({
                     <Button
                       variant="ghost"
                       size="icon"
+                      onClick={() => openReply(c)}
+                      title={c.admin_reply ? "Edit reply" : "Reply"}
+                    >
+                      <Reply
+                        className={
+                          c.admin_reply
+                            ? "h-4 w-4 text-indigo-600"
+                            : "h-4 w-4 text-gray-400"
+                        }
+                      />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
                       disabled={loadingIds.has(c.id)}
                       onClick={() => handleAction(c.id, "delete")}
                       title="Delete"
@@ -300,6 +362,45 @@ export default function CommentsClient({
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Reply dialog */}
+      <Dialog open={!!replyTarget} onOpenChange={() => setReplyTarget(null)}>
+        <DialogContent onClose={() => setReplyTarget(null)}>
+          <DialogHeader>
+            <DialogTitle>Reply to {replyTarget?.name}</DialogTitle>
+            <DialogDescription className="line-clamp-3">
+              {replyTarget?.comment}
+            </DialogDescription>
+          </DialogHeader>
+          <Textarea
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            placeholder="Write your reply as the author…"
+            rows={5}
+            maxLength={2000}
+            disabled={replySaving}
+            className="mt-4 rounded-md"
+          />
+          <DialogFooter>
+            {replyTarget?.admin_reply && (
+              <Button
+                variant="ghost"
+                onClick={() => handleReplySave("")}
+                disabled={replySaving}
+                className="text-red-500 hover:text-red-600"
+              >
+                Remove reply
+              </Button>
+            )}
+            <Button variant="ghost" onClick={() => setReplyTarget(null)} disabled={replySaving}>
+              Cancel
+            </Button>
+            <Button onClick={() => handleReplySave()} disabled={replySaving || !replyText.trim()}>
+              {replySaving ? "Saving…" : "Save reply"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -16,6 +16,8 @@ export type Database = {
     Tables: {
       comments: {
         Row: {
+          admin_reply: string | null
+          admin_reply_at: string | null
           comment: string
           created_at: string | null
           email: string | null
@@ -26,6 +28,8 @@ export type Database = {
           website: string | null
         }
         Insert: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
           comment: string
           created_at?: string | null
           email?: string | null
@@ -36,6 +40,8 @@ export type Database = {
           website?: string | null
         }
         Update: {
+          admin_reply?: string | null
+          admin_reply_at?: string | null
           comment?: string
           created_at?: string | null
           email?: string | null

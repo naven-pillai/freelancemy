@@ -1,8 +1,12 @@
 import { getSupabaseAdmin } from "@/lib/supabase/service";
-import { formatDate } from "@/lib/utils";
+import { relativeTime } from "@/lib/utils";
+import { gravatarUrl } from "@/lib/gravatar";
 import type { Database } from "@/types/supabase";
 
 type Comment = Database["public"]["Tables"]["comments"]["Row"];
+
+const AUTHOR_NAME = "Naven Pillai";
+const AUTHOR_AVATAR = "/naven-pillai-bio-image.jpeg";
 
 export default async function CommentList({ postSlug }: { postSlug: string }) {
   const { data: comments, error } = await getSupabaseAdmin()
@@ -16,27 +20,74 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
   if (!comments || comments.length === 0) return null;
 
   return (
-    <div className="mt-10 space-y-4 sm:space-y-6">
+    <div className="mt-8 space-y-6">
       {comments.map((comment: Comment) => (
-        <div key={comment.id} className="border rounded-md p-3 sm:p-4">
-          <p className="font-medium">
-            {comment.website ? (
-              <a
-                href={comment.website}
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-                className="text-indigo-600 hover:underline"
-              >
-                {comment.name}
-              </a>
-            ) : (
-              comment.name
+        <div key={comment.id} className="flex gap-3 sm:gap-4">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={gravatarUrl(comment.email, 80)}
+            alt=""
+            width={40}
+            height={40}
+            loading="lazy"
+            className="h-10 w-10 rounded-full bg-gray-100 shrink-0"
+          />
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-medium text-gray-900 text-sm">
+                {comment.website ? (
+                  <a
+                    href={comment.website}
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                    className="text-indigo-600 hover:underline"
+                  >
+                    {comment.name}
+                  </a>
+                ) : (
+                  comment.name
+                )}
+              </span>
+              <span className="text-xs text-gray-400">
+                {relativeTime(comment.created_at)}
+              </span>
+            </div>
+
+            <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap wrap-break-word">
+              {comment.comment}
+            </p>
+
+            {comment.admin_reply && (
+              <div className="mt-3 flex gap-3 rounded-lg border border-indigo-100 bg-indigo-50/60 p-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={AUTHOR_AVATAR}
+                  alt=""
+                  width={32}
+                  height={32}
+                  loading="lazy"
+                  className="h-8 w-8 rounded-full object-cover shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-medium text-gray-900 text-sm">
+                      {AUTHOR_NAME}
+                    </span>
+                    <span className="inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                      Author
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {relativeTime(comment.admin_reply_at)}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap wrap-break-word">
+                    {comment.admin_reply}
+                  </p>
+                </div>
+              </div>
             )}
-          </p>
-          <p className="text-sm text-gray-700">{comment.comment}</p>
-          <p className="text-xs text-gray-600 mt-2">
-            {formatDate(comment.created_at ?? undefined)}
-          </p>
+          </div>
         </div>
       ))}
     </div>
