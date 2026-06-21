@@ -69,8 +69,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // When the Cloudinary loader is active it serves the LCP featured image.
+  // Preconnect so the connection is ready before the image request fires.
+  const cloudinaryEnabled = !!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
   return (
     <html lang="en" suppressHydrationWarning>
+      {cloudinaryEnabled && (
+        <head>
+          <link rel="preconnect" href="https://res.cloudinary.com" />
+          <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        </head>
+      )}
       <body
         className={`${plusJakartaSans.variable} ${roboto.variable} font-sans antialiased bg-gray-50 text-gray-900 flex flex-col min-h-screen`}
         suppressHydrationWarning

@@ -47,7 +47,7 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
                   comment.name
                 )}
               </span>
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-500">
                 {relativeTime(comment.created_at)}
               </span>
             </div>
@@ -75,7 +75,7 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
                     <span className="inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                       Author
                     </span>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-gray-500">
                       {relativeTime(comment.admin_reply_at)}
                     </span>
                   </div>
