@@ -92,7 +92,6 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
             maxLength={254}
             className="rounded-md"
           />
-          <p className="text-xs text-gray-500">Not published — used for moderation only.</p>
         </div>
 
         <div className="space-y-2">
@@ -109,7 +108,6 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
             maxLength={500}
             className="rounded-md"
           />
-          <p className="text-xs text-gray-500">Links your name to your site.</p>
         </div>
       </div>
 
