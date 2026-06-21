@@ -19,7 +19,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const roboto = Roboto({
   variable: "--font-body",
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  // 400 = body text, 700 = bold/strong. Prose links (CSS weight 600) resolve
+  // up to 700 per the font-matching algorithm, so 500 was never used.
+  weight: ["400", "700"],
   display: "swap",
 });
 
