@@ -19,7 +19,20 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
     <div className="mt-10 space-y-4 sm:space-y-6">
       {comments.map((comment: Comment) => (
         <div key={comment.id} className="border rounded-md p-3 sm:p-4">
-          <p className="font-medium">{comment.name}</p>
+          <p className="font-medium">
+            {comment.website ? (
+              <a
+                href={comment.website}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="text-indigo-600 hover:underline"
+              >
+                {comment.name}
+              </a>
+            ) : (
+              comment.name
+            )}
+          </p>
           <p className="text-sm text-gray-700">{comment.comment}</p>
           <p className="text-xs text-gray-600 mt-2">
             {formatDate(comment.created_at ?? undefined)}

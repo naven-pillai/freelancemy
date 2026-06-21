@@ -18,26 +18,32 @@ export type Database = {
         Row: {
           comment: string
           created_at: string | null
+          email: string | null
           id: string
           is_approved: boolean | null
           name: string
           slug: string
+          website: string | null
         }
         Insert: {
           comment: string
           created_at?: string | null
+          email?: string | null
           id?: string
           is_approved?: boolean | null
           name: string
           slug: string
+          website?: string | null
         }
         Update: {
           comment?: string
           created_at?: string | null
+          email?: string | null
           id?: string
           is_approved?: boolean | null
           name?: string
           slug?: string
+          website?: string | null
         }
         Relationships: []
       }
