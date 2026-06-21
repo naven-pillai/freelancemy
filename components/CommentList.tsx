@@ -1,12 +1,10 @@
 import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { relativeTime } from "@/lib/utils";
 import { gravatarUrl } from "@/lib/gravatar";
+import { AUTHOR_NAME, AUTHOR_AVATAR } from "@/lib/constants";
 import type { Database } from "@/types/supabase";
 
 type Comment = Database["public"]["Tables"]["comments"]["Row"];
-
-const AUTHOR_NAME = "Naven Pillai";
-const AUTHOR_AVATAR = "/naven-pillai-bio-image.jpeg";
 
 export default async function CommentList({ postSlug }: { postSlug: string }) {
   const { data: comments, error } = await getSupabaseAdmin()

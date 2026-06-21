@@ -32,6 +32,7 @@ import {
   Reply,
 } from "lucide-react";
 import { relativeTime } from "@/lib/utils";
+import { AUTHOR_NAME, AUTHOR_AVATAR } from "@/lib/constants";
 
 type Comment = {
   id: string;
@@ -372,14 +373,28 @@ export default function CommentsClient({
               {replyTarget?.comment}
             </DialogDescription>
           </DialogHeader>
+          <div className="mt-4 flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={AUTHOR_AVATAR}
+              alt=""
+              width={28}
+              height={28}
+              className="h-7 w-7 rounded-full object-cover"
+            />
+            <span className="text-sm text-gray-500">
+              Replying as{" "}
+              <span className="font-medium text-gray-900">{AUTHOR_NAME}</span>
+            </span>
+          </div>
           <Textarea
             value={replyText}
             onChange={(e) => setReplyText(e.target.value)}
-            placeholder="Write your reply as the author…"
+            placeholder={`Write your reply as ${AUTHOR_NAME}…`}
             rows={5}
             maxLength={2000}
             disabled={replySaving}
-            className="mt-4 rounded-md"
+            className="mt-3 rounded-md"
           />
           <DialogFooter>
             {replyTarget?.admin_reply && (
