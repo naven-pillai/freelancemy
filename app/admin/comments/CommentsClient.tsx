@@ -12,6 +12,15 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import {
   Check,
   X,
@@ -19,8 +28,11 @@ import {
   ChevronLeft,
   ChevronRight,
   MessageSquare,
+  ExternalLink,
+  Reply,
 } from "lucide-react";
 import { relativeTime } from "@/lib/utils";
+import { AUTHOR_NAME, AUTHOR_AVATAR } from "@/lib/constants";
 
 type Comment = {
   id: string;
@@ -29,16 +41,27 @@ type Comment = {
   slug: string;
   is_approved: boolean | null;
   created_at: string | null;
+  admin_reply: string | null;
+  admin_reply_at: string | null;
 };
 
 const ITEMS_PER_PAGE = 10;
 
-export default function CommentsClient({ comments }: { comments: Comment[] }) {
+export default function CommentsClient({
+  comments,
+  titleBySlug = {},
+}: {
+  comments: Comment[];
+  titleBySlug?: Record<string, string>;
+}) {
   const router = useRouter();
   const [loadingIds, setLoadingIds] = useState<Set<string>>(new Set());
   const [error, setError] = useState("");
   const [pendingPage, setPendingPage] = useState(1);
   const [approvedPage, setApprovedPage] = useState(1);
+  const [replyTarget, setReplyTarget] = useState<Comment | null>(null);
+  const [replyText, setReplyText] = useState("");
+  const [replySaving, setReplySaving] = useState(false);
 
   const pending = useMemo(() => comments.filter((c) => !c.is_approved), [comments]);
   const approved = useMemo(() => comments.filter((c) => c.is_approved), [comments]);
@@ -81,6 +104,39 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
       setError("Network error — please try again");
     } finally {
       removeLoading(id);
+    }
+  }
+
+  function openReply(comment: Comment) {
+    setReplyTarget(comment);
+    setReplyText(comment.admin_reply ?? "");
+  }
+
+  async function handleReplySave(value: string = replyText) {
+    if (!replyTarget) return;
+    setReplySaving(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/comments", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: replyTarget.id, admin_reply: value }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Failed to save reply");
+        return;
+      }
+
+      setReplyTarget(null);
+      setReplyText("");
+      router.refresh();
+    } catch {
+      setError("Network error — please try again");
+    } finally {
+      setReplySaving(false);
     }
   }
 
@@ -165,7 +221,7 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
               <TableHead className="">
                 Comment
               </TableHead>
-              <TableHead className=" hidden sm:table-cell">
+              <TableHead className="">
                 Post
               </TableHead>
               <TableHead className=" hidden md:table-cell">
@@ -197,10 +253,17 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
                 <TableCell className=" max-w-xs text-sm text-gray-600">
                   <span className="line-clamp-2">{c.comment}</span>
                 </TableCell>
-                <TableCell className=" hidden sm:table-cell">
-                  <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-gray-100 text-[11px] font-medium text-gray-500">
-                    /{c.slug}
-                  </span>
+                <TableCell className="">
+                  <a
+                    href={`/${c.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title={`/${c.slug}`}
+                    className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-gray-100 text-[11px] font-medium text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors max-w-[16rem]"
+                  >
+                    <span className="truncate">{titleBySlug[c.slug] ?? `/${c.slug}`}</span>
+                    <ExternalLink className="h-3 w-3 shrink-0 opacity-60" />
+                  </a>
                 </TableCell>
                 <TableCell className=" hidden md:table-cell text-xs text-gray-400 whitespace-nowrap">
                   {relativeTime(c.created_at)}
@@ -229,6 +292,20 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
                         <X className="h-4 w-4 text-amber-500" />
                       </Button>
                     )}
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => openReply(c)}
+                      title={c.admin_reply ? "Edit reply" : "Reply"}
+                    >
+                      <Reply
+                        className={
+                          c.admin_reply
+                            ? "h-4 w-4 text-indigo-600"
+                            : "h-4 w-4 text-gray-400"
+                        }
+                      />
+                    </Button>
                     <Button
                       variant="ghost"
                       size="icon"
@@ -286,6 +363,59 @@ export default function CommentsClient({ comments }: { comments: Comment[] }) {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Reply dialog */}
+      <Dialog open={!!replyTarget} onOpenChange={() => setReplyTarget(null)}>
+        <DialogContent onClose={() => setReplyTarget(null)}>
+          <DialogHeader>
+            <DialogTitle>Reply to {replyTarget?.name}</DialogTitle>
+            <DialogDescription className="line-clamp-3">
+              {replyTarget?.comment}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={AUTHOR_AVATAR}
+              alt=""
+              width={28}
+              height={28}
+              className="h-7 w-7 rounded-full object-cover"
+            />
+            <span className="text-sm text-gray-500">
+              Replying as{" "}
+              <span className="font-medium text-gray-900">{AUTHOR_NAME}</span>
+            </span>
+          </div>
+          <Textarea
+            value={replyText}
+            onChange={(e) => setReplyText(e.target.value)}
+            placeholder={`Write your reply as ${AUTHOR_NAME}…`}
+            rows={5}
+            maxLength={2000}
+            disabled={replySaving}
+            className="mt-3 rounded-md"
+          />
+          <DialogFooter>
+            {replyTarget?.admin_reply && (
+              <Button
+                variant="ghost"
+                onClick={() => handleReplySave("")}
+                disabled={replySaving}
+                className="text-red-500 hover:text-red-600"
+              >
+                Remove reply
+              </Button>
+            )}
+            <Button variant="ghost" onClick={() => setReplyTarget(null)} disabled={replySaving}>
+              Cancel
+            </Button>
+            <Button onClick={() => handleReplySave()} disabled={replySaving || !replyText.trim()}>
+              {replySaving ? "Saving…" : "Save reply"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

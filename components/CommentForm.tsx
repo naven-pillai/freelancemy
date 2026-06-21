@@ -31,11 +31,12 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
   const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
     const name = (form.elements.namedItem("name") as HTMLInputElement)?.value.trim();
+    const email = (form.elements.namedItem("email") as HTMLInputElement)?.value.trim();
     const comment = (form.elements.namedItem("comment") as HTMLTextAreaElement)?.value.trim();
 
-    if (!name || !comment) {
+    if (!name || !email || !comment) {
       e.preventDefault();
-      toast.error("Name and comment are required.");
+      toast.error("Name, email and comment are required.");
       return;
     }
 
@@ -75,6 +76,39 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
           maxLength={100}
           className="rounded-md"
         />
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2">
+        <div className="space-y-2">
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            Email Address <span className="text-red-500" title="Required">*</span>
+          </label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            disabled={isPending}
+            maxLength={254}
+            className="rounded-md"
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="website" className="block text-sm font-medium text-gray-700">
+            Website <span className="text-gray-400">(optional)</span>
+          </label>
+          <Input
+            id="website"
+            name="website"
+            type="url"
+            inputMode="url"
+            placeholder="https://your-site.com"
+            disabled={isPending}
+            maxLength={500}
+            className="rounded-md"
+          />
+        </div>
       </div>
 
       <div className="space-y-2">
