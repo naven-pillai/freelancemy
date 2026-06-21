@@ -96,7 +96,7 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
 
         <div className="space-y-2">
           <label htmlFor="website" className="block text-sm font-medium text-gray-700">
-            Website <span className="text-gray-400">(optional)</span>
+            Website <span className="text-gray-500">(optional)</span>
           </label>
           <Input
             id="website"

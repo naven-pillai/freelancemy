@@ -223,7 +223,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* ✅ Comments Section */}
         <section id="comments" className="mt-12 border-t pt-10">
           <h3 className="text-xl">Comments</h3>
-          <Suspense fallback={<div className="mt-8 text-sm text-gray-400">Loading comments...</div>}>
+          <Suspense fallback={<div className="mt-8 text-sm text-gray-500">Loading comments...</div>}>
             <CommentList postSlug={slug} />
           </Suspense>
           <CommentForm postSlug={slug} />
