@@ -115,11 +115,6 @@ export default async function HomePage() {
                       <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors leading-snug mb-3">
                         {frontmatter?.title}
                       </h2>
-                      {!!frontmatter?.description && (
-                        <p className="text-gray-600 text-sm md:text-base leading-relaxed line-clamp-3">
-                          {frontmatter.description}
-                        </p>
-                      )}
                     </div>
                   </div>
                 </Link>
@@ -167,11 +162,6 @@ export default async function HomePage() {
                     <h2 className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-orange-600 transition-colors leading-snug mb-2">
                       {frontmatter?.title}
                     </h2>
-                    {!!frontmatter?.description && (
-                      <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">
-                        {frontmatter.description}
-                      </p>
-                    )}
                   </div>
                 </Link>
               ))}
