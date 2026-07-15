@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { sendContactEmail } from "@/lib/mailer";
 
 export type ContactFormState = {
   success: boolean;
@@ -47,6 +48,11 @@ export async function submitContactForm(
   if (error) {
     return { success: false, message: "Failed to send message. Please try again." };
   }
+
+  // Notify info@freelancemy.com. The message is already stored in Supabase, so
+  // an email failure must not fail the submission — sendContactEmail logs and
+  // swallows its own errors.
+  await sendContactEmail({ name, email, message });
 
   return { success: true, message: "Message sent! We'll get back to you soon." };
 }

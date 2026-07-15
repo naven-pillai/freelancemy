@@ -108,10 +108,10 @@ export default function ContactPage() {
         <p>
           Or email us directly at{" "}
           <a
-            href="mailto:hello@freelancemy.com"
+            href="mailto:info@freelancemy.com"
             className="text-blue-600 font-semibold hover:text-orange-500"
           >
-            hello@freelancemy.com
+            info@freelancemy.com
           </a>
         </p>
       </div>
