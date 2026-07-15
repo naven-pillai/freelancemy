@@ -30,7 +30,13 @@ export async function sendContactEmail(input: {
   const pass = process.env.SMTP_PASS;
 
   // Email is optional: if it isn't configured, don't block the submission.
-  if (!user || !pass) return { ok: true };
+  if (!user || !pass) {
+    console.warn(
+      "[contact-email] skipped: SMTP not configured " +
+        `(SMTP_USER=${user ? "set" : "missing"}, SMTP_PASS=${pass ? "set" : "missing"})`
+    );
+    return { ok: true };
+  }
 
   const transporter = nodemailer.createTransport({
     host,
@@ -48,9 +54,10 @@ export async function sendContactEmail(input: {
       subject: `New contact message from ${input.name}`,
       text: `Name: ${input.name}\nEmail: ${input.email}\n\n${input.message}`,
     });
+    console.log(`[contact-email] sent to ${CONTACT_EMAIL} via ${host}`);
     return { ok: true };
   } catch (err) {
-    console.error("Zoho SMTP contact email failed:", err);
+    console.error("[contact-email] Zoho SMTP send failed:", err);
     return { ok: false, error: err instanceof Error ? err.message : "unknown" };
   }
 }
