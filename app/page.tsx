@@ -7,7 +7,9 @@ import { formatDate } from "@/lib/utils";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Freelance Malaysia | Guides & Resources for Freelancers in Malaysia",
+  // `absolute` prevents the layout's "%s | FreelanceMY" template from appending
+  // the brand again (the title already includes it), keeping it under ~60 chars.
+  title: { absolute: "Freelancing in Malaysia — Guides & Tools | FreelanceMY" },
   description:
     "#1 resource hub for freelancers in Malaysia. Explore expert guides, tips, and tools to elevate your freelance career.",
   alternates: {
