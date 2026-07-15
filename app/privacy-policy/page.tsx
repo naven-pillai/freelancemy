@@ -120,10 +120,10 @@ export default function PrivacyPolicyPage() {
             <br />
             <strong>Email:</strong>{" "}
             <a
-              href="mailto:hello@freelancemy.com"
+              href="mailto:info@freelancemy.com"
               className="text-orange-600 hover:underline"
             >
-              hello@freelancemy.com
+              info@freelancemy.com
             </a>
             <br />
             <strong>Address:</strong> No.6, Lorong Batu Nilam 13G, Bandar Bukit Tinggi, 41200 Klang, Selangor, Malaysia
