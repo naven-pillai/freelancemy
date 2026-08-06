@@ -97,6 +97,15 @@
 ----------------------------- */
 html {
   background: var(--background);
+  scroll-behavior: smooth;
+  /* Keep anchored headings & #comments clear of the sticky header */
+  scroll-padding-top: 5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -109,6 +118,16 @@ body {
 ::selection {
   background: var(--accent);
   color: var(--background);
+}
+
+/* Accessible keyboard focus for interactive elements that lack their own ring.
+   Uses :focus-visible so it only shows for keyboard users, not mouse clicks. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent-hover);
+  outline-offset: 2px;
 }
 
 /* ============================================================

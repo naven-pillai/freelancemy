@@ -14,7 +14,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeExternalLinks from "rehype-external-links";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { formatDate } from "@/lib/utils";
+import { formatDate, readingTime } from "@/lib/utils";
 import { SITE_URL } from "@/lib/constants";
 
 export const revalidate = 3600; // Regenerate at most every hour (keeps comments fresh)
@@ -173,6 +173,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   </div>
 )}
 
+          <div>
+            <strong>Reading time:</strong> {readingTime(content)} min read
+          </div>
           {frontmatter.date && (
             <div>
               <strong>Published date:</strong>{" "}

@@ -190,13 +190,13 @@ export default async function HomePage() {
                 className="group block rounded-xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
               >
                 {!!frontmatter?.featured_image && (
-                  <div className="overflow-hidden relative">
+                  <div className="overflow-hidden relative aspect-video">
                     <Image
                       src={frontmatter.featured_image}
                       alt={frontmatter.title ?? "Post image"}
                       width={800}
                       height={450}
-                      className="w-full h-auto group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">

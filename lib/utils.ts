@@ -19,6 +19,20 @@ export function formatDate(
   return d.toLocaleDateString("en-US", options);
 }
 
+/**
+ * Estimate reading time in whole minutes from article content.
+ * Strips MDX/HTML/markdown syntax so only prose words are counted,
+ * at an average adult reading speed of ~200 words per minute.
+ */
+export function readingTime(content: string, wordsPerMinute = 200): number {
+  const text = content
+    .replace(/```[\s\S]*?```/g, " ") // fenced code blocks
+    .replace(/<[^>]+>/g, " ") // html/jsx tags
+    .replace(/[#>*_`~[\]()!-]/g, " "); // markdown punctuation
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / wordsPerMinute));
+}
+
 export function relativeTime(date: string | null | undefined): string {
   if (!date) return "";
   const now = Date.now();
