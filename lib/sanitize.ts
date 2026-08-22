@@ -56,9 +56,13 @@ export function sanitize(html: string, extra?: sanitizeHtml.IOptions): string {
 }
 
 /**
- * True when the string contains real markup, so we render it as HTML. Legacy
- * Markdown posts (no tags) fail this check and fall back to the MDX pipeline.
+ * True when the content is our editor/HTML output (it begins with a block-level
+ * tag), false for Markdown. Checking the START — not just "contains a tag" — is
+ * what keeps Markdown that happens to embed some inline HTML on the MDX path
+ * instead of being dumped out raw.
  */
 export function looksLikeHtml(value: string): boolean {
-  return /<\/?[a-z][\s\S]*>/i.test(value);
+  return /^\s*<(?:p|h[1-6]|ul|ol|li|div|figure|table|blockquote|pre|img|section|article|hr|br|span|a|strong|em)\b/i.test(
+    value
+  );
 }
