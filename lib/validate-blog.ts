@@ -1,7 +1,10 @@
+import { sanitize } from "@/lib/sanitize";
+
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_TITLE = 200;
 const MAX_SEO_TITLE = 60;
 const MAX_DESCRIPTION = 160;
+const MAX_SUMMARY = 5000;
 const MAX_CONTENT = 200000;
 const MAX_URL = 2000;
 const MAX_TAG = 50;
@@ -16,6 +19,7 @@ const ALLOWED_FIELDS = [
   "title",
   "slug",
   "description",
+  "summary",
   "content",
   "featured_image",
   "author",
@@ -44,6 +48,22 @@ function isValidUrl(url: string) {
   } catch {
     return false;
   }
+}
+
+/**
+ * Validate lengths and sanitize the rich-text HTML fields (summary, content)
+ * in place before they are persisted. Returns an error string or null.
+ */
+function processHtmlFields(data: Record<string, unknown>): string | null {
+  if (typeof data.summary === "string") {
+    if (data.summary.length > MAX_SUMMARY)
+      return `Summary must be under ${MAX_SUMMARY} characters`;
+    data.summary = data.summary.trim() ? sanitize(data.summary) : "";
+  }
+  if (typeof data.content === "string") {
+    data.content = sanitize(data.content);
+  }
+  return null;
 }
 
 export function validateBlogCreate(
@@ -93,6 +113,9 @@ export function validateBlogCreate(
       return { valid: false, error: `Each tag must be under ${MAX_TAG} characters` };
   }
 
+  const htmlError = processHtmlFields(data);
+  if (htmlError) return { valid: false, error: htmlError };
+
   return { valid: true, data };
 }
 
@@ -140,6 +163,9 @@ export function validateBlogUpdate(
 
   if (data.tags && !Array.isArray(data.tags))
     return { valid: false, error: "Tags must be an array" };
+
+  const htmlError = processHtmlFields(data);
+  if (htmlError) return { valid: false, error: htmlError };
 
   return { valid: true, data };
 }
