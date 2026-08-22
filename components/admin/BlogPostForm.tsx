@@ -22,6 +22,14 @@ import { SITE_URL } from "@/lib/constants";
 import InternalLinkSuggestions from "@/components/admin/InternalLinkSuggestions";
 import TinyMCEEditor from "@/components/admin/TinyMCEEditor";
 
+// Client-safe HTML check (can't import lib/sanitize here — it pulls in the
+// Node-only sanitize-html). Content that doesn't begin with a block tag is
+// legacy Markdown, which TinyMCE would flatten and corrupt on save.
+const HTML_START = /^\s*<(?:p|h[1-6]|ul|ol|li|div|figure|table|blockquote|pre|img|section|article|hr|br|span|a|strong|em)\b/i;
+function contentLooksLikeHtml(v: string): boolean {
+  return HTML_START.test(v);
+}
+
 type BlogData = {
   id?: string;
   title: string;
@@ -194,6 +202,13 @@ export default function BlogPostForm({
   const postIdRef = useRef(initialData?.id);
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const featuredInputRef = useRef<HTMLInputElement>(null);
+  // A post still stored as Markdown must not be edited/saved through TinyMCE
+  // (it flattens Markdown into one paragraph). Lock it until it's converted.
+  const isLegacyMarkdown =
+    isEdit &&
+    typeof initialData?.content === "string" &&
+    initialData.content.trim() !== "" &&
+    !contentLooksLikeHtml(initialData.content);
   const formRef = useRef(form);
 
   // Mirror latest form into ref for use in autosave callback without re-binding
@@ -217,7 +232,7 @@ export default function BlogPostForm({
 
   // --- Autosave logic ---
   const autosave = useCallback(async () => {
-    if (!isDirty.current) return;
+    if (!isDirty.current || isLegacyMarkdown) return;
 
     const currentForm = formRef.current;
     if (!currentForm.title.trim()) return;
@@ -261,7 +276,7 @@ export default function BlogPostForm({
     } catch {
       setAutosaveStatus("idle");
     }
-  }, [rawCategories, rawTags]);
+  }, [rawCategories, rawTags, isLegacyMarkdown]);
 
   const scheduleAutosave = useCallback(() => {
     if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
@@ -286,6 +301,12 @@ export default function BlogPostForm({
 
   // --- Manual save ---
   async function handleSave() {
+    if (isLegacyMarkdown) {
+      setError(
+        "This post is still stored as Markdown. Run the content migration to convert it to HTML before editing it here — saving now would flatten its formatting."
+      );
+      return;
+    }
     if (autosaveTimer.current) clearTimeout(autosaveTimer.current);
     setError("");
     setSaving(true);
@@ -449,6 +470,15 @@ export default function BlogPostForm({
         </div>
       )}
 
+      {isLegacyMarkdown && (
+        <div className="text-sm text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
+          <strong>This post is still in Markdown.</strong> The rich-text editor
+          can&apos;t safely edit it — saving would flatten its formatting.
+          Editing and saving are locked until you run the content migration to
+          convert it to HTML.
+        </div>
+      )}
+
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Main editor */}
         <div className="lg:col-span-2 space-y-5">
@@ -604,7 +634,7 @@ export default function BlogPostForm({
                 variant="compact"
                 value={form.summary}
                 onChange={(val) => updateField("summary", val)}
-                disabled={saving}
+                disabled={saving || isLegacyMarkdown}
                 placeholder="A short note on what this post covers. Leave blank to show no summary."
               />
             </div>
@@ -625,7 +655,7 @@ export default function BlogPostForm({
               <TinyMCEEditor
                 value={form.content}
                 onChange={(val) => updateField("content", val)}
-                disabled={saving}
+                disabled={saving || isLegacyMarkdown}
               />
             </div>
           </div>
