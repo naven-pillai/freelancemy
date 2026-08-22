@@ -34,11 +34,13 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' static.getclicky.com",
-      "style-src 'self' 'unsafe-inline'",
-      `img-src 'self' data: https://${supabaseHostname} https://freelancemy.com https://${cloudinaryHostname} https://in.getclicky.com https://www.gravatar.com https://secure.gravatar.com`,
-      "font-src 'self'",
-      `connect-src 'self' https://${supabaseHostname} wss://${supabaseHostname} https://in.getclicky.com http://in.getclicky.com`,
+      "script-src 'self' 'unsafe-inline' static.getclicky.com https://cdn.tiny.cloud",
+      "style-src 'self' 'unsafe-inline' https://cdn.tiny.cloud",
+      `img-src 'self' data: blob: https://${supabaseHostname} https://freelancemy.com https://${cloudinaryHostname} https://in.getclicky.com https://www.gravatar.com https://secure.gravatar.com https://cdn.tiny.cloud`,
+      "font-src 'self' https://cdn.tiny.cloud",
+      `connect-src 'self' https://${supabaseHostname} wss://${supabaseHostname} https://in.getclicky.com http://in.getclicky.com https://cdn.tiny.cloud https://sp.tinymce.com`,
+      // TinyMCE editor renders into a same-origin/blob iframe; video embeds use YouTube/Vimeo.
+      "frame-src 'self' blob: https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

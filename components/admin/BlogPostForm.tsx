@@ -2,7 +2,6 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import {
   Save,
@@ -13,7 +12,6 @@ import {
   Upload,
   CheckCircle,
   Loader2,
-  ImagePlus,
   Monitor,
   Smartphone,
   Search,
@@ -22,19 +20,14 @@ import Link from "next/link";
 import { toast } from "sonner";
 import { SITE_URL } from "@/lib/constants";
 import InternalLinkSuggestions from "@/components/admin/InternalLinkSuggestions";
-
-const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-96 bg-gray-50 animate-pulse rounded-lg" />
-  ),
-});
+import TinyMCEEditor from "@/components/admin/TinyMCEEditor";
 
 type BlogData = {
   id?: string;
   title: string;
   slug: string;
   description: string;
+  summary: string;
   content: string;
   featured_image: string;
   author: string;
@@ -51,6 +44,7 @@ const DEFAULT_BLOG: BlogData = {
   title: "",
   slug: "",
   description: "",
+  summary: "",
   content: "",
   featured_image: "",
   author: "Naven Pillai",
@@ -190,7 +184,6 @@ export default function BlogPostForm({
   const [error, setError] = useState("");
   const [imgError, setImgError] = useState(false);
   const [uploadingFeatured, setUploadingFeatured] = useState(false);
-  const [uploadingInline, setUploadingInline] = useState(false);
   const [autosaveStatus, setAutosaveStatus] = useState<
     "idle" | "saving" | "saved"
   >("idle");
@@ -201,8 +194,6 @@ export default function BlogPostForm({
   const postIdRef = useRef(initialData?.id);
   const autosaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const featuredInputRef = useRef<HTMLInputElement>(null);
-  const inlineInputRef = useRef<HTMLInputElement>(null);
-  const cursorPosRef = useRef<number>(0);
   const formRef = useRef(form);
 
   // Mirror latest form into ref for use in autosave callback without re-binding
@@ -359,47 +350,11 @@ export default function BlogPostForm({
     if (file?.type.startsWith("image/")) handleFeaturedUpload(file);
   }
 
-  // --- Inline MDX image upload ---
-  function onEditorCursorChange(e: React.SyntheticEvent<HTMLTextAreaElement>) {
-    cursorPosRef.current = e.currentTarget.selectionStart;
-  }
-
-  async function handleInlineUpload(file: File) {
-    setUploadingInline(true);
-    try {
-      const url = await uploadImage(file);
-      const markdown = `\n![${file.name}](${url})\n`;
-      const pos = cursorPosRef.current;
-      const before = form.content.slice(0, pos);
-      const after = form.content.slice(pos);
-      updateField("content", before + markdown + after);
-      toast.success("Image inserted at cursor position");
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Upload failed");
-    } finally {
-      setUploadingInline(false);
-    }
-  }
-
-  function onInlineFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (file) handleInlineUpload(file);
-    e.target.value = "";
-  }
-
-  function handleEditorPaste(e: React.ClipboardEvent) {
-    const items = e.clipboardData.items;
-    for (const item of items) {
-      if (item.type.startsWith("image/")) {
-        e.preventDefault();
-        const file = item.getAsFile();
-        if (file) handleInlineUpload(file);
-        return;
-      }
-    }
-  }
-
-  const wordCount = form.content.split(/\s+/).filter(Boolean).length;
+  // Word count from the rendered text (strip HTML tags from the editor output).
+  const wordCount = form.content
+    .replace(/<[^>]*>/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
   const readingTime = Math.max(1, Math.round(wordCount / 200));
 
   // SEO display values (fallback to title/description)
@@ -635,62 +590,44 @@ export default function BlogPostForm({
             </div>
           </div>
 
+          {/* Summary — shown in a highlighted box at the top of the post */}
+          <div className="rounded-2xl border border-gray-100 bg-white overflow-hidden">
+            <div className="flex items-center gap-2 px-6 py-3 border-b border-gray-100 bg-gray-50/50">
+              <FileText className="h-3.5 w-3.5 text-gray-400" />
+              <span className="text-xs font-medium text-gray-500">Summary</span>
+              <span className="text-[11px] text-gray-400">
+                — shown in a highlighted box at the top of the post
+              </span>
+            </div>
+            <div className="p-4">
+              <TinyMCEEditor
+                variant="compact"
+                value={form.summary}
+                onChange={(val) => updateField("summary", val)}
+                disabled={saving}
+                placeholder="A short note on what this post covers. Leave blank to show no summary."
+              />
+            </div>
+          </div>
+
           {/* Content editor */}
-          <div
-            className="rounded-2xl border border-gray-100 bg-white overflow-hidden"
-            onPaste={handleEditorPaste}
-          >
+          <div className="rounded-2xl border border-gray-100 bg-white overflow-hidden">
             <div className="flex items-center justify-between px-6 py-3 border-b border-gray-100 bg-gray-50/50">
               <div className="flex items-center gap-2">
                 <FileText className="h-3.5 w-3.5 text-gray-400" />
-                <span className="text-xs font-medium text-gray-500">
-                  Markdown Editor
-                </span>
+                <span className="text-xs font-medium text-gray-500">Content</span>
               </div>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => inlineInputRef.current?.click()}
-                  disabled={uploadingInline}
-                  className="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-emerald-600 transition-colors disabled:opacity-50"
-                >
-                  {uploadingInline ? (
-                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  ) : (
-                    <ImagePlus className="h-3.5 w-3.5" />
-                  )}
-                  {uploadingInline ? "Uploading..." : "Insert Image"}
-                </button>
-                <input
-                  ref={inlineInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={onInlineFileChange}
-                  className="hidden"
-                />
-                <span className="text-[11px] text-gray-400">
-                  {wordCount.toLocaleString()} words
-                </span>
-              </div>
+              <span className="text-[11px] text-gray-400">
+                {wordCount.toLocaleString()} words · {readingTime} min read
+              </span>
             </div>
-            <div data-color-mode="light">
-              <MDEditor
+            <div className="p-4">
+              <TinyMCEEditor
                 value={form.content}
-                onChange={(val) => updateField("content", val ?? "")}
-                height={600}
-                preview="live"
-                visibleDragbar={false}
-                textareaProps={{
-                  onSelect: onEditorCursorChange,
-                  onKeyUp: onEditorCursorChange,
-                  onClick: onEditorCursorChange,
-                }}
+                onChange={(val) => updateField("content", val)}
+                disabled={saving}
               />
             </div>
-            <p className="px-6 py-2 text-[11px] text-gray-400 border-t border-gray-100 bg-gray-50/30">
-              Paste an image from clipboard to upload, or use the Insert Image
-              button above
-            </p>
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import type { BlogFrontmatter } from "@/types/blog";
 export const getPost = cache(async function getPost(slug: string): Promise<{
   slug: string;
   frontmatter: BlogFrontmatter;
+  summary: string;
   content: string;
 } | null> {
   const { data, error } = await getSupabaseAdmin()
@@ -32,7 +33,12 @@ export const getPost = cache(async function getPost(slug: string): Promise<{
     seo_title: data.seo_title ?? undefined,
   };
 
-  return { slug: data.slug, frontmatter, content: data.content };
+  return {
+    slug: data.slug,
+    frontmatter,
+    summary: data.summary ?? "",
+    content: data.content,
+  };
 });
 
 export async function listSlugs(): Promise<string[]> {

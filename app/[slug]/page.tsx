@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { getPost, listSlugs } from "@/lib/posts";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { sanitize, looksLikeHtml } from "@/lib/sanitize";
 import StructuredBlogSEO from "@/components/StructuredBlogSEO";
 import AuthorBio from "@/components/AuthorBio";
 import LatestArticlesSidebar from "@/components/LatestArticlesSidebar";
@@ -90,7 +91,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  const { frontmatter, content } = post;
+  const { frontmatter, content, summary } = post;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -197,26 +198,38 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           className="not-prose mb-8"
         />
 
-        {/* ✅ Render Markdown Content */}
-        <MDXRemote
-          source={content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [remarkGfm, remarkUnwrapImages],
-              rehypePlugins: [
-                rehypeSlug,
-                [
-                  rehypeExternalLinks,
-                  {
-                    target: "_blank",
-                    rel: ["nofollow", "noopener", "noreferrer"],
-                  },
+        {/* ✅ Summary callout — rich text shown above the body */}
+        {summary && looksLikeHtml(summary) && (
+          <div
+            className="not-prose mb-8 rounded-xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5 text-sm sm:text-base text-gray-700 leading-relaxed [&_a]:text-blue-700 [&_a]:underline [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
+            dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
+          />
+        )}
+
+        {/* ✅ Article body — HTML (TinyMCE) or legacy Markdown (MDX bridge) */}
+        {looksLikeHtml(content) ? (
+          <div dangerouslySetInnerHTML={{ __html: sanitize(content) }} />
+        ) : (
+          <MDXRemote
+            source={content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                remarkPlugins: [remarkGfm, remarkUnwrapImages],
+                rehypePlugins: [
+                  rehypeSlug,
+                  [
+                    rehypeExternalLinks,
+                    {
+                      target: "_blank",
+                      rel: ["nofollow", "noopener", "noreferrer"],
+                    },
+                  ],
                 ],
-              ],
-            },
-          }}
-        />
+              },
+            }}
+          />
+        )}
 
         {/* ✅ Author Bio */}
         <div className="mt-8 sm:mt-10 not-prose">
