@@ -1,8 +1,10 @@
 "use client";
 
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { reportError } from "@/lib/report-error";
 
 export default function BlogError({
   error,
@@ -11,6 +13,10 @@ export default function BlogError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    reportError(error, { where: "admin-blog", digest: error.digest });
+  }, [error]);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
       <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mb-4">
