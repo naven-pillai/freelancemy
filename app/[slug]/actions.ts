@@ -2,32 +2,23 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { headers } from "next/headers";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 export type CommentFormState = {
   success: boolean;
   message: string;
 } | null;
 
-// In-memory rate limiter (per IP, 1 comment per 60s).
-// Note: resets on deployment. For high-traffic production use, consider a
-// persistent store (Redis, Supabase RPC, etc.).
-const rateLimitMap = new Map<string, number>();
-const RATE_LIMIT_MS = 60_000;
-
-// Periodically clean expired entries to prevent unbounded memory growth
-function pruneRateLimitMap() {
-  const now = Date.now();
-  for (const [ip, ts] of rateLimitMap) {
-    if (now - ts > RATE_LIMIT_MS) rateLimitMap.delete(ip);
-  }
-}
-setInterval(pruneRateLimitMap, 5 * 60_000).unref();
-
 export async function submitComment(
   slug: string,
   _prevState: CommentFormState,
   formData: FormData
 ): Promise<CommentFormState> {
+  // Honeypot — bots fill this hidden field; humans don't. Pretend success.
+  if (((formData.get("company") as string) ?? "").trim() !== "") {
+    return { success: true, message: "Comment submitted! It will appear after review." };
+  }
+
   const name = (formData.get("name") as string)?.trim();
   const email = (formData.get("email") as string)?.trim();
   const websiteRaw = (formData.get("website") as string)?.trim();
@@ -69,11 +60,11 @@ export async function submitComment(
     }
   }
 
-  // Server-side rate limiting by IP
+  // Persistent, cross-instance rate limiting: 1 comment per 60s per IP.
   const headersList = await headers();
   const ip = headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
-  const lastSubmit = rateLimitMap.get(ip);
-  if (lastSubmit && Date.now() - lastSubmit < RATE_LIMIT_MS) {
+  const { allowed } = await checkRateLimit(rateLimitKey("comment", ip), 1, 60_000);
+  if (!allowed) {
     return { success: false, message: "Please wait a minute before submitting another comment." };
   }
 
@@ -92,6 +83,5 @@ export async function submitComment(
     return { success: false, message: "Failed to submit comment. Please try again." };
   }
 
-  rateLimitMap.set(ip, Date.now());
   return { success: true, message: "Comment submitted! It will appear after review." };
 }

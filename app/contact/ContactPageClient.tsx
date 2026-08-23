@@ -32,6 +32,18 @@ export default function ContactPage() {
           </div>
         ) : (
           <form action={formAction} className="space-y-6">
+            {/* Honeypot — hidden from real users, catches bots */}
+            <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+              <label htmlFor="contact-company">Company</label>
+              <input
+                id="contact-company"
+                type="text"
+                name="company"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
             <div>
               <label htmlFor="contact-name" className="block text-sm font-semibold text-gray-800 mb-2">
                 Your Name

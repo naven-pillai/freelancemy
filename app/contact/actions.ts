@@ -1,7 +1,9 @@
 "use server";
 
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { sendContactEmail } from "@/lib/mailer";
+import { checkRateLimit, rateLimitKey } from "@/lib/rate-limit";
 
 export type ContactFormState = {
   success: boolean;
@@ -12,6 +14,12 @@ export async function submitContactForm(
   _prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
+  // Honeypot: a hidden field real users never fill. If it's set, it's a bot —
+  // pretend success so we don't tip it off, but store nothing.
+  if (((formData.get("company") as string) ?? "").trim() !== "") {
+    return { success: true, message: "Message sent! We'll get back to you soon." };
+  }
+
   const name = (formData.get("name") as string)?.trim();
   const email = (formData.get("email") as string)?.trim();
   const message = (formData.get("message") as string)?.trim();
@@ -35,6 +43,14 @@ export async function submitContactForm(
   }
   if (message.length > 5000) {
     return { success: false, message: "Message must be 5000 characters or fewer." };
+  }
+
+  // Persistent rate limit: 3 messages per 10 minutes per IP.
+  const headersList = await headers();
+  const ip = headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+  const { allowed } = await checkRateLimit(rateLimitKey("contact", ip), 3, 10 * 60 * 1000);
+  if (!allowed) {
+    return { success: false, message: "Too many messages. Please try again later." };
   }
 
   const supabase = await createClient();
