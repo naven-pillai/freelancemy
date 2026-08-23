@@ -1,17 +1,8 @@
 import type { NextConfig } from "next";
-import createMDX from "@next/mdx";
 import bundleAnalyzer from "@next/bundle-analyzer";
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
-});
-
-const withMDX = createMDX({
-  extension: /\.mdx?$/,
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
 });
 
 const supabaseHostname = new URL(
@@ -76,7 +67,7 @@ const nextConfig: NextConfig = {
     }),
   },
 
-  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  pageExtensions: ["ts", "tsx", "js", "jsx"],
 
   experimental: {
     optimizeCss: true,
@@ -107,12 +98,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-const config = withBundleAnalyzer(withMDX(nextConfig));
-
-// Workaround: @next/mdx injects a 'conditions' key into turbopack that Next.js no longer recognises
-if (config.turbopack && "conditions" in config.turbopack) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  delete (config.turbopack as any).conditions;
-}
-
-export default config;
+export default withBundleAnalyzer(nextConfig);

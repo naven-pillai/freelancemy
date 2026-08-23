@@ -32,6 +32,15 @@ const baseOptions: sanitizeHtml.IOptions = {
     "*": ["class", "id", "style"],
   },
   allowedSchemes: ["http", "https", "mailto", "tel"],
+  // Restrict inline styles to a safe whitelist (alignment/indent from TinyMCE)
+  // rather than allowing arbitrary CSS.
+  allowedStyles: {
+    "*": {
+      "text-align": [/^(?:left|right|center|justify)$/],
+      "padding-left": [/^\d{1,3}(?:\.\d+)?(?:px|em|rem)$/],
+      "margin-left": [/^\d{1,3}(?:\.\d+)?(?:px|em|rem)$/],
+    },
+  },
   // Only allow iframes from known embed providers.
   allowedIframeHostnames: [
     "www.youtube.com", "youtube.com", "www.youtube-nocookie.com",

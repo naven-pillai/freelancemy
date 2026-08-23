@@ -1,18 +1,12 @@
 import { Suspense } from "react";
 import { getPost, listSlugs } from "@/lib/posts";
-import { MDXRemote } from "next-mdx-remote/rsc";
-import { sanitize, looksLikeHtml } from "@/lib/sanitize";
+import { sanitize } from "@/lib/sanitize";
 import StructuredBlogSEO from "@/components/StructuredBlogSEO";
 import AuthorBio from "@/components/AuthorBio";
 import LatestArticlesSidebar from "@/components/LatestArticlesSidebar";
-import { mdxComponents } from "@/components/MDXComponents";
 import ShareBar from "@/components/ShareBar";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
-import remarkGfm from "remark-gfm";
-import remarkUnwrapImages from "remark-unwrap-images";
-import rehypeSlug from "rehype-slug";
-import rehypeExternalLinks from "rehype-external-links";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { formatDate, readingTime } from "@/lib/utils";
@@ -199,37 +193,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         />
 
         {/* ✅ Summary callout — rich text shown above the body */}
-        {summary && looksLikeHtml(summary) && (
+        {summary && summary.trim() && (
           <div
             className="not-prose mb-8 rounded-xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5 text-sm sm:text-base text-gray-700 leading-relaxed [&_a]:text-blue-700 [&_a]:underline [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
             dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
           />
         )}
 
-        {/* ✅ Article body — HTML (TinyMCE) or legacy Markdown (MDX bridge) */}
-        {looksLikeHtml(content) ? (
-          <div dangerouslySetInnerHTML={{ __html: sanitize(content) }} />
-        ) : (
-          <MDXRemote
-            source={content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                remarkPlugins: [remarkGfm, remarkUnwrapImages],
-                rehypePlugins: [
-                  rehypeSlug,
-                  [
-                    rehypeExternalLinks,
-                    {
-                      target: "_blank",
-                      rel: ["nofollow", "noopener", "noreferrer"],
-                    },
-                  ],
-                ],
-              },
-            }}
-          />
-        )}
+        {/* ✅ Article body — sanitized HTML from the editor */}
+        <div dangerouslySetInnerHTML={{ __html: sanitize(content) }} />
 
         {/* ✅ Author Bio */}
         <div className="mt-8 sm:mt-10 not-prose">
