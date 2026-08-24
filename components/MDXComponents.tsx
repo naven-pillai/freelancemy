@@ -76,7 +76,7 @@ export const mdxComponents: MDXComponents = {
   ),
 
   code: ({ children }) => (
-    <code className="bg-gray-100 text-pink-700 px-1.5 py-0.5 rounded text-[0.9em] font-mono font-medium">
+    <code className="bg-gray-100 text-blue-700 px-1.5 py-0.5 text-[0.9em] font-mono font-medium">
       {children}
     </code>
   ),

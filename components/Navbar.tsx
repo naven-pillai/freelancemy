@@ -81,8 +81,8 @@ export default function Navbar() {
               alt="FreelanceMY Logo"
               width={140}
               height={40}
-              sizes="140px"
-              className="h-9 w-auto"
+              sizes="120px"
+              className="h-8 w-auto object-contain"
               priority
             />
           </Link>
