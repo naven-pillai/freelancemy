@@ -57,15 +57,16 @@ export default async function HomePage() {
           className="group grid md:grid-cols-[3fr_2fr] gap-6 md:gap-10 items-center"
         >
           {hero.frontmatter?.featured_image && (
-            <div className="relative w-full aspect-3/2 overflow-hidden bg-[#f4f4f4]">
+            <div className="w-full overflow-hidden bg-[#f4f4f4]">
               <Image
                 src={hero.frontmatter.featured_image}
                 alt={hero.frontmatter.title ?? "Post image"}
-                fill
+                width={1200}
+                height={675}
                 priority
                 fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, 720px"
-                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>
           )}
@@ -82,17 +83,18 @@ export default async function HomePage() {
 
       {/* Grid of remaining posts */}
       {grid.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-10 mt-12">
           {grid.map((post) => (
             <Link key={post.slug} href={`/${post.slug}`} className="group block">
               {post.frontmatter?.featured_image && (
-                <div className="relative w-full aspect-4/3 overflow-hidden bg-[#f4f4f4]">
+                <div className="w-full overflow-hidden bg-[#f4f4f4]">
                   <Image
                     src={post.frontmatter.featured_image}
                     alt={post.frontmatter.title ?? "Post image"}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    width={1200}
+                    height={675}
+                    sizes="(max-width: 640px) 100vw, 580px"
+                    className="w-full h-auto transition-transform duration-500 group-hover:scale-[1.04]"
                   />
                 </div>
               )}
