@@ -28,18 +28,18 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
             width={40}
             height={40}
             loading="lazy"
-            className="h-10 w-10 rounded-full bg-gray-100 shrink-0"
+            className="h-10 w-10 rounded-none bg-gray-100 shrink-0"
           />
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-medium text-gray-900 text-sm">
+              <span className="font-medium text-black text-sm">
                 {comment.website ? (
                   <a
                     href={comment.website}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    className="text-indigo-600 hover:underline"
+                    className="text-blue-600 hover:text-orange-600"
                   >
                     {comment.name}
                   </a>
@@ -52,12 +52,12 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
               </span>
             </div>
 
-            <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap wrap-break-word">
+            <p className="text-sm text-black mt-1 whitespace-pre-wrap wrap-break-word">
               {comment.comment}
             </p>
 
             {comment.admin_reply && (
-              <div className="mt-3 flex gap-3 rounded-lg border border-indigo-100 bg-indigo-50/60 p-3">
+              <div className="mt-3 flex gap-3 border-l-2 border-blue-600 pl-3 py-1">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={AUTHOR_AVATAR}
@@ -65,21 +65,21 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
                   width={32}
                   height={32}
                   loading="lazy"
-                  className="h-8 w-8 rounded-full object-cover shrink-0"
+                  className="h-8 w-8 rounded-none object-cover shrink-0"
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-medium text-gray-900 text-sm">
+                    <span className="font-medium text-black text-sm">
                       {AUTHOR_NAME}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                    <span className="inline-flex items-center rounded-none bg-blue-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                       Author
                     </span>
                     <span className="text-xs text-gray-500">
                       {relativeTime(comment.admin_reply_at)}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap wrap-break-word">
+                  <p className="text-sm text-black mt-1 whitespace-pre-wrap wrap-break-word">
                     {comment.admin_reply}
                   </p>
                 </div>

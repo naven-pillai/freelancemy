@@ -37,7 +37,6 @@ export default function Navbar() {
         closeMenu();
         return;
       }
-      // Trap focus within mobile menu
       if (e.key === "Tab" && menuRef.current) {
         const focusable = menuRef.current.querySelectorAll<HTMLElement>(
           'a, button, [tabindex]:not([tabindex="-1"])'
@@ -54,7 +53,6 @@ export default function Navbar() {
         }
       }
     };
-    // Focus first menu item when opened
     const firstLink = menuRef.current?.querySelector<HTMLElement>("a");
     firstLink?.focus();
 
@@ -67,48 +65,42 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const linkClass = (active: boolean) =>
+    `text-[16px] font-semibold text-black border-b-2 pb-0.5 transition-colors ${
+      active ? "border-[#2563eb]" : "border-transparent hover:border-[#2563eb]"
+    }`;
+
   return (
     <nav>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-300 mx-auto px-5 sm:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 shrink-0">
+          <Link href="/" className="flex items-center shrink-0" aria-label="FreelanceMY home">
             <Image
               src="https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelance-my-logo.png"
               alt="FreelanceMY Logo"
               width={140}
               height={40}
-              sizes="140px"
-              className="h-9 w-auto"
+              sizes="120px"
+              className="h-8 w-auto object-contain"
               priority
             />
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-5">
             {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                  isActive(link.href)
-                    ? "text-gray-900"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
-                }`}
-              >
+              <Link key={link.href} href={link.href} className={linkClass(isActive(link.href))}>
                 {link.label}
-                {isActive(link.href) && (
-                  <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-orange-500" />
-                )}
               </Link>
             ))}
           </div>
 
-          {/* Desktop CTA */}
+          {/* Desktop action — outlined magenta, never filled */}
           <div className="hidden md:flex items-center">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-1.5 px-5 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm"
+              className="inline-flex items-center px-4 py-2 text-[16px] font-semibold text-black border-2 border-glitch hover:text-glitch transition-colors"
             >
               Get in Touch
             </Link>
@@ -117,45 +109,42 @@ export default function Navbar() {
           {/* Mobile Toggle */}
           <button
             ref={toggleRef}
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 text-black"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
             aria-expanded={isOpen}
             aria-controls="mobile-menu"
           >
-            {isOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Dropdown */}
       {isOpen && (
-        <div ref={menuRef} id="mobile-menu" role="menu" className="md:hidden border-t border-gray-100 bg-white dark:bg-gray-900 px-4 py-4 space-y-1 shadow-lg">
+        <div
+          ref={menuRef}
+          id="mobile-menu"
+          role="menu"
+          className="md:hidden bg-white px-5 py-5 space-y-4 border-t border-hairline"
+        >
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                isActive(link.href)
-                  ? "bg-gray-50 text-gray-900"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+              className={`block text-[18px] font-semibold text-black w-fit border-b-2 ${
+                isActive(link.href) ? "border-glitch" : "border-transparent"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 px-4">
-            <Link
-              href="/contact"
-              className="block w-full text-center px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
-            >
-              Get in Touch
-            </Link>
-          </div>
+          <Link
+            href="/contact"
+            className="inline-flex items-center px-4 py-2 text-[16px] font-semibold text-black border-2 border-glitch"
+          >
+            Get in Touch
+          </Link>
         </div>
       )}
     </nav>

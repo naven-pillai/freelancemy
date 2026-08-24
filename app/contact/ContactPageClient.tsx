@@ -17,14 +17,14 @@ export default function ContactPage() {
     <main className="max-w-3xl mx-auto px-6 py-16">
       {/* Header */}
       <div className="text-center mb-12">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3">Get in Touch</h1>
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-3">Get in Touch</h1>
         <p className="text-lg text-gray-600">
           Have a question, feedback, or just want to connect? Fill out the form below — we&apos;d love to hear from you.
         </p>
       </div>
 
       {/* Contact Form */}
-      <div className="bg-white shadow-md rounded-xl p-4 sm:p-6 md:p-8 border border-gray-200">
+      <div className="bg-white rounded-none p-4 sm:p-6 md:p-8 border border-black">
         {state?.success ? (
           <div className="text-center py-8 space-y-2">
             <p className="text-green-600 font-semibold text-lg">{state.message}</p>
@@ -33,7 +33,7 @@ export default function ContactPage() {
         ) : (
           <form action={formAction} className="space-y-6">
             <div>
-              <label htmlFor="contact-name" className="block text-sm font-semibold text-gray-800 mb-2">
+              <label htmlFor="contact-name" className="block text-sm font-semibold text-black mb-2">
                 Your Name
               </label>
               <Input
@@ -44,12 +44,12 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 disabled={isPending}
-                className="w-full border-gray-300 focus:ring-2 focus:ring-blue-600"
+                className="w-full border-black focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label htmlFor="contact-email" className="block text-sm font-semibold text-gray-800 mb-2">
+              <label htmlFor="contact-email" className="block text-sm font-semibold text-black mb-2">
                 Email Address
               </label>
               <Input
@@ -60,12 +60,12 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 disabled={isPending}
-                className="w-full border-gray-300 focus:ring-2 focus:ring-blue-600"
+                className="w-full border-black focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
             <div>
-              <label htmlFor="contact-message" className="block text-sm font-semibold text-gray-800 mb-2">
+              <label htmlFor="contact-message" className="block text-sm font-semibold text-black mb-2">
                 Your Message
               </label>
               <Textarea
@@ -75,7 +75,7 @@ export default function ContactPage() {
                 rows={5}
                 required
                 disabled={isPending}
-                className="w-full border-gray-300 focus:ring-2 focus:ring-blue-600"
+                className="w-full border-black focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
@@ -87,7 +87,7 @@ export default function ContactPage() {
               type="submit"
               disabled={isPending}
               aria-describedby={state && !state.success ? "contact-form-error" : undefined}
-              className="w-full bg-blue-600 hover:bg-blue-800 text-white font-semibold py-3 rounded-lg transition-colors shadow-md hover:shadow-lg"
+              className="w-full bg-black hover:bg-blue-600 text-white font-semibold py-3 rounded-none transition-colors"
             >
               {isPending ? (
                 <span className="inline-flex items-center gap-2">
@@ -122,28 +122,28 @@ export default function ContactPage() {
           href="https://linkedin.com/company/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-50 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-black rounded-none transition"
         >
           <FaLinkedin className="w-5 h-5 text-blue-700" />
-          <span className="text-sm font-medium text-gray-800">LinkedIn</span>
+          <span className="text-sm font-medium text-black">LinkedIn</span>
         </a>
         <a
           href="https://x.com/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-black rounded-none transition"
         >
           <FaXTwitter className="w-5 h-5 text-black" />
-          <span className="text-sm font-medium text-gray-800">X</span>
+          <span className="text-sm font-medium text-black">X</span>
         </a>
         <a
           href="https://facebook.com/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-100 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition"
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-black rounded-none transition"
         >
           <FaFacebook className="w-5 h-5 text-blue-600" />
-          <span className="text-sm font-medium text-gray-800">Facebook</span>
+          <span className="text-sm font-medium text-black">Facebook</span>
         </a>
       </div>
     </main>
