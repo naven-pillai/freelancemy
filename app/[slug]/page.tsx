@@ -201,7 +201,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* ✅ Summary callout — rich text shown above the body */}
         {summary && looksLikeHtml(summary) && (
           <div
-            className="not-prose mb-8 border-l-2 border-glitch pl-4 sm:pl-5 text-base sm:text-lg text-black leading-relaxed [&_a]:text-black [&_a]:border-b-2 [&_a]:border-glitch [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
+            className="not-prose mb-8 border-l-2 border-glitch pl-4 sm:pl-5 text-base sm:text-lg text-black leading-relaxed [&_a]:text-blue-600 [&_a:hover]:text-orange-600 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
             dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
           />
         )}

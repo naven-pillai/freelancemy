@@ -50,29 +50,33 @@ export default async function HomePage() {
 
       {!hero && <p className="text-black">No posts yet.</p>}
 
-      {/* Featured hero */}
+      {/* Featured hero — split editorial layout */}
       {hero && (
-        <Link href={`/${hero.slug}`} className="group block">
+        <Link
+          href={`/${hero.slug}`}
+          className="group grid md:grid-cols-[3fr_2fr] gap-6 md:gap-10 items-center"
+        >
           {hero.frontmatter?.featured_image && (
-            <div className="w-full overflow-hidden">
+            <div className="relative w-full aspect-3/2 overflow-hidden bg-[#f4f4f4]">
               <Image
                 src={hero.frontmatter.featured_image}
                 alt={hero.frontmatter.title ?? "Post image"}
-                width={1200}
-                height={675}
+                fill
                 priority
                 fetchPriority="high"
-                sizes="(max-width: 1200px) 100vw, 1200px"
-                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 720px"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>
           )}
-          <p className="text-[14px]! font-normal! leading-[1.38]! text-black mt-12! mb-0!">
-            {formatDate(hero.frontmatter?.date || hero.frontmatter?.last_updated, DATE_FMT)}
-          </p>
-          <h1 className="text-[28px]! sm:text-[40px]! font-semibold! leading-[1.15]! text-black mt-5! mb-0! max-w-225 group-hover:underline decoration-glitch decoration-2 underline-offset-4">
-            {hero.frontmatter?.title}
-          </h1>
+          <div>
+            <p className="text-[14px]! font-normal! leading-[1.38]! text-black mb-0!">
+              {formatDate(hero.frontmatter?.date || hero.frontmatter?.last_updated, DATE_FMT)}
+            </p>
+            <h1 className="text-[28px]! sm:text-[36px]! lg:text-[46px]! font-semibold! leading-[1.1]! text-black mt-4! mb-0! group-hover:text-blue-600 transition-colors">
+              {hero.frontmatter?.title}
+            </h1>
+          </div>
         </Link>
       )}
 
@@ -95,7 +99,7 @@ export default async function HomePage() {
               <p className="text-[14px]! font-normal! leading-[1.38]! text-black mt-5! mb-0!">
                 {formatDate(post.frontmatter?.date || post.frontmatter?.last_updated, DATE_FMT)}
               </p>
-              <h2 className="text-[18px]! font-semibold! leading-[1.38]! text-black mt-5! mb-0! group-hover:underline decoration-glitch decoration-2 underline-offset-4">
+              <h2 className="text-[18px]! font-semibold! leading-[1.38]! text-black mt-5! mb-0! group-hover:text-blue-600 transition-colors">
                 {post.frontmatter?.title}
               </h2>
             </Link>

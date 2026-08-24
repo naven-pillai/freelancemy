@@ -14,8 +14,8 @@
 
   --accent: #2563eb;
   --accent-hover: #2563eb;
-  --link: #000000;
-  --link-hover: #2563eb;
+  --link: #2563eb;
+  --link-hover: #ea580c;
   --glitch-magenta: #2563eb;
 
   --muted: #000000;
@@ -267,15 +267,14 @@ button:focus-visible,
 
 /* Links — Glitch signature: black text with a 2px magenta underline */
 .public-site .prose a {
-  color: var(--foreground);
+  color: var(--link);
   text-decoration: none;
   font-weight: 600;
-  border-bottom: 2px solid var(--glitch-magenta);
   transition: color 0.15s ease;
 }
 
 .public-site .prose a:hover {
-  color: var(--glitch-magenta);
+  color: var(--link-hover);
 }
 
 /* Blockquotes */
