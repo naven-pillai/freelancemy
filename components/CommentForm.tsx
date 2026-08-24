@@ -58,14 +58,14 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
     <form
       action={formAction}
       onSubmit={handleSubmit}
-      className="bg-muted/50 p-4 sm:p-6 rounded-xl space-y-6 border border-gray-200 mt-12"
+      className="bg-white p-5 sm:p-6 space-y-6 border border-black mt-12"
     >
-      <h4 className="text-xl font-semibold text-gray-800">
+      <h4 className="text-xl font-bold text-black">
         <span aria-hidden="true">💬 </span>Leave a Comment
       </h4>
 
       <div className="space-y-2">
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="name" className="block text-sm font-medium text-black">
           Your Name <span className="text-red-500" title="Required">*</span>
         </label>
         <Input
@@ -74,13 +74,13 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
           placeholder="John Doe"
           disabled={isPending}
           maxLength={100}
-          className="rounded-md"
+          className="rounded-none"
         />
       </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <div className="space-y-2">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium text-black">
             Email Address <span className="text-red-500" title="Required">*</span>
           </label>
           <Input
@@ -90,12 +90,12 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
             placeholder="you@example.com"
             disabled={isPending}
             maxLength={254}
-            className="rounded-md"
+            className="rounded-none"
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="website" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="website" className="block text-sm font-medium text-black">
             Website <span className="text-gray-500">(optional)</span>
           </label>
           <Input
@@ -106,13 +106,13 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
             placeholder="https://your-site.com"
             disabled={isPending}
             maxLength={500}
-            className="rounded-md"
+            className="rounded-none"
           />
         </div>
       </div>
 
       <div className="space-y-2">
-        <label htmlFor="comment" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="comment" className="block text-sm font-medium text-black">
           Your Comment <span className="text-red-500" title="Required">*</span>
         </label>
         <Textarea
@@ -122,14 +122,14 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
           rows={5}
           disabled={isPending}
           maxLength={2000}
-          className="rounded-md"
+          className="rounded-none"
         />
       </div>
 
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-md transition-colors cursor-pointer"
+        className="w-full sm:w-auto bg-black hover:bg-blue-600 text-white font-semibold rounded-none transition-colors cursor-pointer"
       >
         {isPending ? (
           <span className="inline-flex items-center gap-2">
