@@ -18,74 +18,57 @@ const footerLinks = {
 };
 
 const socials = [
-  {
-    href: "https://facebook.com/freelancemy",
-    label: "Facebook",
-    icon: FaFacebook,
-    color: "text-blue-600 border-blue-200 hover:bg-blue-50",
-  },
-  {
-    href: "https://x.com/freelancemy",
-    label: "X",
-    icon: FaXTwitter,
-    color: "text-gray-700 border-gray-200 hover:bg-gray-50",
-  },
-  {
-    href: "https://linkedin.com/company/freelancemy",
-    label: "LinkedIn",
-    icon: FaLinkedin,
-    color: "text-blue-700 border-blue-200 hover:bg-blue-50",
-  },
+  { href: "https://facebook.com/freelancemy", label: "Facebook", icon: FaFacebook },
+  { href: "https://x.com/freelancemy", label: "X", icon: FaXTwitter },
+  { href: "https://linkedin.com/company/freelancemy", label: "LinkedIn", icon: FaLinkedin },
 ];
+
+const linkClass =
+  "text-[16px] text-black hover:text-glitch transition-colors";
+const headingClass =
+  "text-[14px] font-bold uppercase tracking-wide text-black mb-4";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gray-50 border-t border-gray-200 mt-16">
-      {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-14 pb-8 sm:pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12">
-          {/* Brand — spans 2 columns on lg */}
+    <footer className="w-full bg-white border-t border-hairline mt-12">
+      <div className="max-w-300 mx-auto px-5 sm:px-8 py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          {/* Brand */}
           <div className="lg:col-span-2 space-y-4">
-            <p className="text-lg font-bold text-gray-900 tracking-tight">
-              FreelanceMY
+            <div className="flex items-center gap-2">
+              <span className="h-5 w-5 bg-glitch shrink-0" aria-hidden="true" />
+              <span className="text-[20px] leading-none tracking-tight">
+                <span className="font-bold text-black">Freelance</span>
+                <span className="font-normal text-black">MY</span>
+              </span>
+            </div>
+            <p className="text-[16px] leading-[1.38] text-black max-w-sm">
+              Your resource for freelancing in Malaysia — insights, guides, and
+              opportunities for the modern independent professional.
             </p>
-            <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
-              Your trusted resource for freelancing in Malaysia — insights,
-              guides, and opportunities for the modern independent professional.
-            </p>
-
-            {/* Social icons */}
-            <div className="flex items-center gap-2 pt-2">
-              {socials.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.href}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`FreelanceMY on ${social.label}`}
-                    className={`w-9 h-9 rounded-lg border flex items-center justify-center transition-colors ${social.color}`}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </a>
-                );
-              })}
+            <div className="flex items-center gap-4 pt-1">
+              {socials.map(({ href, label, icon: Icon }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`FreelanceMY on ${label}`}
+                  className="text-black hover:text-glitch transition-colors"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
             </div>
           </div>
 
           {/* Explore */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
-              Explore
-            </p>
+            <p className={headingClass}>Explore</p>
             <ul className="space-y-3">
               {footerLinks.explore.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -95,9 +78,7 @@ export default function Footer() {
 
           {/* Resources */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
-              Resources
-            </p>
+            <p className={headingClass}>Resources</p>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
@@ -105,7 +86,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className={linkClass}
                   >
                     {link.label}
                   </a>
@@ -116,16 +97,11 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 mb-4">
-              Legal
-            </p>
+            <p className={headingClass}>Legal</p>
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -133,17 +109,12 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="footer-bottom border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
-          <p className="text-gray-500">
+        <div className="border-t border-hairline mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-[14px] text-black">
             &copy; {new Date().getFullYear()} FreelanceMY. All rights reserved.
           </p>
-          <p className="text-gray-500">
-            Built for freelancers in Malaysia.
-          </p>
+          <p className="text-[14px] text-black">Built for freelancers in Malaysia.</p>
         </div>
       </div>
     </footer>
