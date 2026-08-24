@@ -92,7 +92,7 @@ export default async function HomePage() {
                     alt={post.frontmatter.title ?? "Post image"}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                   />
                 </div>
               )}
