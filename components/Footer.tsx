@@ -35,13 +35,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <span className="h-5 w-5 bg-glitch shrink-0" aria-hidden="true" />
-              <span className="text-[20px] leading-none tracking-tight">
-                <span className="font-bold text-black">Freelance</span>
-                <span className="font-normal text-black">MY</span>
-              </span>
-            </div>
+            <p className="text-[20px] font-bold text-black tracking-tight">
+              FreelanceMY
+            </p>
             <p className="text-[16px] leading-[1.38] text-black max-w-sm">
               Your resource for freelancing in Malaysia — insights, guides, and
               opportunities for the modern independent professional.

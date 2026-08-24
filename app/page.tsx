@@ -54,15 +54,16 @@ export default async function HomePage() {
       {hero && (
         <Link href={`/${hero.slug}`} className="group block">
           {hero.frontmatter?.featured_image && (
-            <div className="relative w-full aspect-16/7 overflow-hidden bg-[#f4f4f4]">
+            <div className="w-full overflow-hidden">
               <Image
                 src={hero.frontmatter.featured_image}
                 alt={hero.frontmatter.title ?? "Post image"}
-                fill
+                width={1200}
+                height={675}
                 priority
                 fetchPriority="high"
                 sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-cover"
+                className="w-full h-auto"
               />
             </div>
           )}

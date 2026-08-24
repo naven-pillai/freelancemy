@@ -12,11 +12,11 @@
   --surface: #ffffff;
   --surface-soft: #ffffff;
 
-  --accent: #ff00bc;
-  --accent-hover: #ff00bc;
+  --accent: #2563eb;
+  --accent-hover: #2563eb;
   --link: #000000;
-  --link-hover: #ff00bc;
-  --glitch-magenta: #ff00bc;
+  --link-hover: #2563eb;
+  --glitch-magenta: #2563eb;
 
   --muted: #000000;
   --muted-foreground: #000000;
@@ -38,10 +38,10 @@
   --card-foreground: #111827;
   --accent-foreground: #0f172a;
 
-  --blockquote-border: #ff00bc;
+  --blockquote-border: #2563eb;
 
   --code-bg: #f4f4f4;
-  --code-text: #ff00bc;
+  --code-text: #2563eb;
   --pre-bg: #f8f8f8;
 
   --table-head-bg: #ffffff;
@@ -61,7 +61,7 @@
 
 /* Expose the magenta accent as a Tailwind utility color (text-glitch, etc.) */
 @theme {
-  --color-glitch: #ff00bc;
+  --color-glitch: #2563eb;
   --color-ink: #000000;
   --color-paper: #ffffff;
   --color-hairline: #e4e4e4;

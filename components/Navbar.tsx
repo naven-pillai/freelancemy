@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -66,20 +67,24 @@ export default function Navbar() {
 
   const linkClass = (active: boolean) =>
     `text-[16px] font-semibold text-black border-b-2 pb-0.5 transition-colors ${
-      active ? "border-[#ff00bc]" : "border-transparent hover:border-[#ff00bc]"
+      active ? "border-[#2563eb]" : "border-transparent hover:border-[#2563eb]"
     }`;
 
   return (
     <nav>
       <div className="max-w-300 mx-auto px-5 sm:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo lockup */}
-          <Link href="/" className="flex items-center gap-2 shrink-0" aria-label="FreelanceMY home">
-            <span className="h-5 w-5 bg-glitch shrink-0" aria-hidden="true" />
-            <span className="text-[20px] leading-none tracking-tight">
-              <span className="font-bold text-black">Freelance</span>
-              <span className="font-normal text-black">MY</span>
-            </span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center shrink-0" aria-label="FreelanceMY home">
+            <Image
+              src="https://loigoouddqshbpygboos.supabase.co/storage/v1/object/public/blog-images/freelance-my-logo.png"
+              alt="FreelanceMY Logo"
+              width={140}
+              height={40}
+              sizes="140px"
+              className="h-9 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Nav */}
