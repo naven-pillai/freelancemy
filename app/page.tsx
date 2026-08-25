@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { Star } from "lucide-react";
 import { getAllPostCards } from "@/lib/posts";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 
@@ -53,35 +54,48 @@ export default async function HomePage() {
         <div className="text-center py-24 text-gray-600">No posts yet.</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-          {posts.map((post) => (
-            <Link
-              key={post.slug}
-              href={`/${post.slug}`}
-              className="group block border border-gray-200 rounded-2xl overflow-hidden hover:shadow-lg transition bg-white"
-            >
-              {post.frontmatter?.featured_image && (
-                <div className="relative w-full aspect-video overflow-hidden">
-                  <Image
-                    src={post.frontmatter.featured_image}
-                    alt={post.frontmatter.title ?? "Post image"}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              )}
-              <div className="p-6 space-y-3">
-                {post.frontmatter?.categories?.[0] && (
-                  <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-md">
-                    {post.frontmatter.categories[0]}
-                  </span>
+          {posts.map((post) => {
+            const isFeatured = !!post.frontmatter?.is_featured;
+            return (
+              <Link
+                key={post.slug}
+                href={`/${post.slug}`}
+                className={`group relative block rounded-2xl overflow-hidden transition bg-white ${
+                  isFeatured
+                    ? "ring-2 ring-blue-600 ring-offset-2 shadow-lg hover:shadow-xl bg-linear-to-b from-blue-50/60 to-white"
+                    : "border border-gray-200 hover:shadow-lg"
+                }`}
+              >
+                {post.frontmatter?.featured_image && (
+                  <div className="relative w-full aspect-video overflow-hidden">
+                    <Image
+                      src={post.frontmatter.featured_image}
+                      alt={post.frontmatter.title ?? "Post image"}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    {isFeatured && (
+                      <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-blue-600 text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
+                        <Star className="h-3 w-3 fill-current" />
+                        Featured
+                      </span>
+                    )}
+                  </div>
                 )}
-                <h2 className="text-lg! font-bold! text-gray-900 leading-snug! m-0! group-hover:text-blue-600 transition-colors">
-                  {post.frontmatter?.title}
-                </h2>
-              </div>
-            </Link>
-          ))}
+                <div className="p-6 space-y-3">
+                  {post.frontmatter?.categories?.[0] && (
+                    <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-md">
+                      {post.frontmatter.categories[0]}
+                    </span>
+                  )}
+                  <h2 className="text-lg! font-bold! text-gray-900 leading-snug! m-0! group-hover:text-blue-600 transition-colors">
+                    {post.frontmatter?.title}
+                  </h2>
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
