@@ -76,7 +76,7 @@ export default async function HomePage() {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {isFeatured && (
-                      <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-amber-400 text-amber-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md">
+                      <span className="absolute bottom-3 right-3 z-10 inline-flex items-center gap-1 bg-amber-400 text-amber-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md">
                         <Star className="h-3 w-3 fill-current" />
                         Featured
                       </span>
