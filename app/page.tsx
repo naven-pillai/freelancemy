@@ -62,7 +62,7 @@ export default async function HomePage() {
                 href={`/${post.slug}`}
                 className={`group relative block rounded-2xl overflow-hidden transition bg-white ${
                   isFeatured
-                    ? "ring-2 ring-blue-600 ring-offset-2 shadow-lg hover:shadow-xl bg-linear-to-b from-blue-50/60 to-white"
+                    ? "ring-2 ring-amber-400 ring-offset-2 shadow-[0_8px_30px_rgba(217,119,6,0.18)] hover:shadow-[0_12px_40px_rgba(217,119,6,0.28)] bg-linear-to-b from-amber-50 to-white"
                     : "border border-gray-200 hover:shadow-lg"
                 }`}
               >
@@ -76,7 +76,7 @@ export default async function HomePage() {
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     {isFeatured && (
-                      <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-blue-600 text-white text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm">
+                      <span className="absolute top-3 left-3 z-10 inline-flex items-center gap-1 bg-amber-400 text-amber-950 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-md">
                         <Star className="h-3 w-3 fill-current" />
                         Featured
                       </span>
