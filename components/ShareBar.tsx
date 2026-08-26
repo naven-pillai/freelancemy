@@ -31,13 +31,13 @@ export default function ShareBar({ title, url, className }: ShareBarProps) {
 
   // sharp outlined button — ink default, blue on hover
   const pill =
-    "inline-flex items-center gap-1.5 px-3 py-1.5 text-[13px] font-medium text-black border border-black hover:text-blue-600 hover:border-blue-600 transition-colors";
+    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13px] font-medium text-gray-700 border border-gray-200 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50/50 transition-colors";
 
   return (
     <div
-      className={`flex items-center flex-wrap gap-3 border-t border-b border-black py-4 ${className ?? ""}`}
+      className={`flex items-center flex-wrap gap-3 border-t border-b border-gray-200 py-4 ${className ?? ""}`}
     >
-      <span className="text-[13px] font-semibold text-black">Share this post:</span>
+      <span className="text-[13px] font-semibold text-gray-500">Share this post:</span>
 
       <a href={links.x} target="_blank" rel="noopener noreferrer" aria-label="Share on X" className={pill}>
         <X className="h-4 w-4" />

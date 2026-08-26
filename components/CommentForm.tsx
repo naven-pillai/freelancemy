@@ -58,7 +58,7 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
     <form
       action={formAction}
       onSubmit={handleSubmit}
-      className="bg-white p-5 sm:p-6 space-y-6 border border-black mt-12"
+      className="bg-gray-50 p-5 sm:p-6 space-y-6 rounded-xl border border-gray-200 mt-12"
     >
       <h4 className="text-xl font-bold text-black">
         <span aria-hidden="true">💬 </span>Leave a Comment
@@ -74,7 +74,7 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
           placeholder="John Doe"
           disabled={isPending}
           maxLength={100}
-          className="rounded-none"
+          className="rounded-md"
         />
       </div>
 
@@ -90,7 +90,7 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
             placeholder="you@example.com"
             disabled={isPending}
             maxLength={254}
-            className="rounded-none"
+            className="rounded-md"
           />
         </div>
 
@@ -106,7 +106,7 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
             placeholder="https://your-site.com"
             disabled={isPending}
             maxLength={500}
-            className="rounded-none"
+            className="rounded-md"
           />
         </div>
       </div>
@@ -122,14 +122,14 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
           rows={5}
           disabled={isPending}
           maxLength={2000}
-          className="rounded-none"
+          className="rounded-md"
         />
       </div>
 
       <Button
         type="submit"
         disabled={isPending}
-        className="w-full sm:w-auto bg-black hover:bg-blue-600 text-white font-semibold rounded-none transition-colors cursor-pointer"
+        className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md transition-colors cursor-pointer"
       >
         {isPending ? (
           <span className="inline-flex items-center gap-2">

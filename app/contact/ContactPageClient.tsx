@@ -24,7 +24,7 @@ export default function ContactPage() {
       </div>
 
       {/* Contact Form */}
-      <div className="bg-white rounded-none p-4 sm:p-6 md:p-8 border border-black">
+      <div className="bg-white rounded-2xl p-4 sm:p-6 md:p-8 border border-gray-200 shadow-sm">
         {state?.success ? (
           <div className="text-center py-8 space-y-2">
             <p className="text-green-600 font-semibold text-lg">{state.message}</p>
@@ -44,7 +44,7 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 disabled={isPending}
-                className="w-full border-black focus:ring-2 focus:ring-blue-600"
+                className="w-full border-gray-200 focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
@@ -60,7 +60,7 @@ export default function ContactPage() {
                 required
                 aria-required="true"
                 disabled={isPending}
-                className="w-full border-black focus:ring-2 focus:ring-blue-600"
+                className="w-full border-gray-200 focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
@@ -75,7 +75,7 @@ export default function ContactPage() {
                 rows={5}
                 required
                 disabled={isPending}
-                className="w-full border-black focus:ring-2 focus:ring-blue-600"
+                className="w-full border-gray-200 focus:ring-2 focus:ring-blue-600"
               />
             </div>
 
@@ -87,7 +87,7 @@ export default function ContactPage() {
               type="submit"
               disabled={isPending}
               aria-describedby={state && !state.success ? "contact-form-error" : undefined}
-              className="w-full bg-black hover:bg-blue-600 text-white font-semibold py-3 rounded-none transition-colors"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition-colors"
             >
               {isPending ? (
                 <span className="inline-flex items-center gap-2">
@@ -122,7 +122,7 @@ export default function ContactPage() {
           href="https://linkedin.com/company/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-black rounded-none transition"
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-gray-200 rounded-md transition"
         >
           <FaLinkedin className="w-5 h-5 text-blue-700" />
           <span className="text-sm font-medium text-black">LinkedIn</span>
@@ -131,7 +131,7 @@ export default function ContactPage() {
           href="https://x.com/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-black rounded-none transition"
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-gray-200 rounded-md transition"
         >
           <FaXTwitter className="w-5 h-5 text-black" />
           <span className="text-sm font-medium text-black">X</span>
@@ -140,7 +140,7 @@ export default function ContactPage() {
           href="https://facebook.com/freelancemy"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-black rounded-none transition"
+          className="flex items-center gap-2 px-4 py-2 bg-white hover:border-blue-600 hover:text-blue-600 border border-gray-200 rounded-md transition"
         >
           <FaFacebook className="w-5 h-5 text-blue-600" />
           <span className="text-sm font-medium text-black">Facebook</span>

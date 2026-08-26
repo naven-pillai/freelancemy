@@ -5,12 +5,12 @@ import { X, Globe } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa6";
 
 const iconLink =
-  "w-8 h-8 flex items-center justify-center border border-black text-black hover:text-blue-600 hover:border-blue-600 transition-colors";
+  "w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 text-gray-600 hover:text-blue-600 hover:border-blue-400 transition-colors";
 
 export default function AuthorBio() {
   return (
     <div
-      className="author-bio not-prose p-5 flex flex-col md:flex-row items-center md:items-start gap-4 border border-black bg-white"
+      className="author-bio not-prose p-5 flex flex-col md:flex-row items-center md:items-start gap-4 rounded-xl border border-gray-200 bg-gray-50"
       itemScope
       itemType="https://schema.org/Person"
     >

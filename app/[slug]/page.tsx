@@ -9,6 +9,7 @@ import { mdxComponents } from "@/components/MDXComponents";
 import ShareBar from "@/components/ShareBar";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
+import RelatedPosts from "@/components/RelatedPosts";
 import remarkGfm from "remark-gfm";
 import remarkUnwrapImages from "remark-unwrap-images";
 import rehypeSlug from "rehype-slug";
@@ -94,7 +95,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { frontmatter, content, summary } = post;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* BreadcrumbList JSON-LD */}
       <script
         type="application/ld+json"
@@ -120,6 +121,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         }}
       />
 
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
       {/* Blog Content */}
       <article className="lg:col-span-2 prose prose-base sm:prose-lg max-w-none">
         <StructuredBlogSEO
@@ -153,7 +155,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               fetchPriority="high"
               loading="eager"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
-              className="w-full h-auto"
+              className="w-full h-auto rounded-2xl"
             />
           </div>
         )}
@@ -201,7 +203,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* ✅ Summary callout — rich text shown above the body */}
         {summary && looksLikeHtml(summary) && (
           <div
-            className="not-prose mb-8 border-l-2 border-glitch pl-4 sm:pl-5 text-base sm:text-lg text-black leading-relaxed [&_a]:text-blue-600 [&_a:hover]:text-orange-600 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
+            className="not-prose mb-8 rounded-xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5 text-base sm:text-lg text-gray-800 leading-relaxed [&_a]:text-blue-600 [&_a:hover]:text-orange-600 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
             dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
           />
         )}
@@ -265,6 +267,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <LatestArticlesSidebar currentSlug={slug} />
         </Suspense>
       </aside>
+      </div>
+
+      {/* Related Posts — full width below the article + sidebar */}
+      <Suspense fallback={null}>
+        <RelatedPosts currentSlug={slug} categories={frontmatter.categories} />
+      </Suspense>
     </div>
   );
 }
