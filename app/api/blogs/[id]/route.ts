@@ -3,6 +3,54 @@ import { revalidatePath } from "next/cache";
 import { requireAdminUser } from "@/lib/require-admin-user";
 import { getSupabaseAdmin } from "@/lib/supabase/service";
 import { validateBlogUpdate } from "@/lib/validate-blog";
+import { reportError } from "@/lib/report-error";
+
+const REVISION_DEBOUNCE_MS = 2 * 60 * 1000;
+
+/**
+ * Save the current content/summary into blog_revisions before it's overwritten,
+ * but only when it actually changed and not within REVISION_DEBOUNCE_MS of the
+ * last snapshot. Best-effort — never blocks the save.
+ */
+async function snapshotRevision(id: string, incoming: Record<string, unknown>) {
+  try {
+    const supabase = getSupabaseAdmin();
+    const { data: current } = await supabase
+      .from("blogs")
+      .select("content, summary")
+      .eq("id", id)
+      .single();
+    if (!current) return;
+
+    const contentChanged =
+      typeof incoming.content === "string" && incoming.content !== current.content;
+    const summaryChanged =
+      typeof incoming.summary === "string" && incoming.summary !== current.summary;
+    if (!contentChanged && !summaryChanged) return;
+
+    const { data: last } = await supabase
+      .from("blog_revisions")
+      .select("created_at")
+      .eq("blog_id", id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (
+      last?.created_at &&
+      Date.now() - new Date(last.created_at).getTime() < REVISION_DEBOUNCE_MS
+    ) {
+      return;
+    }
+
+    await supabase.from("blog_revisions").insert({
+      blog_id: id,
+      content: current.content,
+      summary: current.summary,
+    });
+  } catch (err) {
+    reportError(err, { where: "blog-revision-snapshot", blogId: id });
+  }
+}
 
 // GET /api/blogs/[id]
 export async function GET(
@@ -45,6 +93,11 @@ export async function PUT(
 
   // Auto-set last_updated
   result.data.last_updated = new Date().toISOString();
+
+  // Snapshot the previous content/summary before overwriting, so an accidental
+  // change can be restored. Debounced to at most one revision per 2 minutes per
+  // post so the 3s autosave doesn't flood the history.
+  await snapshotRevision(id, result.data);
 
   const { data, error: dbError } = await getSupabaseAdmin()
     .from("blogs")

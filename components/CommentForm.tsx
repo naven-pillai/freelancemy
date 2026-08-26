@@ -64,6 +64,18 @@ export default function CommentForm({ postSlug }: { postSlug: string }) {
         <span aria-hidden="true">💬 </span>Leave a Comment
       </h4>
 
+      {/* Honeypot — hidden from real users, catches bots */}
+      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="comment-company">Company</label>
+        <input
+          id="comment-company"
+          type="text"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
+
       <div className="space-y-2">
         <label htmlFor="name" className="block text-sm font-medium text-black">
           Your Name <span className="text-red-500" title="Required">*</span>

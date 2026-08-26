@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { reportError } from "@/lib/report-error";
 
 export default function Error({
   error,
@@ -10,8 +11,7 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // TODO: send to error tracking service (e.g. Sentry)
-    void error;
+    reportError(error, { where: "root", digest: error.digest });
   }, [error]);
 
   return (
