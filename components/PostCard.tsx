@@ -38,7 +38,9 @@ export function PostCard({
         <div className="relative w-full aspect-video overflow-hidden">
           <Image
             src={post.frontmatter.featured_image}
-            alt={post.frontmatter.title ?? "Post image"}
+            // Decorative: the post title is shown as visible text in the card,
+            // so a matching alt would be redundant (fails axe image-redundant-alt).
+            alt=""
             fill
             priority={priority}
             sizes={

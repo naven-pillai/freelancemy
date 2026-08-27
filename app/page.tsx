@@ -3,7 +3,6 @@ import { Star } from "lucide-react";
 import { getAllPostCards } from "@/lib/posts";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import { PostCard } from "@/components/PostCard";
-import LatestPosts from "@/components/LatestPosts";
 
 export const metadata: Metadata = {
   // `absolute` prevents the layout's "%s | FreelanceMY" template from appending
@@ -66,14 +65,28 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {featured.map((post, index) => (
-              <PostCard key={post.slug} post={post} featured priority={index === 0} showCategory={false} />
+              // Both Editor's Pick images sit at/above the fold and either can be
+              // the LCP (side-by-side on desktop, stacked on mobile), so prioritize
+              // both — otherwise Lighthouse flags the lazy one as a lazy-loaded LCP.
+              <PostCard key={post.slug} post={post} featured priority={index < 2} showCategory={false} />
             ))}
           </div>
         </section>
       )}
 
-      {/* Latest Posts (with category filter) */}
-      {latest.length > 0 && <LatestPosts posts={latest} />}
+      {/* Latest Posts */}
+      {latest.length > 0 && (
+        <section>
+          <h2 className="text-2xl! md:text-3xl! font-extrabold! text-gray-900 tracking-tight! m-0! mb-6!">
+            Latest Posts
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+            {latest.map((post) => (
+              <PostCard key={post.slug} post={post} featured={false} showCategory={false} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {posts.length === 0 && (
         <div className="text-center py-24 text-gray-600">No posts yet.</div>
