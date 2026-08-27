@@ -314,6 +314,16 @@ button:focus-visible,
   padding: 0;
 }
 
+/* Tables — editor HTML tables have no scroll wrapper, so a wide table would
+   widen the whole page on narrow phones and push the mobile nav off-screen.
+   Make the table itself a horizontally-scrollable block capped at its column. */
+.public-site .prose table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
 /* Lists */
 .public-site ul,
 .public-site ol {

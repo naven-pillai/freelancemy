@@ -18,10 +18,12 @@ export function PostCard({
   post,
   featured = false,
   priority = false,
+  showCategory = true,
 }: {
   post: PostCardData;
   featured?: boolean;
   priority?: boolean;
+  showCategory?: boolean;
 }) {
   return (
     <Link
@@ -49,7 +51,7 @@ export function PostCard({
         </div>
       )}
       <div className="p-6 space-y-3">
-        {post.frontmatter?.categories?.[0] && (
+        {showCategory && post.frontmatter?.categories?.[0] && (
           <span className="inline-block bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-md">
             {post.frontmatter.categories[0]}
           </span>

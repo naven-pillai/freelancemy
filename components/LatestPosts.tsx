@@ -54,7 +54,7 @@ export default function LatestPosts({ posts }: { posts: PostCardData[] }) {
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
           {filtered.map((post) => (
-            <PostCard key={post.slug} post={post} featured={false} />
+            <PostCard key={post.slug} post={post} featured={false} showCategory={false} />
           ))}
         </div>
       ) : (

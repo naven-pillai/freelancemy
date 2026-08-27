@@ -66,7 +66,7 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {featured.map((post, index) => (
-              <PostCard key={post.slug} post={post} featured priority={index === 0} />
+              <PostCard key={post.slug} post={post} featured priority={index === 0} showCategory={false} />
             ))}
           </div>
         </section>
