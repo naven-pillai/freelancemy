@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import type { Editor as TinyMCEEditorType } from "tinymce";
 import imageCompression from "browser-image-compression";
 
@@ -94,17 +93,14 @@ export default function TinyMCEEditor({
           ],
           link_assume_external_targets: true,
 
-          // 📷 Auto-upload images to Supabase blog-images bucket
+          // 📷 Upload images through the admin API (service role) so it works
+          // regardless of browser storage RLS.
           images_upload_handler: async (blobInfo) => {
             setUploading(true);
             try {
-              const supabase = createClient();
-              const originalBlob = blobInfo.blob();
               const filename = blobInfo.filename();
-              const filePath = `content-images/${Date.now()}-${filename}`;
-
-              const file = new File([originalBlob], filename, {
-                type: originalBlob.type,
+              const file = new File([blobInfo.blob()], filename, {
+                type: blobInfo.blob().type,
                 lastModified: Date.now(),
               });
 
@@ -120,25 +116,24 @@ export default function TinyMCEEditor({
                     })
                   : file;
 
-              const { error: uploadError } = await supabase.storage
-                .from("blog-images")
-                .upload(filePath, uploadFile, {
-                  cacheControl: "3600",
-                  upsert: false,
-                });
+              const form = new FormData();
+              form.append("file", uploadFile, filename);
 
-              if (uploadError) throw uploadError;
-
-              const {
-                data: { publicUrl },
-              } = supabase.storage.from("blog-images").getPublicUrl(filePath);
-
-              return publicUrl;
+              const res = await fetch("/api/upload", {
+                method: "POST",
+                body: form,
+              });
+              if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error(data.error || `Upload failed (${res.status})`);
+              }
+              const { url } = await res.json();
+              return url as string;
             } catch (err: unknown) {
               const message =
                 err instanceof Error ? err.message : "Image upload failed";
               console.error("Image upload error:", message);
-              throw new Error("Image upload failed");
+              throw new Error(message);
             } finally {
               setUploading(false);
             }

@@ -29,57 +29,31 @@ export default function ShareBar({ title, url, className }: ShareBarProps) {
     }
   }, [url]);
 
-  // base pill styling
+  // sharp outlined button — ink default, blue on hover
   const pill =
-    "flex items-center gap-1 px-4 py-2.5 sm:px-3 sm:py-1.5 rounded-full text-xs font-medium transition-colors";
+    "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13px] font-medium text-gray-700 border border-gray-200 hover:text-blue-600 hover:border-blue-300 hover:bg-blue-50/50 transition-colors";
 
   return (
     <div
-      className={`flex items-center flex-wrap gap-2 border-t border-b border-gray-200 py-3 ${className ?? ""}`}
+      className={`flex items-center flex-wrap gap-3 border-t border-b border-gray-200 py-4 ${className ?? ""}`}
     >
-      <span className="text-xs font-semibold text-gray-500">Share this blog post:</span>
+      <span className="text-[13px] font-semibold text-gray-500">Share this post:</span>
 
-      {/* X */}
-      <a
-        href={links.x}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Share on X"
-        className={`${pill} bg-gray-100 text-gray-700 hover:bg-gray-200`}
-      >
+      <a href={links.x} target="_blank" rel="noopener noreferrer" aria-label="Share on X" className={pill}>
         <X className="h-4 w-4" />
       </a>
 
-      {/* LinkedIn */}
-      <a
-        href={links.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Share on LinkedIn"
-        className={`${pill} bg-blue-50 text-[#0A66C2] hover:bg-blue-100`}
-      >
+      <a href={links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn" className={pill}>
         <FaLinkedin className="h-4 w-4" />
         LinkedIn
       </a>
 
-      {/* Facebook */}
-      <a
-        href={links.facebook}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Share on Facebook"
-        className={`${pill} bg-blue-50 text-[#1877F2] hover:bg-blue-100`}
-      >
+      <a href={links.facebook} target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook" className={pill}>
         <FaFacebook className="h-4 w-4" />
         Facebook
       </a>
 
-      {/* Copy */}
-      <button
-        onClick={handleCopy}
-        aria-label="Copy link"
-        className={`${pill} bg-gray-100 text-gray-700 hover:bg-gray-200`}
-      >
+      <button onClick={handleCopy} aria-label="Copy link" className={pill}>
         <LinkIcon className="h-4 w-4" />
         Copy
       </button>

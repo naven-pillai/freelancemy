@@ -33,13 +33,13 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-medium text-gray-900 text-sm">
+              <span className="font-medium text-black text-sm">
                 {comment.website ? (
                   <a
                     href={comment.website}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    className="text-indigo-600 hover:underline"
+                    className="text-blue-600 hover:text-orange-600"
                   >
                     {comment.name}
                   </a>
@@ -52,12 +52,12 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
               </span>
             </div>
 
-            <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap wrap-break-word">
+            <p className="text-sm text-black mt-1 whitespace-pre-wrap wrap-break-word">
               {comment.comment}
             </p>
 
             {comment.admin_reply && (
-              <div className="mt-3 flex gap-3 rounded-lg border border-indigo-100 bg-indigo-50/60 p-3">
+              <div className="mt-3 flex gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={AUTHOR_AVATAR}
@@ -69,17 +69,17 @@ export default async function CommentList({ postSlug }: { postSlug: string }) {
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-medium text-gray-900 text-sm">
+                    <span className="font-medium text-black text-sm">
                       {AUTHOR_NAME}
                     </span>
-                    <span className="inline-flex items-center rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
+                    <span className="inline-flex items-center rounded-md bg-blue-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white">
                       Author
                     </span>
                     <span className="text-xs text-gray-500">
                       {relativeTime(comment.admin_reply_at)}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mt-1 whitespace-pre-wrap wrap-break-word">
+                  <p className="text-sm text-black mt-1 whitespace-pre-wrap wrap-break-word">
                     {comment.admin_reply}
                   </p>
                 </div>

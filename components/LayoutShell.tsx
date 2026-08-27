@@ -18,14 +18,14 @@ export default function LayoutShell({
   }
 
   return (
-    <div className="public-site">
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm w-full">
+    <div className="public-site bg-white">
+      <header className="w-full bg-white pt-4">
         <Navbar />
       </header>
 
       <main
         id="main"
-        className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12"
+        className="flex-1 w-full max-w-300 mx-auto px-5 sm:px-8 py-8 sm:py-12"
       >
         {children}
       </main>

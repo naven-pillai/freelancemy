@@ -7,6 +7,7 @@ import LatestArticlesSidebar from "@/components/LatestArticlesSidebar";
 import ShareBar from "@/components/ShareBar";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
+import RelatedPosts from "@/components/RelatedPosts";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { formatDate, readingTime } from "@/lib/utils";
@@ -88,7 +89,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const { frontmatter, content, summary } = post;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* BreadcrumbList JSON-LD */}
       <script
         type="application/ld+json"
@@ -114,6 +115,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         }}
       />
 
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
       {/* Blog Content */}
       <article className="lg:col-span-2 prose prose-base sm:prose-lg max-w-none">
         <StructuredBlogSEO
@@ -147,7 +149,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               fetchPriority="high"
               loading="eager"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 70vw"
-              className="w-full h-auto rounded-lg"
+              className="w-full h-auto rounded-2xl"
             />
           </div>
         )}
@@ -195,7 +197,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* ✅ Summary callout — rich text shown above the body */}
         {summary && summary.trim() && (
           <div
-            className="not-prose mb-8 rounded-xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5 text-sm sm:text-base text-gray-700 leading-relaxed [&_a]:text-blue-700 [&_a]:underline [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
+            className="not-prose mb-8 rounded-xl border border-blue-100 bg-blue-50/60 p-4 sm:p-5 text-base sm:text-lg text-gray-800 leading-relaxed [&_a]:text-blue-600 [&_a:hover]:text-orange-600 [&_strong]:font-semibold [&_em]:italic [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:mb-1 [&_p]:mb-2 [&_p:last-child]:mb-0"
             dangerouslySetInnerHTML={{ __html: sanitize(summary) }}
           />
         )}
@@ -237,6 +239,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <LatestArticlesSidebar currentSlug={slug} />
         </Suspense>
       </aside>
+      </div>
+
+      {/* Related Posts — full width below the article + sidebar */}
+      <Suspense fallback={null}>
+        <RelatedPosts currentSlug={slug} categories={frontmatter.categories} />
+      </Suspense>
     </div>
   );
 }
