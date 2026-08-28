@@ -3,6 +3,8 @@ import { Star } from "lucide-react";
 import { getAllPostCards } from "@/lib/posts";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import { PostCard } from "@/components/PostCard";
+import { AuroraText } from "@/components/sera/aurora-text";
+import GlowButton from "@/components/sera/glow-button";
 
 export const metadata: Metadata = {
   // `absolute` prevents the layout's "%s | FreelanceMY" template from appending
@@ -24,7 +26,31 @@ export default async function HomePage() {
 
   return (
     <div className="font-sans">
-      <h1 className="sr-only">Freelancing Insights &amp; Guides for Malaysia</h1>
+      {/* Hero — Sera UI: aurora text + animated aurora-blob background + glow CTAs */}
+      <section className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white mb-14 px-6 py-16 sm:px-10 sm:py-20 text-center">
+        <div className="sera-hero-bg" aria-hidden="true" />
+        <div className="absolute inset-0 sera-grid" aria-hidden="true" />
+        <div className="relative z-10 mx-auto max-w-3xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1.5 text-sm font-semibold text-blue-700 mb-6">
+            <span aria-hidden="true">🇲🇾</span> The #1 hub for Malaysian freelancers
+          </span>
+          <h1 className="mt-0! mb-6! text-4xl! sm:text-5xl! md:text-6xl! font-extrabold! leading-[1.1]! tracking-tight! text-gray-900">
+            Freelance smarter in <AuroraText>Malaysia</AuroraText>
+          </h1>
+          <p className="mx-auto max-w-xl text-lg! text-gray-600! mb-8!">
+            Expert guides, tools, and playbooks to help you win clients, get paid
+            on time, and grow your independent career.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <GlowButton href="/about" variant="blue">
+              Start here
+            </GlowButton>
+            <GlowButton href="/contact" variant="amber">
+              Get in touch
+            </GlowButton>
+          </div>
+        </div>
+      </section>
 
       {/* WebSite + ItemList JSON-LD */}
       <script

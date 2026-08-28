@@ -28,10 +28,10 @@ export function PostCard({
   return (
     <Link
       href={`/${post.slug}`}
-      className={`group relative block rounded-2xl overflow-hidden transition bg-white ${
+      className={`group relative block rounded-2xl overflow-hidden bg-white ${
         featured
-          ? "ring-2 ring-amber-400 ring-offset-2 shadow-[0_8px_30px_rgba(217,119,6,0.18)] hover:shadow-[0_12px_40px_rgba(217,119,6,0.28)] bg-linear-to-b from-amber-50 to-white"
-          : "border border-gray-200 hover:shadow-lg"
+          ? "ring-2 ring-amber-400 ring-offset-2 shadow-[0_8px_30px_rgba(217,119,6,0.18)] hover:shadow-[0_12px_40px_rgba(217,119,6,0.28)] transition bg-linear-to-b from-amber-50 to-white"
+          : "border border-gray-200 sera-card-glow"
       }`}
     >
       {post.frontmatter?.featured_image && (
