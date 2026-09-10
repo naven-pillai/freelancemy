@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Star } from "lucide-react";
 import { getAllPostCards } from "@/lib/posts";
 import { SITE_URL, SITE_NAME } from "@/lib/constants";
 import { PostCard } from "@/components/PostCard";
@@ -18,9 +17,13 @@ export const metadata: Metadata = {
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const posts = await getAllPostCards();
-  const featured = posts.filter((p) => p.frontmatter?.is_featured);
-  const latest = posts.filter((p) => !p.frontmatter?.is_featured);
+  // Show every post in one normal blog grid, newest first. (Featured/Editor's
+  // Pick is retired for now — the is_featured flag stays in the DB for later.)
+  const posts = (await getAllPostCards()).sort(
+    (a, b) =>
+      new Date(b.frontmatter.date ?? 0).getTime() -
+      new Date(a.frontmatter.date ?? 0).getTime()
+  );
 
   return (
     <div className="font-sans">
@@ -54,41 +57,27 @@ export default async function HomePage() {
         }}
       />
 
-      {/* Editor's Pick */}
-      {featured.length > 0 && (
-        <section className="mb-16">
-          <div className="flex items-center gap-2 mb-6">
-            <Star className="h-6 w-6 text-amber-400 fill-amber-400" />
-            <h2 className="text-2xl! md:text-3xl! font-extrabold! text-gray-900 tracking-tight! m-0!">
-              Editor&apos;s Pick
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {featured.map((post, index) => (
-              // Both Editor's Pick images sit at/above the fold and either can be
-              // the LCP (side-by-side on desktop, stacked on mobile), so prioritize
-              // both — otherwise Lighthouse flags the lazy one as a lazy-loaded LCP.
-              <PostCard key={post.slug} post={post} featured priority={index < 2} showCategory={false} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Latest Posts */}
-      {latest.length > 0 && (
+      {/* Latest Posts — all posts in one grid */}
+      {posts.length > 0 ? (
         <section>
           <h2 className="text-2xl! md:text-3xl! font-extrabold! text-gray-900 tracking-tight! m-0! mb-6!">
             Latest Posts
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {latest.map((post) => (
-              <PostCard key={post.slug} post={post} featured={false} showCategory={false} />
+            {posts.map((post, index) => (
+              // The first cards are the LCP candidates — prioritize them so
+              // Lighthouse doesn't flag a lazy-loaded LCP image.
+              <PostCard
+                key={post.slug}
+                post={post}
+                featured={false}
+                priority={index < 2}
+                showCategory={false}
+              />
             ))}
           </div>
         </section>
-      )}
-
-      {posts.length === 0 && (
+      ) : (
         <div className="text-center py-24 text-gray-600">No posts yet.</div>
       )}
     </div>
