@@ -113,3 +113,26 @@ export async function getLatestPostsMeta(excludeSlug?: string, limit = 5) {
       date: p.date,
     }));
 }
+
+/**
+ * Distinct category names across all posts (drafts included), case-insensitive,
+ * keeping the first spelling seen. Feeds the admin editor's category dropdown.
+ */
+export async function listCategoryNames(): Promise<string[]> {
+  const { data, error } = await getSupabaseAdmin()
+    .from("blogs")
+    .select("categories");
+
+  if (error || !data) return [];
+
+  const seen = new Map<string, string>();
+  for (const row of data as { categories: string[] | null }[]) {
+    for (const name of row.categories ?? []) {
+      const trimmed = name.trim();
+      if (!trimmed) continue;
+      const key = trimmed.toLowerCase();
+      if (!seen.has(key)) seen.set(key, trimmed);
+    }
+  }
+  return Array.from(seen.values()).sort((a, b) => a.localeCompare(b));
+}

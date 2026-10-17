@@ -1,7 +1,9 @@
 import { protectRoute } from "@/lib/protectRoute";
 import { getSupabaseAdmin } from "@/lib/supabase/service";
+import { listCategoryNames } from "@/lib/posts";
 import { notFound } from "next/navigation";
-import BlogPostForm from "@/components/admin/BlogPostForm";
+import PostEditor from "@/components/admin/editor/PostEditor";
+import type { BlogRow } from "@/types/blog";
 
 export default async function EditBlogPage({
   params,
@@ -11,13 +13,18 @@ export default async function EditBlogPage({
   await protectRoute();
   const { id } = await params;
 
-  const { data: blog } = await getSupabaseAdmin()
-    .from("blogs")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const [{ data: blog }, categoryOptions] = await Promise.all([
+    getSupabaseAdmin().from("blogs").select("*").eq("id", id).single(),
+    listCategoryNames(),
+  ]);
 
   if (!blog) return notFound();
 
-  return <BlogPostForm initialData={blog} isEdit />;
+  return (
+    <PostEditor
+      mode="edit"
+      initialPost={blog as BlogRow}
+      categoryOptions={categoryOptions}
+    />
+  );
 }

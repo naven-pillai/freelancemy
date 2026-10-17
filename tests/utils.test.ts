@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { readingTime, formatDate, relativeTime } from "@/lib/utils";
+import { readingTime, formatDate, relativeTime, formatDateAdmin } from "@/lib/utils";
 
 describe("readingTime", () => {
   it("returns at least 1 minute for short/empty content", () => {
@@ -37,5 +37,18 @@ describe("relativeTime", () => {
   it("returns empty string for null/invalid", () => {
     expect(relativeTime(null)).toBe("");
     expect(relativeTime("nope")).toBe("");
+  });
+});
+
+describe("formatDateAdmin", () => {
+  it("formats as dd MMM yyyy anchored on UTC", () => {
+    expect(formatDateAdmin("2026-07-20T12:00:00.000Z")).toBe("20 Jul 2026");
+    // Just before midnight UTC must not roll over to the next day.
+    expect(formatDateAdmin("2026-07-20T23:30:00.000Z")).toBe("20 Jul 2026");
+  });
+
+  it("returns empty string for null/invalid", () => {
+    expect(formatDateAdmin(null)).toBe("");
+    expect(formatDateAdmin("nope")).toBe("");
   });
 });

@@ -49,3 +49,20 @@ export function relativeTime(date: string | null | undefined): string {
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
   return formatDate(date);
 }
+
+/**
+ * "dd MMM yyyy" anchored on UTC — e.g. "20 Jul 2026". Used by the admin
+ * tables so a post's date reads the same in Vercel (UTC) and in a Malaysian
+ * browser (UTC+8) instead of drifting across midnight.
+ */
+export function formatDateAdmin(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toLocaleDateString("en-GB", {
+    timeZone: "UTC",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
