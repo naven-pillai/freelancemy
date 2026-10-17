@@ -91,7 +91,10 @@ export default function TinyMCEEditor({
             { title: "New tab", value: "_blank" },
             { title: "Same tab", value: "_self" },
           ],
-          link_assume_external_targets: true,
+          // "ezbiz.ssm.gov.my" typed without a scheme would otherwise be saved
+          // as a relative link and resolve to freelancemy.com/ezbiz.ssm.gov.my.
+          // "https" prefixes it silently instead of prompting.
+          link_assume_external_targets: "https",
 
           // 📷 Upload images through the admin API (service role) so it works
           // regardless of browser storage RLS.
@@ -139,26 +142,27 @@ export default function TinyMCEEditor({
             }
           },
 
-          // 🔗 Fix rel/target for links (nofollow external, clean internal)
+          // 🔗 Internal links must stay followable. link_rel_default puts
+          // rel="nofollow" on every link the dialog creates or edits, so strip
+          // it (and sponsored/ugc) from our own URLs whenever content is
+          // serialized — that covers new links, edited links and pasted HTML.
+          // lib/sanitize.ts repeats this on save and render as a backstop.
           setup: (editor) => {
-            editor.on("ExecCommand", (e) => {
-              if (e.command === "mceInsertLink") {
-                const node = editor.selection.getNode();
-                if (node?.nodeName === "A") {
-                  const href = node.getAttribute("href") || "";
+            editor.on("PreInit", () => {
+              editor.serializer.addNodeFilter("a", (nodes) => {
+                for (const node of nodes) {
+                  const href = node.attr("href") ?? "";
                   const isInternal =
-                    href.startsWith("/") ||
-                    href.includes("freelancemy.com");
+                    (href.startsWith("/") && !href.startsWith("//")) ||
+                    /^https?:\/\/(www\.)?freelancemy\.com(\/|$)/i.test(href);
+                  if (!isInternal) continue;
 
-                  node.setAttribute("target", "_blank");
-
-                  if (isInternal) {
-                    node.removeAttribute("rel");
-                  } else if (!node.getAttribute("rel")) {
-                    node.setAttribute("rel", "nofollow");
-                  }
+                  const rel = (node.attr("rel") ?? "")
+                    .split(/\s+/)
+                    .filter((r) => r && !["nofollow", "sponsored", "ugc"].includes(r));
+                  node.attr("rel", rel.length ? rel.join(" ") : null);
                 }
-              }
+              });
             });
           },
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { sanitize, looksLikeHtml } from "@/lib/sanitize";
+import { sanitize, looksLikeHtml, normalizeLinkAttribs } from "@/lib/sanitize";
 
 describe("sanitize", () => {
   it("strips script tags and event handlers", () => {
@@ -41,6 +41,79 @@ describe("sanitize", () => {
     expect(yt).toContain("youtube.com");
     const evil = sanitize(`<iframe src="https://evil.com/x"></iframe>`);
     expect(evil).not.toContain("evil.com");
+  });
+});
+
+describe("sanitize — link hygiene", () => {
+  it("prefixes https:// on scheme-less external domains", () => {
+    expect(sanitize(`<a href="ezbiz.ssm.gov.my">x</a>`)).toContain(
+      'href="https://ezbiz.ssm.gov.my"'
+    );
+    expect(sanitize(`<a href="mytax.hasil.gov.my/?lang=en">x</a>`)).toContain(
+      'href="https://mytax.hasil.gov.my/?lang=en"'
+    );
+    expect(sanitize(`<a href="www.ssm-einfo.my/path">x</a>`)).toContain(
+      'href="https://www.ssm-einfo.my/path"'
+    );
+  });
+
+  it("leaves relative file paths, anchors, mailto and tel alone", () => {
+    expect(sanitize(`<a href="guide.pdf">x</a>`)).toContain('href="guide.pdf"');
+    expect(sanitize(`<a href="#section">x</a>`)).toContain('href="#section"');
+    expect(sanitize(`<a href="mailto:a@b.com">x</a>`)).toContain('href="mailto:a@b.com"');
+    expect(sanitize(`<a href="tel:+60123456789">x</a>`)).toContain('href="tel:+60123456789"');
+  });
+
+  it("removes nofollow and the trailing slash from internal links", () => {
+    const clean = sanitize(
+      `<a href="https://freelancemy.com/freelancing-malaysia/" rel="nofollow" target="_blank">x</a>`
+    );
+    expect(clean).toContain('href="https://freelancemy.com/freelancing-malaysia"');
+    expect(clean).not.toContain("nofollow");
+    expect(clean).toContain("noopener");
+
+    const relative = sanitize(`<a href="/freelance-writer-malaysia/" rel="nofollow">x</a>`);
+    expect(relative).toContain('href="/freelance-writer-malaysia"');
+    expect(relative).not.toContain("rel=");
+  });
+
+  it("keeps the query/hash when stripping the trailing slash", () => {
+    expect(sanitize(`<a href="/about/?ref=1#top">x</a>`)).toContain('href="/about?ref=1#top"');
+  });
+
+  it("does not strip the slash from the site root", () => {
+    expect(sanitize(`<a href="/">x</a>`)).toContain('href="/"');
+    expect(sanitize(`<a href="https://freelancemy.com/">x</a>`)).toContain(
+      'href="https://freelancemy.com/"'
+    );
+  });
+
+  it("upgrades http:// and www. on internal links", () => {
+    expect(sanitize(`<a href="http://www.freelancemy.com/contact/">x</a>`)).toContain(
+      'href="https://freelancemy.com/contact"'
+    );
+  });
+
+  it("keeps nofollow on external links", () => {
+    const clean = sanitize(`<a href="https://example.com/" rel="nofollow">x</a>`);
+    expect(clean).toContain('rel="nofollow"');
+    expect(clean).toContain('href="https://example.com/"');
+  });
+});
+
+describe("normalizeLinkAttribs", () => {
+  it("strips sponsored/ugc from internal links but keeps other rel values", () => {
+    const out = normalizeLinkAttribs({
+      href: "/x/",
+      rel: "sponsored ugc nofollow me",
+    });
+    expect(out.href).toBe("/x");
+    expect(out.rel).toBe("me");
+  });
+
+  it("leaves anchors without href untouched", () => {
+    const out = normalizeLinkAttribs({ name: "top" });
+    expect(out).toEqual({ name: "top" });
   });
 });
 
